@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>Visualization - Project</title>
+    <meta charset="UTF-8">
+    <!-- External Scripts -->
+    <script src="bower_components/d3/d3.js"></script>
+    <script src="bower_components/jquery-3.2.1.min.js"></script>
+    <script src="bower_components/popper.js"></script>
+    <script src="public/js/bootstrap-4.0.0-beta.2-dist/bootstrap.min.js"></script>
+    <script src="bower_components/d3-tip/index.js"></script>
+    <script src="bower_components/d3v3.js"></script>
+    <!-- <script src="d3/d3.js"></script>
+    <script src="d3/d3.min.js"></script> -->
+    <!--<script src="bower_components/d3.layout.cloud.js"></script>-->
+
+    <!-- Stylesheets -->
+    <link rel="stylesheet" href="public/css/style.css"/>
+    <link rel="stylesheet" href="public/css/bootstrap-4.0.0-beta.2-dist/bootstrap.min.css">
+</head>
+
+<body>
+    <nav class="navbar navbar-expand-sm bg-dark navbar-dark fixed-top">
+        <ul class="navbar-nav">
+            <li class="nav-item active">
+                <a class="nav-link font" style="font-size: 25px" href="trend.html">Trend View</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" style="font-size: 25px" href="index.html">Explore View</a>
+            </li>
+        </ul>
+    </nav>
+
+    </br></br></br></br></br>
+
+    <div class="row">
+        <div class="col-sm-2"></div>    <!-- Left margin -->
+
+        <div class="col-sm-8" id="actorDirectorStats">
+            <div>
+                <nav class="navbar navbar-expand-sm bg-dark navbar-dark">
+                    <div class="row">
+                        <div class="col-sm">
+                            <label class="text-white text-center"><input type="radio" name="actorOrDirector" value="actor" onclick="switchActorDirector(this)" checked>Actor</label>
+                        </div>
+                        <div class="col-sm">
+                            <label class="text-white text-center"><input type="radio" name="actorOrDirector" value="director" onclick="switchActorDirector(this)">Director</label>
+                        </div>
+                        <div class="col-sm">
+                            <input class="form-control-sm" id="actorDirector_name" list="actorDirector_names">
+                            <datalist id="actorDirector_names"></datalist>
+                        </div>
+                        <div class="col-sm">
+                            <button class="btn btn-primary" type="button" id="updateActorDirector" onclick="updateTrendPlot()">Update actor</button>
+                        </div>
+                        <div class="col-sm">
+                            <label class="text-white text-center" for="attributes">Update attribute:</label>
+                        </div>
+                        <div class="col-sm">
+                            <select class="form-control-sm" id="attributes" onchange="updateTrendPlot()">
+                                <option selected value="imdb_score">Rating</option>
+                                <option value="gross">Gross</option>
+                                <option value="budget">Budget</option>
+                                <option value="movie_facebook_likes">Facebook likes</option>
+                                <option value="num_user_for_reviews">User reviews</option>
+                            </select>
+                        </div>
+                    </div>
+                </nav>
+            </div>
+            </br>
+            <div>
+                <svg id="trend-plot">
+                    <g id="trend-plot-group">
+                        <g id="xAxis"></g>
+                        <g id="xLabel"></g>
+                        <g id="yAxis"></g>
+                        <g id="yLabel"></g>
+                    </g>
+                </svg>
+            </div>
+        </div>
+
+        <div class="col-sm-2"></div>    <!-- Right margin -->
+    </div>
+
+    <!-- Modal to display error messages -->
+    <div class="modal fade" id="errorModal">
+        <div class="modal-dialog">
+            <div class="modal-content">
+
+                <!-- Modal Header -->
+                <div class="modal-header">
+                    <h4 class="modal-title text-danger">Error</h4>
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                </div>
+
+                <!-- Modal body -->
+                <div class="modal-body">
+                </div>
+
+                <!-- Modal footer -->
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <!-- <div class="row">
+        <div class="col-sm-4 float-sm-left" id="wordCloud">
+            <svg id="wordcanvas"></svg>
+        </div>
+    </div> -->
+
+    <hr>
+
+    <!--div class="row">
+        <div class= "col-sm-1"></div>
+        <div class="col-sm-5" id="grossVsRating">
+        </div>
+        <div class="col-sm-5" id="reviewsVsRating">
+        </div>
+        <div class="col-sm-1"></div>
+    </div-->
+
+    <div class="row">
+        <div class= "col-sm-1"></div>    <!-- Left margin -->
+        <div class="col-sm-4" id="correlationMatrix">
+        </div>
+        <div class="col-sm-5" id="scatterPlot">
+        </div>
+        <div class="col-sm-1"></div>    <!-- Right margin -->
+    </div>
+
+
+    <!--div id = "correlationMatrix"></div-->
+
+    <!-- Internal Scripts -->
+    <script src="public/js/trend_script.js"></script>
+    <script src="public/js/actorDirectorStats.js"></script>
+    <script src="public/js/scatterPlot.js"></script>
+    <script src="public/js/correlationMatrix.js"></script>
+
+    <!--<script src="public/js/wordCloud.js"></script>-->
+</body>
+</html>
