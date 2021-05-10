@@ -49,9 +49,9 @@ function getGenres() {
  *  Select/deselect all genre checkboxes
  */
 
-function checkAll()
+function selectAll()
 {
-    if(document.getElementById("checkAll").checked == true) //Select all genres
+    if(document.getElementById("selectAll").checked == true) //Select all genres
     {
         allGenres.forEach((genre) => {
             let currentGenre = document.getElementById(genre);

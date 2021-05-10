@@ -254,7 +254,7 @@ class Filters {
         }
 
         //---------------//genre checkboxes //---------------//
-        let genresvg = d3.select("#genreCheckBox").append("svg")
+        let genresvg = d3.select("#checkBoxGenre").append("svg")
             .attr("width", this.svgWidth)
             .attr("height", this.svgHeight*2.5);
 
