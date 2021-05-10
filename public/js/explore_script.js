@@ -4,8 +4,8 @@ d3.csv("data/movie_metadata.csv", function (error, movies) {
     window.excelMovies = movies;
     window.allGenres = getGenres();
 
-    window.selectedYears = [];
-    window.selectedRatings = [];
+    window.yearSelected = [];
+    window.ratingSelected = [];
     window.selectedGenres = [];
 
     //Render the filters associated with the movies table & node-link diagram
@@ -121,8 +121,8 @@ function getMoviesForFilters() {
             selectedGenres.push(currentGenre.getAttribute("value"));
     });
 
-    let isYearFilterSet = (selectedYears.length > 0);
-    let isRatingFilterSet = (selectedRatings.length > 0);
+    let isYearFilterSet = (yearSelected.length > 0);
+    let isRatingFilterSet = (ratingSelected.length > 0);
     let isGenreFilterSet = (selectedGenres.length > 0);
 
     let matchingMovies = [];
@@ -137,8 +137,8 @@ function getMoviesForFilters() {
             if(isYearFilterSet)
             {
                 let currentMovieYear = parseInt(movie["title_year"]);
-                let startYear = selectedYears[0].start;
-                let endYear = selectedYears[0].end;
+                let startYear = yearSelected[0].start;
+                let endYear = yearSelected[0].end;
 
                 if(!isNaN(currentMovieYear))
                 {
@@ -154,8 +154,8 @@ function getMoviesForFilters() {
             if(isRatingFilterSet)
             {
                 let currentMovieRating = parseFloat(movie["imdb_score"]);
-                let startRating = selectedRatings[0].start;
-                let endRating = selectedRatings[0].end;
+                let startRating = ratingSelected[0].start;
+                let endRating = ratingSelected[0].end;
 
                 if(!isNaN(currentMovieRating))
                 {

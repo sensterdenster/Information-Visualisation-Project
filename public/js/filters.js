@@ -45,26 +45,26 @@ class Filters {
         let that = this;
 
         //creating svg for year slider
-        let yearsvg = d3.select("#yearSlider").append("svg")
+        let yearsvg = d3.select("#sliderYear").append("svg")
             .attr("width", this.svgWidth + this.margin.right*2)
             .attr("height", this.svgHeight+10)
 
-        // setup range for yearslider
+        // setup range for sliderYear
         let xyear = d3.scaleLinear()
             .domain([1916, 2016])
             .range([0, this.svgWidth])
             .clamp(true);
 
 
-        //creating group for yearslider
-        let yearslider = yearsvg.append("g")
+        //creating group for sliderYear
+        let sliderYear = yearsvg.append("g")
             .attr("class", "slider")
             //.attr("transform", "translate(" + this.margin.left/2 + "," + this.svgHeight/4  + ")");
             .attr("transform", "translate(" + this.margin.left/2 + ", 5 )");
 
 
         // axis
-        yearslider.append("g")
+        sliderYear.append("g")
             .attr("class", "axis axis--x")
             .attr("transform", "translate(0, 40)")
             // .attr("transform", "translate(0," + this.svgHeight/4 + ")")
@@ -80,7 +80,7 @@ class Filters {
         //.on("start brush end", brushmoved);
 
 
-        let yearRect = yearslider.append("rect")
+        let yearRect = sliderYear.append("rect")
             .attr("width", xyear.range()[1] - xyear.range()[0])
             .attr("height", 25)
             .attr("rx",15,"ry",15)
@@ -89,7 +89,7 @@ class Filters {
             //.attr("transform", "translate(0," + this.svgHeight/10 + ")")
 
 
-        let gYearBrush = yearslider.append("g")
+        let gYearBrush = sliderYear.append("g")
             .attr("class", "brush")
             .attr("transform", "translate(0,6)")
             .call(yearbrush);
@@ -118,8 +118,8 @@ class Filters {
                     gYearBrush.call(yearbrush.move, [xyear(2000) , xyear(2016)]);
                     let start = 2000;
                     let end = 2016;
-                    selectedYears = [];
-                    selectedYears.push({start,end});
+                    yearSelected = [];
+                    yearSelected.push({start,end});
                     updateYearsText(start, end);
                 }
                 //if selection == null
@@ -130,15 +130,15 @@ class Filters {
                 //let sx = s.map(xyear.invert);
                 let start = Math.round(xyear.invert(s[0]));
                 let end = Math.round(xyear.invert(s[1]));
-                selectedYears = [];
-                selectedYears.push({start, end});
+                yearSelected = [];
+                yearSelected.push({start, end});
                 updateYearsText(start, end);
                 handle.attr("display", null).attr("transform", function(d, i) { return "translate(" + s[i] + "," + that.svgHeight /4 + ")"; });
             }
         }
         
         function updateYearsText(start, end) {
-            let yearsText = document.getElementById("selectedYears");
+            let yearsText = document.getElementById("yearSelected");
 
             if(start == end)
                 yearsText.innerText = "Selected Year(s): " + start;
@@ -154,22 +154,22 @@ class Filters {
             .clamp(true);
 
         //create svg element for rating slider
-        let ratingsvg = d3.select("#ratingSlider").append("svg")
+        let ratingsvg = d3.select("#sliderRating").append("svg")
             .attr("width", this.svgWidth + this.margin.right*2)
             .attr("height", this.svgHeight+10)
 
-        //creating group for yearslider
-        let ratingSlider = ratingsvg.append("g")
+        //creating group for sliderYear
+        let sliderRating = ratingsvg.append("g")
             .attr("class", "slider")
             // .attr("transform", "translate(" + this.margin.left/2 + "," + this.svgHeight/4  + ")");
             .attr("transform", "translate(" + this.margin.left/2 + ", 5 )");
 
         // //initial load of page
-        //var mousex = ratingSlider.node().getBoundingClientRect().x ;
-        // console.log(ratingSlider.node().getBoundingClientRect())
+        //var mousex = sliderRating.node().getBoundingClientRect().x ;
+        // console.log(sliderRating.node().getBoundingClientRect())
 
         // axis
-        ratingSlider.append("g")
+        sliderRating.append("g")
             .attr("class", "axis axis--x")
             .attr("transform", "translate(0, 40)")
             // .attr("transform", "translate(0," + this.svgHeight/4 + ")")
@@ -183,7 +183,7 @@ class Filters {
             .on("start end", ratingBrushMoved);
 
 
-        let ratingRect = ratingSlider.append("rect")
+        let ratingRect = sliderRating.append("rect")
             .attr("width", xrating.range()[1] - xyear.range()[0])
             .attr("height", 25)
             .attr("rx",15,"ry",15)
@@ -192,7 +192,7 @@ class Filters {
         //.attr("transform", "translate(0," + this.svgHeight/10 + ")")
 
 
-        let gRatingBrush = ratingSlider.append("g")
+        let gRatingBrush = sliderRating.append("g")
             .attr("class", "brush")
             .attr("transform", "translate(0,6)")
             .call(ratingBrush);
@@ -223,8 +223,8 @@ class Filters {
                     gRatingBrush.call(ratingBrush.move, [xrating(8.2) , xrating(9.5)]);
                     let start = 8.2;
                     let end = 9.5;
-                    selectedRatings = []
-                    selectedRatings.push({start , end});
+                    ratingSelected = []
+                    ratingSelected.push({start , end});
                     updateRatingsText(start, end);
                 }
                 //if selection == null
@@ -237,15 +237,15 @@ class Filters {
             else{
                 let start = Math.round(xrating.invert(s[0]) * 10) / 10;
                 let end = Math.round(xrating.invert(s[1]) * 10) / 10;
-                selectedRatings = []
-                selectedRatings.push({start, end});
+                ratingSelected = []
+                ratingSelected.push({start, end});
                 updateRatingsText(start, end);
                 ratingHandle.attr("display", null).attr("transform", function(d, i) { return "translate(" + s[i] + "," + that.svgHeight /4 + ")"; });
             }
         }
 
         function updateRatingsText(start, end) {
-            let yearsText = document.getElementById("selectedRatings");
+            let yearsText = document.getElementById("ratingSelected");
 
             if(start == end)
                 yearsText.innerText = "Selected Rating(s): " + start;
