@@ -13,7 +13,7 @@ class MovieTable
 
     create()
     {
-        let thead = d3.select("#moviesTable").select("thead");
+        let thead = d3.select("#tableMovie").select("thead");
 
         let theadColumns = thead.selectAll("th")
             .data(this.tableHeaders);
@@ -55,7 +55,7 @@ class MovieTable
 
     update()
     {
-        let tbody = d3.select("#moviesTable").select("tbody");
+        let tbody = d3.select("#tableMovie").select("tbody");
 
         let tbodyRows = tbody.selectAll("tr")
             .data(this.movies);
