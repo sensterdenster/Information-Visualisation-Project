@@ -34,7 +34,7 @@
 
     </br></br></br></br></br>
 
-<!-- Creating Table for movie, director, year, imdb score, and budget-->
+<!-- Creating filter sliders for selected years and selected ratings of movies-->
     <div class="row" id="filters">
 
         <div class="col-sm-6 pl-sm-5">
@@ -46,15 +46,21 @@
             </div>
         </div>
 
+<!-- Creating empty column as gap between in the middle-->
         <div class="col-sm-1"></div>
 
-        <div class="col-sm-5 pr-sm-5" id="genreCheckBox">
-            <h3 class="text-sm-left">Select Genres</h3>
+<!-- Creating genre check-box filters to filter genre of movies-->
+        <div class="col-sm-5 pr-sm-5" id="checkBoxGenre">
+            <h3 class="text-sm-left">Filter Genres</h3>
             <div class="row">
+
+<!-- Horizontal column created for gap after header-->
                 <div class="col-sm-4"></div>
+
+<!-- Horizontal column created for 'select/deselect' option-->
                 <div class="col-sm">
                     <label class="form-check-label">
-                        <input type="checkbox" class="form-check-input" id="checkAll" value="" onclick="checkAll()">Select/Deselect all
+                        <input type="checkbox" class="form-check-input" id="selectAll" value="" onclick="selectAll()">Select all/Unselect all
                     </label>
                 </div>
                 <div class="col-sm-4"></div>
