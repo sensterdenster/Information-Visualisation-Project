@@ -33,36 +33,43 @@
     <!-- Break to alow gap after navbar -->
     </br></br></br></br></br>
 
+    <!-- Creating header bar for selecting 'Actor' or 'Director', creating the 'Update actor'button, and setting the 'Update attribute' button selector -->
     <div class="row">
-        <div class="col-sm-2"></div>    <!-- Left margin -->
+        <div class="col-sm-2"></div>   
 
-        <div class="col-sm-8" id="actorDirectorStats">
+        <div class="col-sm-8" id="statsActorDirector">
             <div>
-                <nav class="navbar navbar-expand-sm bg-dark navbar-dark">
+                <nav class="navbar navbar-expand-sm navbar-dark bg-dark ">
                     <div class="row">
+                        <!-- Radio button to select Director-->
                         <div class="col-sm">
-                            <label class="text-white text-center"><input type="radio" name="actorOrDirector" value="actor" onclick="switchActorDirector(this)" checked>Actor</label>
+                            <label class="text-white text-center"><input type="radio" name="directorOrActor" value="director" onclick="changeDirectorOrActor(this)">Director</label>
                         </div>
+                        <!-- Radio button to select Actor-->
                         <div class="col-sm">
-                            <label class="text-white text-center"><input type="radio" name="actorOrDirector" value="director" onclick="switchActorDirector(this)">Director</label>
+                            <label class="text-white text-center"><input type="radio" name="directorOrActor" value="actor" onclick="changeDirectorOrActor(this)" checked>Actor</label>
                         </div>
+                        <!-- Search field to search either an actor or director (selectable)-->
                         <div class="col-sm">
-                            <input class="form-control-sm" id="actorDirector_name" list="actorDirector_names">
-                            <datalist id="actorDirector_names"></datalist>
+                            <input class="form-control-sm" id="nameDirectorOrActor" list="namesDirectorOrActor">
+                            <datalist id="namesDirectorOrActor"></datalist>
                         </div>
+                        <!-- Radio button to select and filter movie attribute for field: (Rating, Gross, Budget, Facebook likes, User Reviews)-->
                         <div class="col-sm">
-                            <button class="btn btn-primary" type="button" id="updateActorDirector" onclick="updateTrendPlot()">Update actor</button>
+                            <label class="text-white text-center" for="attributes">Apply attribute(s):</label>
                         </div>
+                        <!-- Button to select apply changes and update actor or director-->
                         <div class="col-sm">
-                            <label class="text-white text-center" for="attributes">Update attribute:</label>
+                            <button class="btn btn-primary" type="button" id="applyDirectorOrActor" onclick="applyTrend()">Update Director/Actor</button>
                         </div>
+
                         <div class="col-sm">
-                            <select class="form-control-sm" id="attributes" onchange="updateTrendPlot()">
-                                <option selected value="imdb_score">Rating</option>
-                                <option value="gross">Gross</option>
-                                <option value="budget">Budget</option>
-                                <option value="movie_facebook_likes">Facebook likes</option>
+                            <select class="form-control-sm" id="attributes" onchange="applyTrend()">
                                 <option value="num_user_for_reviews">User reviews</option>
+                                <option value="gross">Gross</option>
+                                <option value="movie_facebook_likes">Facebook likes</option>
+                                <option value="budget">Budget</option>
+                                <option selected value="imdb_score">Rating</option>
                             </select>
                         </div>
                     </div>
@@ -70,8 +77,8 @@
             </div>
             </br>
             <div>
-                <svg id="trend-plot">
-                    <g id="trend-plot-group">
+                <svg id="plotTrend">
+                    <g id="plotTrendGroup">
                         <g id="xAxis"></g>
                         <g id="xLabel"></g>
                         <g id="yAxis"></g>
@@ -81,68 +88,44 @@
             </div>
         </div>
 
-        <div class="col-sm-2"></div>    <!-- Right margin -->
+        <div class="col-sm-2"></div>    
     </div>
 
     <!-- Modal to display error messages -->
-    <div class="modal fade" id="errorModal">
+    <div class="modal fade" id="modalError">
         <div class="modal-dialog">
             <div class="modal-content">
-
+                <!-- Modal footer -->
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Ok</button>
+                </div>
+              
+                <!-- Modal body -->
+                <div class="modal-body">
+                </div>
+                
                 <!-- Modal Header -->
                 <div class="modal-header">
                     <h4 class="modal-title text-danger">Error</h4>
                     <button type="button" class="close" data-dismiss="modal">&times;</button>
                 </div>
-
-                <!-- Modal body -->
-                <div class="modal-body">
-                </div>
-
-                <!-- Modal footer -->
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                </div>
-
             </div>
         </div>
     </div>
-
-    <!-- <div class="row">
-        <div class="col-sm-4 float-sm-left" id="wordCloud">
-            <svg id="wordcanvas"></svg>
-        </div>
-    </div> -->
-
     <hr>
 
-    <!--div class="row">
-        <div class= "col-sm-1"></div>
-        <div class="col-sm-5" id="grossVsRating">
-        </div>
-        <div class="col-sm-5" id="reviewsVsRating">
-        </div>
-        <div class="col-sm-1"></div>
-    </div-->
 
     <div class="row">
-        <div class= "col-sm-1"></div>    <!-- Left margin -->
-        <div class="col-sm-4" id="correlationMatrix">
-        </div>
-        <div class="col-sm-5" id="scatterPlot">
-        </div>
-        <div class="col-sm-1"></div>    <!-- Right margin -->
+        <div class= "col-sm-1"></div>    <!-- Left Side Margin -->
+        <div class="col-sm-4" id="correlationMatrix"></div>
+        <div class="col-sm-5" id="scatterPlot"></div>
+        <div class="col-sm-1"></div>    <!-- Right Side Margin -->
     </div>
 
-
-    <!--div id = "correlationMatrix"></div-->
-
-    <!-- Internal Scripts -->
-    <script src="public/js/trend_script.js"></script>
+    <!-- JS Internal Scripts -->
     <script src="public/js/actorDirectorStats.js"></script>
-    <script src="public/js/scatterPlot.js"></script>
+    <script src="public/js/trend_script.js"></script>
     <script src="public/js/correlationMatrix.js"></script>
-
-    <!--<script src="public/js/wordCloud.js"></script>-->
+    <script src="public/js/scatterPlot.js"></script>
 </body>
 </html>

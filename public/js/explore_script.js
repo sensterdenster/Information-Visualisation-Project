@@ -74,25 +74,25 @@ function filterProcess() {
 
     let matchingMovies = getMoviesForFilters();
     let errorMessage = "";
-    let messageHeader = document.getElementById("messageHeader");
-    let messageBody = document.getElementById("messageBody");
+    let headerMessage = document.getElementById("headerMessage");
+    let bodyMessage = document.getElementById("bodyMessage");
 
     if(matchingMovies.length > 100)
     {
-        messageHeader.innerText = "Note";
-        messageHeader.setAttribute("class", "text-info");
+        headerMessage.innerText = "Note";
+        headerMessage.setAttribute("class", "text-info");
         errorMessage = "Matching movies exceeded 100 - results trimmed";
     }
     else if(matchingMovies.length == 0)
     {
-        messageHeader.innerText = "Error";
-        messageHeader.setAttribute("class", "text-danger");
+        headerMessage.innerText = "Error";
+        headerMessage.setAttribute("class", "text-danger");
         errorMessage = "No matching movies found for the selected filters";
     }
 
     if(errorMessage)
     {
-        messageBody.innerText = errorMessage;
+        bodyMessage.innerText = errorMessage;
         $('#modalError').modal('show');
     }
 

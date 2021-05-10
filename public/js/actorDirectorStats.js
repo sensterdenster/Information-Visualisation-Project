@@ -1,9 +1,9 @@
 
 class ActorDirectorStats
 {
-    constructor(actorOrDirector, name, movies, attribute)
+    constructor(directorOrActor, name, movies, attribute)
     {
-        this.actorOrDirector = actorOrDirector; //Indicates the entity whose stats are being plotted
+        this.directorOrActor = directorOrActor; //Indicates the entity whose stats are being plotted
         this.name = name;                       //Actor or director's name
         this.movies = movies;                   //Actor or director's movies
         this.attribute = attribute;             //Movie attribute to plot
@@ -11,18 +11,18 @@ class ActorDirectorStats
 
     plot()
     {
-        let actorDirectorStats_Div = d3.select("#actorDirectorStats");
+        let statsActorDirector_Div = d3.select("#statsActorDirector");
 
         let margin = {top: 20, right: 20, bottom: 100, left: 120},
-            svgBounds = actorDirectorStats_Div.node().getBoundingClientRect(),
+            svgBounds = statsActorDirector_Div.node().getBoundingClientRect(),
             width = svgBounds.width - margin.left - margin.right,
             height = 450 - margin.top - margin.bottom;
 
-        let svg = d3.select("#trend-plot")
+        let svg = d3.select("#plotTrend")
             .attr("width", svgBounds.width)
             .attr("height", 450 + margin.top + margin.bottom);
 
-        let g = d3.select("#trend-plot-group")
+        let g = d3.select("#plotTrendGroup")
             .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
         let xScale = d3.scaleBand()
@@ -73,7 +73,7 @@ class ActorDirectorStats
             .attr("dy", ".15em")
             .attr("transform", "rotate(-65)");
 
-        let xLabelText = (this.actorOrDirector) + " " + this.name + "'s" + " movies";
+        let xLabelText = (this.directorOrActor) + " " + this.name + "'s" + " movies";
 
         //Add the x Axis label
         let xLabel = d3.select("#xLabel").selectAll("text")

@@ -1,6 +1,3 @@
-
-
-
 d3.csv("data/movie_metadata.csv", function (error, movies) {
     if (error) throw error;
 
@@ -12,8 +9,8 @@ d3.csv("data/movie_metadata.csv", function (error, movies) {
     updateSearchFilter("actor");
 
     //Render the plot for the default actor
-    window.actorDirectorStats = new ActorDirectorStats("Actor", "Tom Hanks", getMoviesFor("actor", "Tom Hanks"), "imdb_score");
-    actorDirectorStats.plot();
+    window.statsActorDirector = new StatsActorDirector("Actor", "Tom Hanks", getMoviesFor("actor", "Tom Hanks"), "imdb_score");
+    statsActorDirector.plot();
 
     d3.csv("data/correlation_matrix.csv", function (error, rows) {
         if (error) throw error;
@@ -130,12 +127,12 @@ function getDirectors() {
 /**
  *  Returns all movies associated for a given actor/director sorted by year
  */
-function getMoviesFor(actorOrDirector, name) {
+function getMoviesFor(directorOrActor, name) {
 
     let movies = [];
     let movies_set = new Set();
 
-    if(actorOrDirector == "actor")
+    if(directorOrActor == "actor")
     {
         //Extract movies which involve the selected actor
         excelMovies.forEach((movie) => {
@@ -189,19 +186,19 @@ function getMoviesFor(actorOrDirector, name) {
 /**
  *  Call the actor/director search filter updater and update the actor/director update button
  */
-function switchActorDirector(choice) {
+function changeDirectorOrActor(choice) {
 
     updateSearchFilter(choice.value);
-    document.getElementById("updateActorDirector").innerText = "Update " + choice.value;
+    document.getElementById("applyDirectorOrActor").innerText = "Update " + choice.value;
 }
 
 /**
  *  Update the actor/director search filter based on actor/director radio button selection
  */
-function updateSearchFilter(actorOrDirector) {
+function updateSearchFilter(directorOrActor) {
 
-    let actorDirectorInput = document.getElementById("actorDirector_name");
-    let actorDirectorList = document.getElementById("actorDirector_names");
+    let actorDirectorInput = document.getElementById("nameDirectorOrActor");
+    let actorDirectorList = document.getElementById("namesDirectorOrActor");
 
     //Clear existing values
     actorDirectorInput.value = "";
@@ -209,7 +206,7 @@ function updateSearchFilter(actorOrDirector) {
 
     let frag = document.createDocumentFragment();
 
-    if(actorOrDirector == "actor")
+    if(directorOrActor == "actor")
     {
         for (let actor of allActors)
         {
@@ -220,7 +217,7 @@ function updateSearchFilter(actorOrDirector) {
         }
 
         //Add actor names to search filter
-        document.getElementById("actorDirector_names").appendChild(frag);
+        document.getElementById("namesDirectorOrActor").appendChild(frag);
         //Update the input placeholder
         actorDirectorInput.setAttribute("placeholder", "Search Actor");
     }
@@ -235,7 +232,7 @@ function updateSearchFilter(actorOrDirector) {
         }
 
         //Add director names to search filter
-        document.getElementById("actorDirector_names").appendChild(frag);
+        document.getElementById("namesDirectorOrActor").appendChild(frag);
         //Update the input placeholder
         actorDirectorInput.setAttribute("placeholder", "Search Director");
     }
@@ -244,24 +241,24 @@ function updateSearchFilter(actorOrDirector) {
 /**
  *  Update the actor/director trend plot based on selected parameters
  */
-function updateTrendPlot() {
+function applyTrend() {
 
-    let name = d3.select("#actorDirector_name").node().value;
+    let name = d3.select("#nameDirectorOrActor").node().value;
     let selectedAttribute = d3.select("#attributes").node().value;
     let movies = [];
     let errorMessage = "";
     let errorDiv = document.getElementsByClassName("modal-body")[0];
 
-    if(document.getElementsByName("actorOrDirector")[0].checked)    //If current radio button selection is "Actor"
+    if(document.getElementsByName("directorOrActor")[0].checked)    //If current radio button selection is "Actor"
     {
-        if(!name && actorDirectorStats.actorOrDirector == "Actor")  //If name input empty, retrieve name from existing object
-            name = actorDirectorStats.name;
+        if(!name && statsActorDirector.directorOrActor == "Actor")  //If name input empty, retrieve name from existing object
+            name = statsActorDirector.name;
 
         if(allActors.has(name)) //Ensure actor name passed is valid
         {
             movies = getMoviesFor("actor", name).filter((movie) => movie[selectedAttribute]);
-            actorDirectorStats = new ActorDirectorStats("Actor", name, movies, selectedAttribute);
-            actorDirectorStats.plot();
+            statsActorDirector = new StatsActorDirector("Actor", name, movies, selectedAttribute);
+            statsActorDirector.plot();
 
             //let wordCloud = new WordCloud(movies);
             //wordCloud.update();
@@ -278,8 +275,8 @@ function updateTrendPlot() {
         if(allDirectors.has(name))  //Ensure director name passed is valid
         {
             movies = getMoviesFor("director", name).filter((movie) => movie[selectedAttribute]);
-            actorDirectorStats = new ActorDirectorStats("Director", name, movies, selectedAttribute);
-            actorDirectorStats.plot();
+            statsActorDirector = new StatsActorDirector("Director", name, movies, selectedAttribute);
+            statsActorDirector.plot();
 
             //let wordCloud = new WordCloud(movies);
             //wordCloud.update();
