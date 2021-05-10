@@ -71,23 +71,25 @@
 
     </div>
 
-<!-- Parsing through the movie filter checkboxes using the filterProcess() function-->
+<!-- Creating button to apply selected checkbox filters to node-link diargam-->
     <div class="row">
         <div class="col-sm-5"></div>
         <div class="col-sm-2">
-            <button class="btn btn-primary" id="submitFilter" type="button" onclick="filterProcess()">Update table & node-link diagram</button>
+            <button class="btn btn-primary" id="submitFilter" type="button" onclick="filterProcess()">Apply filters to table and node-link diagram</button>
         </div>
         <div class="col-sm-5"></div>
     </div>
 
     <hr>
 
+<!-- Creating two columns for movie table and node-link diagram-->
     <div class="row">
 
+<!-- Creating table for movies displaying filtered movies, year, director, imdb score, and budget-->
         <div class="col-sm pl-sm-5">
-            <h3 class="text-sm-center pb-3">Movies matching the specified criteria:</h3>
-            <div id="moviesTableDiv">
-                <table id="moviesTable" class="table table-sm table-bordered table-hover table-responsive row-fluid float-right">
+            <h3 class="text-sm-center pb-3">Movies (Filtered) </h3>
+            <div id="tableMoviesDiv">
+                <table id="tableMovies" class="table table-sm table-bordered table-hover table-responsive row-fluid float-right">
                     <thead class="thead-light">
                     <tr>
                         <th>Movie Title &nbsp; <i class="fa fa-sort"></i></th>

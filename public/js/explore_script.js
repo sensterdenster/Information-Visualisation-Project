@@ -19,9 +19,9 @@ d3.csv("data/movie_metadata.csv", function (error, movies) {
     nodelinkfd.update();
 
     //Render the initial movies table with 50 arbitrary movies
-    window.movieTable = new MovieTable(initialMovies.slice(0, 100));
-    movieTable.create();
-    movieTable.update();
+    window.tableMovies = new tableMovies(initialMovies.slice(0, 100));
+    tableMovies.create();
+    tableMovies.update();
 });
 
 
@@ -98,9 +98,9 @@ function filterProcess() {
 
     if(matchingMovies.length > 0)
     {
-        movieTable = new MovieTable(matchingMovies.slice(0, 100));  //Limiting movies matching search criteria to 100
-        movieTable.create();
-        movieTable.update();
+        tableMovies = new tableMovies(matchingMovies.slice(0, 100));  //Limiting movies matching search criteria to 100
+        tableMovies.create();
+        tableMovies.update();
 
         let nodelinkfd = new NodeLinkFD(matchingMovies.slice(0, 100));  //Limiting movies matching search criteria to 100
         nodelinkfd.update();
