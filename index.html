@@ -89,7 +89,7 @@
         <div class="col-sm pl-sm-5">
             <h3 class="text-sm-center pb-3">Movies (Filtered) </h3>
             <div id="tableMoviesDiv">
-                <table id="tableMovies" class="table table-responsive table-sm table-bordered float-right table-hover row-fluid ">
+                <table id="tableMovies" class="table table-sm table-bordered table-hover table-responsive row-fluid float-right">
                     <thead class="thead-light">
                     <tr>
                         <th>Year &nbsp; <i class="fa fa-sort"></i></th>
@@ -104,12 +104,11 @@
                 </table>
             </div>
         </div>
-        
-        <!-- legend for colouring nodes by actor, director, movie, and role: actor and director-->
+
         <div class="col-sm pr-sm-5">
             <div class="h-10" id="legend">
                 <svg> </svg>
-                <!--Creating the node link so that double clicking a node highlights its link-->
+                    <!--h8>Double click on a node to highlight it's neighbors</h8-->
             </div>
             <div class="h-90" id="nodeLink">
                 <svg id="canvas"></svg>
