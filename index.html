@@ -30,11 +30,11 @@
         </ul>
     </nav>
 
- <!-- Break to alow gap after navbar -->
+    <!-- Break to alow gap after navbar -->
 
     </br></br></br></br></br>
 
-<!-- Creating filter sliders for selected years and selected ratings of movies-->
+    <!-- Creating filter sliders for selected years and selected ratings of movies-->
     <div class="row" id="filters">
 
         <div class="col-sm-6 pl-sm-5">
@@ -46,32 +46,32 @@
             </div>
         </div>
 
-<!-- Creating empty column as gap between in the middle-->
+        <!-- Creating empty column as gap between in the middle-->    
         <div class="col-sm-1"></div>
 
-<!-- Creating genre check-box filters to filter genre of movies-->
+        <!-- Creating genre check-box filters to filter genre of movies-->
         <div class="col-sm-5 pr-sm-5" id="checkBoxGenre">
             <h3 class="text-sm-left">Filter Genres</h3>
             <div class="row">
 
-<!-- Column created for gap after header-->
+                <!-- Column created for gap after header-->
                 <div class="col-sm-4"></div>
 
-<!-- Column created for 'select/deselect' checkbox-->
+                <!-- Column created for 'select/deselect' checkbox-->    
                 <div class="col-sm">
                     <label class="form-check-label">
                         <input type="checkbox" class="form-check-input" id="selectAll" value="" onclick="selectAll()">Select/Unselect all
                     </label>
                 </div>
 
-<!--Column for gap-->
+                <!--Column for gap-->    
                 <div class="col-sm-4"></div>
             </div>
         </div>
 
     </div>
 
-<!-- Creating button to apply selected checkbox filters to node-link diargam-->
+    <!-- Creating button to apply selected checkbox filters to node-link diargam-->
     <div class="row">
         <div class="col-sm-5"></div>
         <div class="col-sm-2">
@@ -82,34 +82,34 @@
 
     <hr>
 
-<!-- Creating two columns for movie table and node-link diagram-->
+    <!-- Creating two columns for movie table and node-link diagram-->
     <div class="row">
 
-<!-- Creating table for movies displaying filtered movies, year, director, imdb score, and budget-->
+        <!-- Creating table for movies displaying filtered movies, year, director, imdb score, and budget-->
         <div class="col-sm pl-sm-5">
             <h3 class="text-sm-center pb-3">Movies (Filtered) </h3>
             <div id="tableMoviesDiv">
-                <table id="tableMovies" class="table table-sm table-bordered table-hover table-responsive row-fluid float-right">
+                <table id="tableMovies" class="table table-responsive table-sm table-bordered float-right table-hover row-fluid ">
                     <thead class="thead-light">
                     <tr>
-                        <th>Movie Title &nbsp; <i class="fa fa-sort"></i></th>
-                        <th>Director &nbsp; <i class="fa fa-sort"></i></th>
                         <th>Year &nbsp; <i class="fa fa-sort"></i></th>
+                        <th>Movie Title &nbsp; <i class="fa fa-sort"></i></th>
                         <th>IMDB Score &nbsp; <i class="fa fa-sort"></i></th>
+                        <th>Director &nbsp; <i class="fa fa-sort"></i></th>
                         <th>Budget &nbsp; <i class="fa fa-sort"></i></th>
                     </tr>
                     </thead>
-
                     <tbody>
                     </tbody>
                 </table>
             </div>
         </div>
-
+        
+        <!-- legend for colouring nodes by actor, director, movie, and role: actor and director-->
         <div class="col-sm pr-sm-5">
             <div class="h-10" id="legend">
                 <svg> </svg>
-                <!--h8>Double click on a node to highlight it's neighbors</h8-->
+                <!--Creating the node link so that double clicking a node highlights its link-->
             </div>
             <div class="h-90" id="nodeLink">
                 <svg id="canvas"></svg>
