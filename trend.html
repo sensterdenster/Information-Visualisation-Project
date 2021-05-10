@@ -56,7 +56,7 @@
                         </div>
                         <!-- Button to select apply changes and update actor or director-->
                         <div class="col-sm">
-                            <button class="btn btn-primary" type="button" id="applyDirectorOrActor" onclick="applyTrend()">Update Director/Actor</button>
+                            <button class="btn btn-primary" type="button" id="applyDirectorOrActor" onclick="applyTrend()">Update actor</button>
                         </div>                        
                         <!-- Radio button to select and filter movie attribute for field: (Rating, Gross, Budget, Facebook likes, User Reviews)-->
                         <div class="col-sm">
@@ -66,11 +66,11 @@
 
                         <div class="col-sm">
                             <select class="form-control-sm" id="attributes" onchange="applyTrend()">
-                                <option value="num_user_for_reviews">User reviews</option>
-                                <option value="gross">Gross</option>
-                                <option value="movie_facebook_likes">Facebook likes</option>
-                                <option value="budget">Budget</option>
                                 <option selected value="imdb_score">Rating</option>
+                                <option value="gross">Gross</option>
+                                <option value="budget">Budget</option>
+                                <option value="movie_facebook_likes">Facebook likes</option>
+                                <option value="num_user_for_reviews">User reviews</option>
                             </select>
                         </div>
                     </div>

@@ -1,6 +1,3 @@
-/**
- * Created by Kashyap on 12/29/2017.
- */
 class CorrelationMatrix {
 
     constructor(rows) {
