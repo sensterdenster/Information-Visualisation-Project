@@ -70,7 +70,7 @@ function selectAll()
 /**
  *  Update the movies table & node-link diagram based on filter selection
  */
-function processFilters() {
+function filterProcess() {
 
     let matchingMovies = getMoviesForFilters();
     let errorMessage = "";

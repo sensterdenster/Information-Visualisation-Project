@@ -54,25 +54,28 @@
             <h3 class="text-sm-left">Filter Genres</h3>
             <div class="row">
 
-<!-- Horizontal column created for gap after header-->
+<!-- Column created for gap after header-->
                 <div class="col-sm-4"></div>
 
-<!-- Horizontal column created for 'select/deselect' option-->
+<!-- Column created for 'select/deselect' checkbox-->
                 <div class="col-sm">
                     <label class="form-check-label">
-                        <input type="checkbox" class="form-check-input" id="selectAll" value="" onclick="selectAll()">Select all/Unselect all
+                        <input type="checkbox" class="form-check-input" id="selectAll" value="" onclick="selectAll()">Select/Unselect all
                     </label>
                 </div>
+
+<!--Column for gap-->
                 <div class="col-sm-4"></div>
             </div>
         </div>
 
     </div>
 
+<!-- Parsing through the movie filter checkboxes using the filterProcess() function-->
     <div class="row">
         <div class="col-sm-5"></div>
         <div class="col-sm-2">
-            <button class="btn btn-primary" id="filtersSubmit" type="button" onclick="processFilters()">Update table & node-link diagram</button>
+            <button class="btn btn-primary" id="submitFilter" type="button" onclick="filterProcess()">Update table & node-link diagram</button>
         </div>
         <div class="col-sm-5"></div>
     </div>
