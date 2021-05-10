@@ -3,7 +3,7 @@ class MovieTable
 {
     constructor(movies)
     {
-        this.tableHeaders = ["movie_title", "director_name", "title_year", "imdb_score", "budget"];
+        this.tableHeaders = ["title_year", "movie_title", "imdb_score", "director_name", "budget"];
         this.columnsSortOrder = [ 0, 0, 0, 0, 0];  // Click-counters for each of the 5 columns
 
         //Todo: List of movies passed needs to depend on the filter criteria specified by the user
