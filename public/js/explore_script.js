@@ -93,7 +93,7 @@ function filterProcess() {
     if(errorMessage)
     {
         messageBody.innerText = errorMessage;
-        $('#errorModal').modal('show');
+        $('#modalError').modal('show');
     }
 
     if(matchingMovies.length > 0)

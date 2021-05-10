@@ -270,7 +270,7 @@ function updateTrendPlot() {
         {
             errorMessage = "Invalid Actor name";
             errorDiv.innerText = errorMessage;
-            $('#errorModal').modal('show');
+            $('#modalError').modal('show');
         }
     }
     else    //If current radio button selection is "Director"
@@ -288,7 +288,7 @@ function updateTrendPlot() {
         {
             errorMessage = "Invalid Director name";
             errorDiv.innerText = errorMessage;
-            $('#errorModal').modal('show');
+            $('#modalError').modal('show');
         }
     }
 }

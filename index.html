@@ -105,47 +105,47 @@
             </div>
         </div>
 
+        <!-- Creating legend to show color code for each node representing either an actor, movie, or director-->
         <div class="col-sm pr-sm-5">
-            <div class="h-10" id="legend">
-                <svg> </svg>
-                    <!--h8>Double click on a node to highlight it's neighbors</h8-->
-            </div>
-            <div class="h-90" id="nodeLink">
+            <div class="h-89" id="nodeLink">
                 <svg id="canvas"></svg>
+            </div>
+            <div class="h-9" id="legend"> 
+                <svg> </svg>      
             </div>
         </div>
 
     </div>
 
 
-    <!-- Modal to display error messages -->
-    <div class="modal fade" id="errorModal">
+    <!-- Creating an error modal to display error messages-->
+    <div class="modal fade" id="modalError">
         <div class="modal-dialog">
             <div class="modal-content">
-
-                <!-- Modal Header -->
-                <div class="modal-header">
-                    <h4 class="modal-title" id="messageHeader"></h4>
-                    <button type="button" class="close" data-dismiss="modal">&times;</button>
-                </div>
-
-                <!-- Modal body -->
-                <div class="modal-body" id="messageBody">
-                </div>
-
-                <!-- Modal footer -->
+                <!-- Footer of modal -->
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                 </div>
+                
+                <!-- Body of modal -->
+                <div class="modal-body" id="bodyMessage">
+                </div>
 
+
+                <!-- Header of modal-->
+                <div class="modal-header">
+                    <h4 class="modal-title" id="headerMessage"></h4>
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                </div>
             </div>
         </div>
     </div>
 
-    <!-- Internal Scripts -->
-    <script type="application/javascript" src="public/js/explore_script.js"></script>
+    <!-- Internal JS scripts which are located in directory  -->
+    <script type="application/javascript" src="public/js/movieTable.js"></script>
     <script type="application/javascript" src="public/js/filters.js"></script>
     <script type="application/javascript" src="public/js/nodelinkFD.js"></script>
-    <script type="application/javascript" src="public/js/movieTable.js"></script>
+    <script type="application/javascript" src="public/js/explore_script.js"></script>
+
 </body>
 </html>
