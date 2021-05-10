@@ -1,6 +1,5 @@
 
-class StatsActorDirector
-{
+class StatsActorDirector{
     constructor(directorOrActor, name, movies, attribute)
     {
         this.directorOrActor = directorOrActor; //Indicates the entity whose stats are being plotted
