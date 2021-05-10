@@ -67,7 +67,7 @@ class MovieTable
         let tbodyColumns = tbodyRows.selectAll("td")
             .data( (d) => {
                 return [
-                    d["movie_title"], d["director_name"], d["title_year"], d["imdb_score"], d["budget"]
+                    d["title_year"], d["movie_title"], d["imdb_score"], d["director_name"], d["budget"]
                 ]
             } );
 
