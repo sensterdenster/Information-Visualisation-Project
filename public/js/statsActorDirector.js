@@ -6,20 +6,21 @@ class StatsActorDirector{
         this.feature = feature;                 //Feature (attributes) for movie
         this.nameDirectorActor = nameDirectorActor; //Director or Actor's name
         this.directorOrActor = directorOrActor; //Indicates the entity whose stats are being plotted
+
     }
 
     plot()
     {
         let statsActorDirector_Div = d3.select("#statsActorDirector");
 
-        let margin = {top: 19, bottom: 99,  left: 119, right: 19},
+        let margin = {top: 20, right: 20, bottom: 100, left: 120},
             svgBounds = statsActorDirector_Div.node().getBoundingClientRect(),
-            height = 449 - margin.top - margin.bottom,
-            width = svgBounds.width - margin.left - margin.right;
+            width = svgBounds.width - margin.left - margin.right,
+            height = 450 - margin.top - margin.bottom;
 
         let svg = d3.select("#plotTrend")
-            .attr("height", 450 + margin.top + margin.bottom)
-            .attr("width", svgBounds.width);
+            .attr("width", svgBounds.width)
+            .attr("height", 450 + margin.top + margin.bottom);
 
         let g = d3.select("#plotTrendGroup")
             .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
