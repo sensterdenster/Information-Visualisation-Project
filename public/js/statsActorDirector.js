@@ -37,8 +37,8 @@ class StatsActorDirector{
 
         //Using d3 to add y-axis
         d3.select("#yAxis")
-            .transition()
             .duration(1500)
+            .transition()
             .call(d3.axisLeft(yScale));
 
         //Y-axis label being added
