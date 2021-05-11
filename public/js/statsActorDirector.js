@@ -84,8 +84,8 @@ class StatsActorDirector{
 
         //Customising the x-axis label font, color, position opacity, etc
         let EnterLabelx = Labelx.enter().append("text");
-        xLabel.exit().remove();
-        xLabel = xLabel.merge(EnterLabelx)
+        Labelx.exit().remove();
+        Labelx = Labelx.merge(EnterLabelx)
             .attr("fill", "#000")
             .style("opacity", 0)
             .attr("class", "font-weight-bold")
