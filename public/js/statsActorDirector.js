@@ -11,28 +11,29 @@ class StatsActorDirector{
     plot()
     {
         let statsActorDirector_Div = d3.select("#statsActorDirector");
-
-        let svg = d3.select("#plotTrend")
-            .attr("height", 449 + margin.bottom + margin.top)
-            .attr("width", svgBounds.width);
-
-        let margin = {top: 19, right: 19, bottom: 99, left: 119},
+        
+        let margin = {top: 20, right: 20, bottom: 100, left: 120},
             svgBounds = statsActorDirector_Div.node().getBoundingClientRect(),
-            height = 449 - margin.top - margin.bottom,
+            height = 450 - margin.top - margin.bottom,
             width = svgBounds.width - margin.left - margin.right;
 
-        let xScale = d3.scaleBand()
-            .padding([1])
-            .domain((this.films).map(d => d["movie_title"]))
-            .rangeRound([0, width]);
-
-        let yScale = d3.scaleLinear()
-        .domain(d3.extent(this.films, (d) => { return parseFloat(d[this.feature])}))
-        .range([height, 0]);
+        let svg = d3.select("#plotTrend")
+            .attr("width", svgBounds.width)
+            .attr("height", 450 + margin.bottom + margin.top);
 
         let ptg = d3.select("#plotTrendGroup")
             .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+        
+        let xScale = d3.scaleBand()
+            .domain((this.films).map(d => d["movie_title"]))
+            .padding([1])
+            .rangeRound([0, width]);
 
+        let yScale = d3.scaleLinear()
+            .domain(d3.extent(this.films, (d) => { return parseFloat(d[this.feature])}))
+            .range([height, 0]);
+
+        
         yScale.nice();
 
         //Using d3 to add y-axis
