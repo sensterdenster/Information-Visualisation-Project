@@ -12,7 +12,7 @@ class StatsActorDirector{
     {
         let statsActorDirector_Div = d3.select("#statsActorDirector");
 
-        let margin = {top: 20, right: 20, bottom: 100, left: 120},
+        let margin = {top: 19, right: 19, bottom: 99, left: 119},
         svgBounds = statsActorDirector_Div.node().getBoundingClientRect(),
         height = 449 - margin.top - margin.bottom,
         width = svgBounds.width - margin.right - margin.left;
@@ -117,7 +117,7 @@ class StatsActorDirector{
             .duration(1500)
             .attr("r", 4.5)
             .attr("cx", (d) => { return xScale(d["movie_title"]); })
-            .attr("cy", (d) => { return yScale(d[this.attribute]); });
+            .attr("cy", (d) => { return yScale(d[this.feature]); });
 
         //Invoke the tip on the plot points
         plotPoints.call(tip)
@@ -127,7 +127,7 @@ class StatsActorDirector{
         //Add the line graph
         let lineGraph = d3.line()
             .x((d) => { return xScale(d["movie_title"]); })
-            .y((d) => { return yScale(d[this.attribute]); });
+            .y((d) => { return yScale(d[this.feature]); });
 
         let plotLines = ptg.selectAll(".line")
             .data([this.films]);
