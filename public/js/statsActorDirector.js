@@ -26,21 +26,22 @@ class StatsActorDirector{
             .attr("width", svgBounds.width);
 
         let xScale = d3.scaleBand()
-            .padding([1])
             .domain((this.films).map(d => d["movie_title"]))
+            .padding([1])
             .rangeRound([0, width]);
 
         let yScale = d3.scaleLinear()
-            .range([height, 0])
-            .domain(d3.extent(this.films, (d) => { return parseFloat(d[this.feature])}));
+            .domain(d3.extent(this.films, (d) => { return parseFloat(d[this.feature])}))
+            .range([height, 0]);
 
         yScale.nice();
 
         //Using d3 to add y-axis
         d3.select("#yAxis")
+            .transition()
             .duration(1500)
-            .call(d3.axisLeft(yScale))
-            .transition();
+            .call(d3.axisLeft(yScale));
+
 
         //Y-axis label being added
         let yLabel = d3.select("#yLabel").selectAll("text")
