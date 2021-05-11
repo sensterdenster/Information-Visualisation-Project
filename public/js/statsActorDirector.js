@@ -49,7 +49,6 @@ class StatsActorDirector{
         let EnterLabely = Labely.enter().append("text");
         Labely.exit().remove();
         Labely = Labely.merge(EnterLabely)
-            .style("opacity", 0)
             .text((d) => { return d; })
             .attr("transform", "rotate(-90)")
             .attr("x", -height/2)
@@ -58,6 +57,7 @@ class StatsActorDirector{
             .attr("fill", "#000")
             .attr("class", "font-weight-bold text-capitalize")
             .duration(1500)
+            .style("opacity", 0)
             .style("opacity", 1)
             .transition();
 
@@ -83,16 +83,17 @@ class StatsActorDirector{
         let EnterLabelx = Labelx.enter().append("text");
         Labelx.exit().remove();
         Labelx = Labelx.merge(EnterLabelx)
-            .attr("class", "font-weight-bold")
+        
+            .text((d) => { return d; })
             .attr("fill", "#000")
-            .style("opacity", 0)
+            .attr("class", "font-weight-bold")
             .attr("x", width/2)
             .attr("y", -7)
-            .text((d) => { return d; })
             .attr("text-anchor", "middle")
-            .transition()
             .duration(1500)
-            .style("opacity", 1);
+            .style("opacity", 0)
+            .style("opacity", 1)
+            .transition();
 
         //Plotpoints being added 
         let plotPoints = ptg.selectAll("circle")
