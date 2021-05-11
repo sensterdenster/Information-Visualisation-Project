@@ -13,16 +13,16 @@ class StatsActorDirector{
     {
         let statsActorDirector_Div = d3.select("#statsActorDirector");
 
-        let margin = {top: 19, right: 19, bottom: 99, left: 119},
+        let margin = {top: 20, right: 20, bottom: 100, left: 120},
             svgBounds = statsActorDirector_Div.node().getBoundingClientRect(),
             width = svgBounds.width - margin.left - margin.right,
-            height = 449 - margin.bottom - margin.top;
+            height = 450 - margin.bottom - margin.top;
             
         let svg = d3.select("#plotTrend")
             .attr("height", 450 + margin.bottom + margin.top)
             .attr("width", svgBounds.width);
 
-        let ptg = d3.select("#plotTrendGroup")
+        let g = d3.select("#plotTrendGroup")
         .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
         let xScale = d3.scaleBand()
@@ -95,7 +95,7 @@ class StatsActorDirector{
             .style("opacity", 1);
 
         //Add the plot points
-        let points = ptg.selectAll("circle")
+        let points = g.selectAll("circle")
             .data(this.films);
 
         //Initialize tooltip
@@ -128,7 +128,7 @@ class StatsActorDirector{
             .x((d) => { return xScale(d["movie_title"]); })
             .y((d) => { return yScale(d[this.feature]); });
 
-        let lines = ptg.selectAll(".line")
+        let lines = g.selectAll(".line")
             .data([this.films]);
 
         let linesEnter = lines.enter().append("path");
