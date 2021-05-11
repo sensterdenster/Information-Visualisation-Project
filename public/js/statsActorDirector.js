@@ -1,11 +1,11 @@
 class StatsActorDirector{
     
-    constructor(directorOrActor, name, movies, attribute)
+    constructor(feature, directorOrActor, name, movies)
     {
-        this.directorOrActor = directorOrActor; //Indicates the entity whose stats are being plotted
+        this.feature = feature;             //Feature for movie
         this.name = name;                       //Actor or director's name
         this.movies = movies;                   //Actor or director's movies
-        this.attribute = attribute;             //Movie attribute to plot
+        this.directorOrActor = directorOrActor; //Indicates the entity whose stats are being plotted
     }
 
     plot()
@@ -30,7 +30,7 @@ class StatsActorDirector{
             .rangeRound([0, width]);
 
         let yScale = d3.scaleLinear()
-            .domain(d3.extent(this.movies, (d) => { return parseFloat(d[this.attribute])}))
+            .domain(d3.extent(this.movies, (d) => { return parseFloat(d[this.feature])}))
             .range([height, 0]);
 
         yScale.nice();
@@ -43,7 +43,7 @@ class StatsActorDirector{
 
         //Add the y Axis label
         let yLabel = d3.select("#yLabel").selectAll("text")
-            .data([this.attribute]);
+            .data([this.feature]);
 
         let yLabelEnter = yLabel.enter().append("text");
         yLabel.exit().remove();
@@ -99,10 +99,10 @@ class StatsActorDirector{
         //Initialize tooltip
         let tip = d3.tip().attr("class", "d3-tip-node").html((d) => {
 
-            if(this.attribute == "imdb_score")
-                return d["movie_title"].trim() + ": " + parseFloat(d[this.attribute]);
+            if(this.feature == "imdb_score")
+                return d["movie_title"].trim() + ": " + parseFloat(d[this.feature]);
             else
-                return d["movie_title"].trim() + ": " + parseInt(d[this.attribute]).toLocaleString();
+                return d["movie_title"].trim() + ": " + parseInt(d[this.feature]).toLocaleString();
         });
 
         let pointsEnter = points.enter().append("circle");
@@ -114,7 +114,7 @@ class StatsActorDirector{
             .duration(1500)
             .attr("r", 4.5)
             .attr("cx", (d) => { return xScale(d["movie_title"]); })
-            .attr("cy", (d) => { return yScale(d[this.attribute]); });
+            .attr("cy", (d) => { return yScale(d[this.feature]); });
 
         //Invoke the tip on the plot points
         points.call(tip)
@@ -124,7 +124,7 @@ class StatsActorDirector{
         //Add the line graph
         let lineGraph = d3.line()
             .x((d) => { return xScale(d["movie_title"]); })
-            .y((d) => { return yScale(d[this.attribute]); });
+            .y((d) => { return yScale(d[this.feature]); });
 
         let lines = g.selectAll(".line")
             .data([this.movies]);
