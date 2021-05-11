@@ -1,12 +1,11 @@
 class StatsActorDirector{
     
-    constructor(directorOrActor, nameDirectorActor, films, feature)
+    constructor(actorOrDirector, name, movies, attribute)
     {
-        this.films = films;                   //Director or Actor's films
-        this.feature = feature;                 //Feature (attributes) for movie
-        this.nameDirectorActor = nameDirectorActor; //Director or Actor's name
-        this.directorOrActor = directorOrActor; //Indicates the entity whose stats are being plotted
-
+        this.actorOrDirector = actorOrDirector; //Indicates the entity whose stats are being plotted
+        this.name = name;                       //Actor or director's name
+        this.movies = movies;                   //Actor or director's movies
+        this.attribute = attribute;             //Movie attribute to plot
     }
 
     plot()
@@ -26,12 +25,12 @@ class StatsActorDirector{
             .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
         let xScale = d3.scaleBand()
-            .domain((this.films).map(d => d["movie_title"]))
+            .domain((this.movies).map(d => d["movie_title"]))
             .padding([1])
             .rangeRound([0, width]);
 
         let yScale = d3.scaleLinear()
-            .domain(d3.extent(this.films, (d) => { return parseFloat(d[this.feature])}))
+            .domain(d3.extent(this.movies, (d) => { return parseFloat(d[this.attribute])}))
             .range([height, 0]);
 
         yScale.nice();
@@ -44,7 +43,7 @@ class StatsActorDirector{
 
         //Add the y Axis label
         let yLabel = d3.select("#yLabel").selectAll("text")
-            .data([this.feature]);
+            .data([this.attribute]);
 
         let yLabelEnter = yLabel.enter().append("text");
         yLabel.exit().remove();
@@ -73,7 +72,7 @@ class StatsActorDirector{
             .attr("dy", ".15em")
             .attr("transform", "rotate(-65)");
 
-        let xLabelText = (this.directorOrActor) + " " + this.nameDirectorActor + "'s" + " movies";
+        let xLabelText = (this.actorOrDirector) + " " + this.name + "'s" + " movies";
 
         //Add the x Axis label
         let xLabel = d3.select("#xLabel").selectAll("text")
@@ -95,15 +94,15 @@ class StatsActorDirector{
 
         //Add the plot points
         let points = g.selectAll("circle")
-            .data(this.films);
+            .data(this.movies);
 
         //Initialize tooltip
         let tip = d3.tip().attr("class", "d3-tip-node").html((d) => {
 
-            if(this.feature == "imdb_score")
-                return d["movie_title"].trim() + ": " + parseFloat(d[this.feature]);
+            if(this.attribute == "imdb_score")
+                return d["movie_title"].trim() + ": " + parseFloat(d[this.attribute]);
             else
-                return d["movie_title"].trim() + ": " + parseInt(d[this.feature]).toLocaleString();
+                return d["movie_title"].trim() + ": " + parseInt(d[this.attribute]).toLocaleString();
         });
 
         let pointsEnter = points.enter().append("circle");
@@ -115,7 +114,7 @@ class StatsActorDirector{
             .duration(1500)
             .attr("r", 4.5)
             .attr("cx", (d) => { return xScale(d["movie_title"]); })
-            .attr("cy", (d) => { return yScale(d[this.feature]); });
+            .attr("cy", (d) => { return yScale(d[this.attribute]); });
 
         //Invoke the tip on the plot points
         points.call(tip)
@@ -125,10 +124,10 @@ class StatsActorDirector{
         //Add the line graph
         let lineGraph = d3.line()
             .x((d) => { return xScale(d["movie_title"]); })
-            .y((d) => { return yScale(d[this.feature]); });
+            .y((d) => { return yScale(d[this.attribute]); });
 
         let lines = g.selectAll(".line")
-            .data([this.films]);
+            .data([this.movies]);
 
         let linesEnter = lines.enter().append("path");
         lines.exit().remove();
