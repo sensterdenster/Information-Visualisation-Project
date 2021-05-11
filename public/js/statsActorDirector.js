@@ -1,11 +1,11 @@
 class StatsActorDirector{
     
-    constructor(attribute, directorOrActor, name, movies)
+    constructor(directorOrActor, name, movies, attribute)
     {
+        this.directorOrActor = directorOrActor; //Indicates the entity whose stats are being plotted
         this.attribute = attribute;             //Attribute for movie
         this.name = name;                       //Actor or director's name
         this.movies = movies;                   //Actor or director's movies
-        this.directorOrActor = directorOrActor; //Indicates the entity whose stats are being plotted
     }
 
     plot()
