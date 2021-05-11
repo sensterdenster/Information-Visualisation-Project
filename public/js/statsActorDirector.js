@@ -15,15 +15,15 @@ class StatsActorDirector{
 
         let margin = {top: 20, right: 20, bottom: 100, left: 120},
             svgBounds = statsActorDirector_Div.node().getBoundingClientRect(),
-            width = svgBounds.width - margin.left - margin.right,
-            height = 450 - margin.bottom - margin.top;
+            height = 450 - margin.top - margin.bottom,
+            width = svgBounds.width - margin.right - margin.left;
             
         let svg = d3.select("#plotTrend")
             .attr("height", 450 + margin.bottom + margin.top)
             .attr("width", svgBounds.width);
 
-        let g = d3.select("#plotTrendGroup")
-        .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+        let ptg = d3.select("#plotTrendGroup")
+            .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
         let xScale = d3.scaleBand()
             .domain((this.films).map(d => d["movie_title"]))
@@ -74,7 +74,7 @@ class StatsActorDirector{
             .attr("dy", ".15em")
             .attr("transform", "rotate(-65)");
 
-        let xLabelText = (this.directorOrActor) + " " + this.nameDirectorActor + "'s" + " movies";
+        let xLabelText = (this.directorOrActor) + " " + this.nameDirectorActor + "'s" + " films";
 
         //Add the x Axis label
         let xLabel = d3.select("#xLabel").selectAll("text")
@@ -95,7 +95,7 @@ class StatsActorDirector{
             .style("opacity", 1);
 
         //Add the plot points
-        let points = g.selectAll("circle")
+        let points = ptg.selectAll("circle")
             .data(this.films);
 
         //Initialize tooltip
@@ -128,7 +128,7 @@ class StatsActorDirector{
             .x((d) => { return xScale(d["movie_title"]); })
             .y((d) => { return yScale(d[this.feature]); });
 
-        let lines = g.selectAll(".line")
+        let lines = ptg.selectAll(".line")
             .data([this.films]);
 
         let linesEnter = lines.enter().append("path");
