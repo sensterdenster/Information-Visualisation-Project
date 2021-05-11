@@ -113,16 +113,16 @@ class StatsActorDirector{
         plotPoints = plotPoints.merge(enterPoints);
 
         plotPoints
-            .transition()
             .duration(1500)
-            .attr("r", 4.5)
+            .transition()
             .attr("cx", (d) => { return xScale(d["movie_title"]); })
+            .attr("r", 4.5)
             .attr("cy", (d) => { return yScale(d[this.feature]); });
 
         //Invoke the tip on the plot points
         plotPoints.call(tip)
-            .on("mouseover", tip.show)
-            .on("mouseout", tip.hide);
+            .on("mouseout", tip.hide)
+            .on("mouseover", tip.show);
 
         //Add the line graph
         let lineGraph = d3.line()
