@@ -70,6 +70,8 @@ function selectAll()
 /**
  *  Update the movies table & node-link diagram based on filter selection
  */
+
+
 function filterProcess() {
 
     let matchingMovies = getMoviesForFilters();
