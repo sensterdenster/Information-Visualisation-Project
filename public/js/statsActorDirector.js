@@ -37,9 +37,9 @@ class StatsActorDirector{
 
         //Using d3 to add y-axis
         d3.select("#yAxis")
+            .transition()
             .duration(1500)
-            .call(d3.axisLeft(yScale))
-            .transition();
+            .call(d3.axisLeft(yScale));
 
         //Y-axis label being added
         let yLabel = d3.select("#yLabel").selectAll("text")
@@ -49,16 +49,16 @@ class StatsActorDirector{
         let yLabelEnter = yLabel.enter().append("text");
         yLabel.exit().remove();
         yLabel = yLabel.merge(yLabelEnter)
+            .attr("class", "font-weight-bold text-capitalize")
+            .attr("fill", "#000")
             .style("opacity", 0)
-            .text((d) => { return d; })
             .attr("transform", "rotate(-90)")
             .attr("x", -height/2)
             .attr("y", -width/10)
             .attr("text-anchor", "middle")
-            .attr("fill", "#000")
-            .attr("class", "font-weight-bold text-capitalize")
-            .duration(1500)
+            .text((d) => { return d; })
             .transition()
+            .duration(1500)
             .style("opacity", 1);
 
         //Add the x Axis
