@@ -67,8 +67,8 @@ class StatsActorDirector{
         d3.select("#xAxis")
             .transition()
             .duration(1500)
-            .call(d3.axisBottom(xScale))
             .selectAll("text")
+            .call(d3.axisBottom(xScale))
             .style("text-anchor", "end")
             .attr("dx", "-.8em")
             .attr("dy", ".15em")
@@ -76,15 +76,15 @@ class StatsActorDirector{
             .attr("transform", "translate(" + 0 + "," + height + ")");
 
 
-        let xLabelText = (this.directorOrActor) + " " + this.nameDirectorActor + "'s" + " films";
+        let textLabelx = (this.directorOrActor) + " " + this.nameDirectorActor + "'s" + " films";
 
         //Add the x Axis label
-        let xLabel = d3.select("#xLabel").selectAll("text")
-            .data([xLabelText]);
+        let Labelx = d3.select("#xLabel").selectAll("text")
+            .data([textLabelx]);
 
-        let xLabelEnter = xLabel.enter().append("text");
+        let EnterLabelx = Labelx.enter().append("text");
         xLabel.exit().remove();
-        xLabel = xLabel.merge(xLabelEnter)
+        xLabel = xLabel.merge(EnterLabelx)
             .attr("class", "font-weight-bold")
             .attr("fill", "#000")
             .style("opacity", 0)
