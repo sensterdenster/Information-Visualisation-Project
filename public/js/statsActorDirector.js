@@ -125,8 +125,8 @@ class StatsActorDirector{
 
         //Add the line graph
         let lineGraph = d3.line()
-            .x((d) => { return scaleX(d["movie_title"]); })
-            .y((d) => { return scaleY(d[this.feature]); });
+            .y((d) => { return scaleY(d[this.feature]); })
+            .x((d) => { return scaleX(d["movie_title"]); });
 
         let plotLines = ptg.selectAll(".line")
             .data([this.films]);
@@ -134,9 +134,9 @@ class StatsActorDirector{
         let enterLines = plotLines.enter().append("path");
         plotLines.exit().remove();
         plotLines = plotLines.merge(enterLines)
-            .attr("class", "line")
-            .transition()
             .duration(1500)
+            .transition()
+            .attr("class", "line")
             .attr("d", lineGraph);
     }
 }
