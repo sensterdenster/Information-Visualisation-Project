@@ -1,11 +1,12 @@
 class StatsActorDirector{
     
-    constructor(directorOrActor, name, movies, feature)
+    constructor(directorOrActor, nameDirectorActor, films, feature)
     {
-        this.directorOrActor = directorOrActor; //Indicates the entity whose stats are being plotted
         this.feature = feature;             //feature for movie
-        this.name = name;                       //Actor or director's name
-        this.movies = movies;                   //Actor or director's movies
+        this.nameDirectorActor = nameDirectorActor;                       //Actor or director's name
+        this.films = films;                   //Actor or director's films
+        this.directorOrActor = directorOrActor; //Indicates the entity whose stats are being plotted
+
     }
 
     plot()
@@ -25,12 +26,12 @@ class StatsActorDirector{
             .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
         let xScale = d3.scaleBand()
-            .domain((this.movies).map(d => d["movie_title"]))
+            .domain((this.films).map(d => d["movie_title"]))
             .padding([1])
             .rangeRound([0, width]);
 
         let yScale = d3.scaleLinear()
-            .domain(d3.extent(this.movies, (d) => { return parseFloat(d[this.feature])}))
+            .domain(d3.extent(this.films, (d) => { return parseFloat(d[this.feature])}))
             .range([height, 0]);
 
         yScale.nice();
@@ -72,7 +73,7 @@ class StatsActorDirector{
             .attr("dy", ".15em")
             .attr("transform", "rotate(-65)");
 
-        let xLabelText = (this.directorOrActor) + " " + this.name + "'s" + " movies";
+        let xLabelText = (this.directorOrActor) + " " + this.nameDirectorActor + "'s" + " movies";
 
         //Add the x Axis label
         let xLabel = d3.select("#xLabel").selectAll("text")
@@ -94,7 +95,7 @@ class StatsActorDirector{
 
         //Add the plot points
         let points = g.selectAll("circle")
-            .data(this.movies);
+            .data(this.films);
 
         //Initialize tooltip
         let tip = d3.tip().attr("class", "d3-tip-node").html((d) => {
@@ -127,7 +128,7 @@ class StatsActorDirector{
             .y((d) => { return yScale(d[this.feature]); });
 
         let lines = g.selectAll(".line")
-            .data([this.movies]);
+            .data([this.films]);
 
         let linesEnter = lines.enter().append("path");
         lines.exit().remove();
