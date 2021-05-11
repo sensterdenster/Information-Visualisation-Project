@@ -56,7 +56,7 @@
                         </div>
                         <!-- Button to select apply changes and update actor or director-->
                         <div class="col-sm">
-                            <button class="btn btn-primary" type="button" id="applyDirectorOrActor" onclick="updateTrendPlot()">Update actor</button>
+                            <button class="btn btn-primary" type="button" id="applyDirectorOrActor" onclick="applyTrend()">Update actor</button>
                         </div>                        
                         <!-- Radio button to select and filter movie attribute for field: (Rating, Gross, Budget, Facebook likes, User Reviews)-->
                         <div class="col-sm">
@@ -65,7 +65,7 @@
 
 
                         <div class="col-sm">
-                            <select class="form-control-sm" id="attributes" onchange="updateTrendPlot()">
+                            <select class="form-control-sm" id="attributes" onchange="applyTrend()">
                                 <option selected value="imdb_score">Rating</option>
                                 <option value="gross">Gross</option>
                                 <option value="budget">Budget</option>
@@ -78,8 +78,8 @@
             </div>
             </br>
             <div>
-                <svg id="trend-plot">
-                    <g id="trend-plot-group">
+                <svg id="plotTrent">
+                    <g id="plotTrendGroup">
                         <g id="xAxis"></g>
                         <g id="xLabel"></g>
                         <g id="yAxis"></g>
@@ -126,9 +126,9 @@
     </div>
 
     <!-- JS Internal Scripts -->
+    <script src="public/js/correlationMatrix.js"></script>
     <script src="public/js/statsActorDirector.js"></script>
     <script src="public/js/trend_script.js"></script>
-    <script src="public/js/correlationMatrix.js"></script>
     <script src="public/js/scatterPlot.js"></script>
 </body>
 </html>

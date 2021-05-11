@@ -1,5 +1,4 @@
 class StatsActorDirector{
-
     constructor(directorOrActor, name, movies, attribute)
     {
         this.directorOrActor = directorOrActor; //Indicates the entity whose stats are being plotted
@@ -17,11 +16,11 @@ class StatsActorDirector{
             width = svgBounds.width - margin.left - margin.right,
             height = 450 - margin.top - margin.bottom;
 
-        let svg = d3.select("#trend-plot")
+        let svg = d3.select("#plotTrend")
             .attr("width", svgBounds.width)
             .attr("height", 450 + margin.top + margin.bottom);
 
-        let g = d3.select("#trend-plot-group")
+        let g = d3.select("#plotTrendGroup")
             .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
         let xScale = d3.scaleBand()

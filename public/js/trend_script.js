@@ -241,7 +241,7 @@ function updateSearchFilter(directorOrActor) {
 /**
  *  Update the actor/director trend plot based on selected parameters
  */
-function updateTrendPlot() {
+function applyTrend() {
 
     let name = d3.select("#nameDirectorOrActor").node().value;
     let selectedAttribute = d3.select("#attributes").node().value;
