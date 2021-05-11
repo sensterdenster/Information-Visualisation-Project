@@ -13,10 +13,11 @@ class StatsActorDirector{
     {
         let statsActorDirector_Div = d3.select("#statsActorDirector");
 
-        let margin = {top: 20, right: 20, bottom: 100, left: 120},
+        let margin = {top: 20,  bottom: 100, left: 120, right: 20},
             svgBounds = statsActorDirector_Div.node().getBoundingClientRect(),
-            width = svgBounds.width - margin.left - margin.right,
-            height = 450 - margin.top - margin.bottom;
+            height = 450 - margin.top - margin.bottom,
+            width = svgBounds.width - margin.right - margin.left;
+            
 
         let svg = d3.select("#plotTrend")
             .attr("width", svgBounds.width)
