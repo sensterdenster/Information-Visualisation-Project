@@ -12,26 +12,26 @@ class StatsActorDirector{
     {
         let statsActorDirector_Div = d3.select("#statsActorDirector");
 
+        let margin = {top: 19, right: 19, bottom: 99, left: 119},
+            svgBounds = statsActorDirector_Div.node().getBoundingClientRect(),
+            height = 449 - margin.top - margin.bottom,
+            width = svgBounds.width - margin.left - margin.right;
+
         let svg = d3.select("#plotTrend")
             .attr("height", 449 + margin.bottom + margin.top)
             .attr("width", svgBounds.width);
 
-        let margin = {top: 19, right: 19, bottom: 99, left: 119},
-            svgBounds = statsActorDirector_Div.node().getBoundingClientRect(),
-            height = 449 - margin.top - margin.bottom,
-            width = svgBounds.width - margin.right - margin.left;
-
-        let scaleX = d3.scaleBand()
-            .rangeRound([0, width])
-            .padding([1])
-            .domain((this.films).map(d => d["movie_title"]));
-
-        let scaleY = d3.scaleLinear()
-            .range([height, 0])
-            .domain(d3.extent(this.films, (d) => { return parseFloat(d[this.feature])}));
-
         let ptg = d3.select("#plotTrendGroup")
             .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+
+        let scaleX = d3.scaleBand()
+            .padding([1])
+            .domain((this.films).map(d => d["movie_title"]))
+            .rangeRound([0, width]);
+
+        let scaleY = d3.scaleLinear()
+            .domain(d3.extent(this.films, (d) => { return parseFloat(d[this.feature])}))
+            .range([height, 0]);
 
         scaleY.nice();
 
