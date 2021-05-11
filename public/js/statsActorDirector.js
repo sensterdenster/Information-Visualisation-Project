@@ -12,44 +12,43 @@ class StatsActorDirector{
     {
         let statsActorDirector_Div = d3.select("#statsActorDirector");
 
+        let svg = d3.select("#plotTrend")
+            .attr("height", 449 + margin.bottom + margin.top)
+            .attr("width", svgBounds.width);
+
         let margin = {top: 19, right: 19, bottom: 99, left: 119},
             svgBounds = statsActorDirector_Div.node().getBoundingClientRect(),
             height = 449 - margin.top - margin.bottom,
             width = svgBounds.width - margin.right - margin.left;
 
-        let svg = d3.select("#plotTrend")
-            .attr("height", 449 + margin.bottom + margin.top)
-            .attr("width", svgBounds.width);
-
-        let ptg = d3.select("#plotTrendGroup")
-            .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
-
-        let xScale = d3.scaleBand()
+        let scaleX = d3.scaleBand()
             .rangeRound([0, width])
             .padding([1])
             .domain((this.films).map(d => d["movie_title"]));
 
-        let yScale = d3.scaleLinear()
+        let scaleY = d3.scaleLinear()
             .range([height, 0])
             .domain(d3.extent(this.films, (d) => { return parseFloat(d[this.feature])}));
 
-        yScale.nice();
+        let ptg = d3.select("#plotTrendGroup")
+            .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+
+        scaleY.nice();
 
         //Using d3 to add y-axis
         d3.select("#yAxis")
             .duration(1500)
-            .call(d3.axisLeft(yScale))
-            .transition();
+            .transition()
+            .call(d3.axisLeft(scaleY));
 
         //Y-axis label being added
-        let yLabel = d3.select("#yLabel").selectAll("text")
+        let Labely = d3.select("#yLabel").selectAll("text")
             .data([this.feature]);
 
         //Customising the y-axis label font, color, position, opacity, etc
-        let yLabelEnter = yLabel.enter().append("text");
-        yLabel.exit().remove();
-        yLabel = yLabel.merge(yLabelEnter)
-            .style("opacity", 0)
+        let EnterLabely = Labely.enter().append("text");
+        Labely.exit().remove();
+        Labely = Labely.merge(EnterLabely)
             .text((d) => { return d; })
             .attr("transform", "rotate(-90)")
             .attr("x", -height/2)
@@ -58,12 +57,13 @@ class StatsActorDirector{
             .attr("fill", "#000")
             .attr("class", "font-weight-bold text-capitalize")
             .duration(1500)
+            .style("opacity", 0)
             .style("opacity", 1)
             .transition();
 
         //Add the x Axis
         d3.select("#xAxis")
-            .call(d3.axisBottom(xScale))
+            .call(d3.axisBottom(scaleX))
             .selectAll("text")
             .attr("dx", "-.8em")
             .attr("dy", ".15em")
@@ -72,7 +72,6 @@ class StatsActorDirector{
             .duration(1500)
             .style("text-anchor", "end")
             .transition();
-
 
         let textLabelx = (this.directorOrActor) + " " + this.nameDirectorActor + "'s" + " films";
 
@@ -84,16 +83,16 @@ class StatsActorDirector{
         let EnterLabelx = Labelx.enter().append("text");
         Labelx.exit().remove();
         Labelx = Labelx.merge(EnterLabelx)
-            .attr("class", "font-weight-bold")
+            .text((d) => { return d; })
             .attr("fill", "#000")
-            .style("opacity", 0)
+            .attr("class", "font-weight-bold")
             .attr("x", width/2)
             .attr("y", -7)
-            .text((d) => { return d; })
             .attr("text-anchor", "middle")
-            .transition()
             .duration(1500)
-            .style("opacity", 1);
+            .style("opacity", 0)
+            .style("opacity", 1)
+            .transition();
 
         //Plotpoints being added 
         let plotPoints = ptg.selectAll("circle")
@@ -116,8 +115,8 @@ class StatsActorDirector{
             .transition()
             .duration(1500)
             .attr("r", 4.5)
-            .attr("cx", (d) => { return xScale(d["movie_title"]); })
-            .attr("cy", (d) => { return yScale(d[this.feature]); });
+            .attr("cx", (d) => { return scaleX(d["movie_title"]); })
+            .attr("cy", (d) => { return scaleY(d[this.feature]); });
 
         //Invoke the tip on the plot points
         plotPoints.call(tip)
@@ -126,8 +125,8 @@ class StatsActorDirector{
 
         //Add the line graph
         let lineGraph = d3.line()
-            .x((d) => { return xScale(d["movie_title"]); })
-            .y((d) => { return yScale(d[this.feature]); });
+            .x((d) => { return scaleX(d["movie_title"]); })
+            .y((d) => { return scaleY(d[this.feature]); });
 
         let plotLines = ptg.selectAll(".line")
             .data([this.films]);
