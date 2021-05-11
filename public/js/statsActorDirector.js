@@ -18,7 +18,6 @@ class StatsActorDirector{
         height = 449 - margin.top - margin.bottom,
         width = svgBounds.width - margin.right - margin.left;
 
-    
         let svg = d3.select("#plotTrend")
         .attr("height", 449 + margin.bottom + margin.top)
         .attr("width", svgBounds.width);
@@ -76,70 +75,69 @@ class StatsActorDirector{
             .attr("transform", "translate(" + 0 + "," + height + ")");
 
 
-        let textLabelx = (this.directorOrActor) + " " + this.nameDirectorActor + "'s" + " films";
+            let xLabelText = (this.actorOrDirector) + " " + this.name + "'s" + " movies";
 
-        //Add the x Axis label
-        let Labelx = d3.select("#xLabel").selectAll("text")
-            .data([textLabelx]);
-
-        //Customising the x-axis label font, color, position opacity, etc
-        let EnterLabelx = Labelx.enter().append("text");
-        Labelx.exit().remove();
-        Labelx = Labelx.merge(EnterLabelx)
-            .attr("fill", "#000")
-            .style("opacity", 0)
-            .attr("class", "font-weight-bold")
-            .attr("y", -7)
-            .attr("x", width/2)
-            .transition()
-            .attr("text-anchor", "middle")
-            .duration(1500)
-            .text((d) => { return d; })
-            .style("opacity", 1);
-
-        //Plotpoints being added 
-        let plotPoints = ptg.selectAll("circle")
-            .data(this.films);
-
-        //Initialize tooltip
-        let tip = d3.tip().attr("class", "d3-tip-node").html((d) => {
-
-            if(this.feature == "imdb_score")
-                return d["movie_title"].trim() + ": " + parseFloat(d[this.feature]);
-            else
-                return d["movie_title"].trim() + ": " + parseInt(d[this.feature]).toLocaleString();
-        });
-
-        let enterPoints = plotPoints.enter().append("circle");
-        plotPoints.exit().remove();
-        plotPoints = plotPoints.merge(enterPoints);
-
-        plotPoints
-            .duration(1500)
-            .transition()
-            .attr("cx", (d) => { return xScale(d["movie_title"]); })
-            .attr("r", 4.5)
-            .attr("cy", (d) => { return yScale(d[this.feature]); });
-
-        //Invoke the tip on the plot points
-        plotPoints.call(tip)
-            .on("mouseout", tip.hide)
-            .on("mouseover", tip.show);
-
-        //Add the line graph
-        let lineGraph = d3.line()
-            .y((d) => { return yScale(d[this.feature]); })
-            .x((d) => { return xScale(d["movie_title"]); });
-
-        let plotLines = ptg.selectAll(".line")
-            .data([this.films]);
-
-        let enterLines = plotLines.enter().append("path");
-        plotLines.exit().remove();
-        plotLines = plotLines.merge(enterLines)
-            .attr("class", "line")
-            .transition()
-            .duration(1500)
-            .attr("d", lineGraph);
-    }
+            //Add the x Axis label
+            let xLabel = d3.select("#xLabel").selectAll("text")
+                .data([xLabelText]);
+    
+            let xLabelEnter = xLabel.enter().append("text");
+            xLabel.exit().remove();
+            xLabel = xLabel.merge(xLabelEnter)
+                .attr("class", "font-weight-bold")
+                .attr("fill", "#000")
+                .style("opacity", 0)
+                .attr("x", width/2)
+                .attr("y", -7)
+                .text((d) => { return d; })
+                .attr("text-anchor", "middle")
+                .transition()
+                .duration(1500)
+                .style("opacity", 1);
+    
+            //Add the plot points
+            let points = ptg.selectAll("circle")
+                .data(this.movies);
+    
+            //Initialize tooltip
+            let tip = d3.tip().attr("class", "d3-tip-node").html((d) => {
+    
+                if(this.attribute == "imdb_score")
+                    return d["movie_title"].trim() + ": " + parseFloat(d[this.attribute]);
+                else
+                    return d["movie_title"].trim() + ": " + parseInt(d[this.attribute]).toLocaleString();
+            });
+    
+            let pointsEnter = points.enter().append("circle");
+            points.exit().remove();
+            points = points.merge(pointsEnter);
+    
+            points
+                .transition()
+                .duration(1500)
+                .attr("r", 4.5)
+                .attr("cx", (d) => { return xScale(d["movie_title"]); })
+                .attr("cy", (d) => { return yScale(d[this.attribute]); });
+    
+            //Invoke the tip on the plot points
+            points.call(tip)
+                .on("mouseover", tip.show)
+                .on("mouseout", tip.hide);
+    
+            //Add the line graph
+            let lineGraph = d3.line()
+                .x((d) => { return xScale(d["movie_title"]); })
+                .y((d) => { return yScale(d[this.attribute]); });
+    
+            let lines = ptg.selectAll(".line")
+                .data([this.movies]);
+    
+            let linesEnter = lines.enter().append("path");
+            lines.exit().remove();
+            lines = lines.merge(linesEnter)
+                .attr("class", "line")
+                .transition()
+                .duration(1500)
+                .attr("d", lineGraph);
+        }
 }
