@@ -97,8 +97,8 @@ class StatsActorDirector{
             .text((d) => { return d; })
             .style("opacity", 1);
 
-        //Plotpoints being added 
-        let plotPoints = ptg.selectAll("circle")
+        //Plotpoints being added
+        let points = ptg.selectAll("circle")
             .data(this.films);
 
         //Initialize tooltip
@@ -110,11 +110,11 @@ class StatsActorDirector{
                 return d["movie_title"].trim() + ": " + parseInt(d[this.feature]).toLocaleString();
         });
 
-        let enterPoints = plotPoints.enter().append("circle");
-        plotPoints.exit().remove();
-        plotPoints = plotPoints.merge(enterPoints);
+        let pointsEnter = points.enter().append("circle");
+        points.exit().remove();
+        points = points.merge(pointsEnter);
 
-        plotPoints
+        points
             .transition()
             .duration(1500)
             .attr("r", 4.5)
@@ -122,7 +122,7 @@ class StatsActorDirector{
             .attr("cy", (d) => { return yScale(d[this.feature]); });
 
         //Invoke the tip on the plot points
-        plotPoints.call(tip)
+        points.call(tip)
             .on("mouseover", tip.show)
             .on("mouseout", tip.hide);
 
