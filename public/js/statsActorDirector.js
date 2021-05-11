@@ -82,22 +82,23 @@ class StatsActorDirector{
         let Labelx = d3.select("#xLabel").selectAll("text")
             .data([textLabelx]);
 
+        //Customising the x-axis label font, color, position opacity, etc
         let EnterLabelx = Labelx.enter().append("text");
         xLabel.exit().remove();
         xLabel = xLabel.merge(EnterLabelx)
-            .attr("class", "font-weight-bold")
             .attr("fill", "#000")
             .style("opacity", 0)
-            .attr("x", width/2)
+            .attr("class", "font-weight-bold")
             .attr("y", -7)
-            .text((d) => { return d; })
-            .attr("text-anchor", "middle")
+            .attr("x", width/2)
             .transition()
+            .attr("text-anchor", "middle")
             .duration(1500)
+            .text((d) => { return d; })
             .style("opacity", 1);
 
-        //Add the plot points
-        let points = ptg.selectAll("circle")
+        //Plotpoints being added 
+        let plotPoints = ptg.selectAll("circle")
             .data(this.films);
 
         //Initialize tooltip
@@ -109,11 +110,11 @@ class StatsActorDirector{
                 return d["movie_title"].trim() + ": " + parseInt(d[this.feature]).toLocaleString();
         });
 
-        let pointsEnter = points.enter().append("circle");
-        points.exit().remove();
-        points = points.merge(pointsEnter);
+        let enterPoints = plotPoints.enter().append("circle");
+        plotPoints.exit().remove();
+        plotPoints = plotPoints.merge(enterPoints);
 
-        points
+        plotPoints
             .transition()
             .duration(1500)
             .attr("r", 4.5)
@@ -121,7 +122,7 @@ class StatsActorDirector{
             .attr("cy", (d) => { return yScale(d[this.feature]); });
 
         //Invoke the tip on the plot points
-        points.call(tip)
+        plotPoints.call(tip)
             .on("mouseover", tip.show)
             .on("mouseout", tip.hide);
 
