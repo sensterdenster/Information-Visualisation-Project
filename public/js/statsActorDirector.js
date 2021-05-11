@@ -23,8 +23,8 @@ class StatsActorDirector{
 
         let scaleX = d3.scaleBand()
             .padding([1])
-            .rangeRound([0, width])
-            .domain((this.films).map(d => d["movie_title"]));
+            .domain((this.films).map(d => d["movie_title"]))
+            .rangeRound([0, width]);
 
         let scaleY = d3.scaleLinear()
         .domain(d3.extent(this.films, (d) => { return parseFloat(d[this.feature])}))
@@ -38,40 +38,41 @@ class StatsActorDirector{
         //Using d3 to add y-axis
         d3.select("#yAxis")
             .transition()
-            .call(d3.axisLeft(scaleY))
-            .duration(1500);
+            .duration(1500)
+            .call(d3.axisLeft(scaleY));
 
         //Y-axis label being added
-        let Labely = d3.select("#yLabel").selectAll("text")
+        let yLabel = d3.select("#yLabel").selectAll("text")
             .data([this.feature]);
 
         //Customising the y-axis label font, color, position, opacity, etc
-        let LabelEntery = Labely.enter().append("text");
-        Labely.exit().remove();
-        Labely = yLabel.merge(LabelEntery)
-            .attr("x", -height/2)
-            .attr("y", -width/10)
-            .attr("transform", "rotate(-90)")
-            .attr("text-anchor", "middle")
+        let yLabelEnter = yLabel.enter().append("text");
+        yLabel.exit().remove();
+        yLabel = yLabel.merge(yLabelEnter)
             .attr("class", "font-weight-bold text-capitalize")
             .attr("fill", "#000")
-            .text((d) => { return d; })
-            .duration(1500)
-            .transition()
             .style("opacity", 0)
+            .attr("transform", "rotate(-90)")
+            .attr("x", -height/2)
+            .attr("y", -width/10)
+            .attr("text-anchor", "middle")
+            .text((d) => { return d; })
+            .transition()
+            .duration(1500)
             .style("opacity", 1);
 
         //Add the x Axis
         d3.select("#xAxis")
             .attr("transform", "translate(" + 0 + "," + height + ")")
+            .transition()
+            .duration(1500)
             .call(d3.axisBottom(scaleX))
             .selectAll("text")
+            .style("text-anchor", "end")
             .attr("dx", "-.8em")
             .attr("dy", ".15em")
-            .attr("transform", "rotate(-65)")
-            .duration(1500)
-            .transition()
-            .style("text-anchor", "end");
+            .attr("transform", "rotate(-65)");
+
 
         let textLabelx = (this.directorOrActor) + " " + this.nameDirectorActor + "'s" + " films";
 
@@ -112,21 +113,21 @@ class StatsActorDirector{
         plotPoints = plotPoints.merge(enterPoints);
 
         plotPoints
-            .duration(1500)
             .transition()
-            .attr("cy", (d) => { return scaleY(d[this.feature]); })
+            .duration(1500)
+            .attr("r", 4.5)
             .attr("cx", (d) => { return scaleX(d["movie_title"]); })
-            .attr("r", 4.5);
+            .attr("cy", (d) => { return scaleY(d[this.feature]); });
 
         //Invoke the tip on the plot points
         plotPoints.call(tip)
-            .on("mouseout", tip.hide)
-            .on("mouseover", tip.show);
+            .on("mouseover", tip.show)
+            .on("mouseout", tip.hide);
 
         //Add the line graph
         let lineGraph = d3.line()
-            .y((d) => { return scaleY(d[this.feature]); })
-            .x((d) => { return scaleX(d["movie_title"]); });
+            .x((d) => { return scaleX(d["movie_title"]); })
+            .y((d) => { return scaleY(d[this.feature]); });
 
         let plotLines = ptg.selectAll(".line")
             .data([this.films]);
@@ -134,9 +135,9 @@ class StatsActorDirector{
         let enterLines = plotLines.enter().append("path");
         plotLines.exit().remove();
         plotLines = plotLines.merge(enterLines)
-            .transition()
             .attr("class", "line")
-            .attr("d", lineGraph)
-            .duration(1500);
+            .transition()
+            .duration(1500)
+            .attr("d", lineGraph);
     }
 }
