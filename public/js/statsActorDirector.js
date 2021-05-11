@@ -18,48 +18,48 @@ class StatsActorDirector{
             height = 449 - margin.top - margin.bottom,
             width = svgBounds.width - margin.right - margin.left;
             
+        let ptg = d3.select("#plotTrendGroup")
+        .attr("transform", "translate(" + margin.top + ")" + margin.left + ",");
 
         let svg = d3.select("#plotTrend")
             .attr("height", 450 + margin.bottom + margin.top)
             .attr("width", svgBounds.width);
 
-        let g = d3.select("#plotTrendGroup")
-            .attr("transform", "translate(" + margin.top + ")" + margin.left + ",");
-
         let xScale = d3.scaleBand()
-            .domain((this.films).map(d => d["movie_title"]))
             .padding([1])
+            .domain((this.films).map(d => d["movie_title"]))
             .rangeRound([0, width]);
 
         let yScale = d3.scaleLinear()
-            .domain(d3.extent(this.films, (d) => { return parseFloat(d[this.feature])}))
-            .range([height, 0]);
+            .range([height, 0])
+            .domain(d3.extent(this.films, (d) => { return parseFloat(d[this.feature])}));
 
         yScale.nice();
 
-        //Add the y Axis
+        //Using d3 to add y-axis
         d3.select("#yAxis")
-            .transition()
             .duration(1500)
-            .call(d3.axisLeft(yScale));
+            .call(d3.axisLeft(yScale))
+            .transition();
 
-        //Add the y Axis label
+        //Y-axis label being added
         let yLabel = d3.select("#yLabel").selectAll("text")
             .data([this.feature]);
 
+        //Customising the y-axis label font, color, position, opacity, etc
         let yLabelEnter = yLabel.enter().append("text");
         yLabel.exit().remove();
         yLabel = yLabel.merge(yLabelEnter)
-            .attr("class", "font-weight-bold text-capitalize")
             .attr("fill", "#000")
-            .style("opacity", 0)
+            .attr("class", "font-weight-bold text-capitalize")
             .attr("transform", "rotate(-90)")
-            .attr("x", -height/2)
+            .style("opacity", 0)
             .attr("y", -width/10)
-            .attr("text-anchor", "middle")
+            .attr("x", -height/2)
+            .duration(1500)
             .text((d) => { return d; })
             .transition()
-            .duration(1500)
+            .attr("text-anchor", "middle")
             .style("opacity", 1);
 
         //Add the x Axis
@@ -95,7 +95,7 @@ class StatsActorDirector{
             .style("opacity", 1);
 
         //Add the plot points
-        let points = g.selectAll("circle")
+        let points = ptg.selectAll("circle")
             .data(this.films);
 
         //Initialize tooltip
@@ -128,7 +128,7 @@ class StatsActorDirector{
             .x((d) => { return xScale(d["movie_title"]); })
             .y((d) => { return yScale(d[this.feature]); });
 
-        let lines = g.selectAll(".line")
+        let lines = ptg.selectAll(".line")
             .data([this.films]);
 
         let linesEnter = lines.enter().append("path");
