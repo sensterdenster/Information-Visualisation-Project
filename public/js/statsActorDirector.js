@@ -13,17 +13,17 @@ class StatsActorDirector{
     {
         let statsActorDirector_Div = d3.select("#statsActorDirector");
 
-        let margin = {top: 19,  bottom: 99, left: 119, right: 19},
+        let margin = {top: 19, bottom: 99, left: 119, right: 19},
             svgBounds = statsActorDirector_Div.node().getBoundingClientRect(),
-            height = 449 - margin.top - margin.bottom,
-            width = svgBounds.width - margin.right - margin.left;
+            height = 449 - margin.bottom - margin.top,
+            width = svgBounds.width - margin.left - margin.right;
             
         let svg = d3.select("#plotTrend")
             .attr("height", 450 + margin.bottom + margin.top)
             .attr("width", svgBounds.width);
 
         let ptg = d3.select("#plotTrendGroup")
-        .attr("transform", "translate(" + margin.top + ")" + margin.left + ",");
+        .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
         let xScale = d3.scaleBand()
             .domain((this.films).map(d => d["movie_title"]))
