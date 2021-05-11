@@ -63,14 +63,14 @@ class StatsActorDirector{
 
         //Add the x Axis
         d3.select("#xAxis")
-            .attr("transform", "translate(" + 0 + "," + height + ")")
-            .transition()
-            .duration(1500)
-            .call(d3.axisBottom(xScale))
-            .selectAll("text")
-            .style("text-anchor", "end")
             .attr("dx", "-.8em")
             .attr("dy", ".15em")
+            .attr("transform", "translate(" + 0 + "," + height + ")")
+            .duration(1500)
+            .selectAll("text")
+            .call(d3.axisBottom(xScale))
+            .style("text-anchor", "end")
+            .transition()
             .attr("transform", "rotate(-65)");
 
 
