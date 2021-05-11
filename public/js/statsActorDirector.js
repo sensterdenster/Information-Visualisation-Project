@@ -12,18 +12,15 @@ class StatsActorDirector{
     {
         let statsActorDirector_Div = d3.select("#statsActorDirector");
         
+        let svg = d3.select("#plotTrend")
+            .attr("width", svgBounds.width)
+            .attr("height", 450 + margin.bottom + margin.top);
+
         let margin = {top: 20, right: 20, bottom: 100, left: 120},
             svgBounds = statsActorDirector_Div.node().getBoundingClientRect(),
             height = 450 - margin.top - margin.bottom,
             width = svgBounds.width - margin.left - margin.right;
 
-        let svg = d3.select("#plotTrend")
-            .attr("width", svgBounds.width)
-            .attr("height", 450 + margin.bottom + margin.top);
-
-        let ptg = d3.select("#plotTrendGroup")
-            .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
-        
         let xScale = d3.scaleBand()
             .domain((this.films).map(d => d["movie_title"]))
             .padding([1])
@@ -33,6 +30,8 @@ class StatsActorDirector{
             .domain(d3.extent(this.films, (d) => { return parseFloat(d[this.feature])}))
             .range([height, 0]);
 
+        let ptg = d3.select("#plotTrendGroup")
+            .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
         
         yScale.nice();
 
