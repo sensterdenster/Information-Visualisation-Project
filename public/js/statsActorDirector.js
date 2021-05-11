@@ -51,21 +51,20 @@ class StatsActorDirector{
         let yLabelEnter = yLabel.enter().append("text");
         yLabel.exit().remove();
         yLabel = yLabel.merge(yLabelEnter)
-            .attr("class", "font-weight-bold text-capitalize")
-            .attr("fill", "#000")
             .style("opacity", 0)
             .attr("transform", "rotate(-90)")
+            .attr("fill", "#000")
             .attr("x", -height/2)
             .attr("y", -width/10)
             .attr("text-anchor", "middle")
+            .attr("class", "font-weight-bold text-capitalize")
             .text((d) => { return d; })
-            .transition()
             .duration(1500)
+            .transition()
             .style("opacity", 1);
 
         //Add the x Axis
         d3.select("#xAxis")
-            .attr("transform", "translate(" + 0 + "," + height + ")")
             .transition()
             .duration(1500)
             .call(d3.axisBottom(xScale))
@@ -73,7 +72,9 @@ class StatsActorDirector{
             .style("text-anchor", "end")
             .attr("dx", "-.8em")
             .attr("dy", ".15em")
-            .attr("transform", "rotate(-65)");
+            .attr("transform", "rotate(-65)")
+            .attr("transform", "translate(" + 0 + "," + height + ")");
+
 
         let xLabelText = (this.directorOrActor) + " " + this.nameDirectorActor + "'s" + " films";
 
