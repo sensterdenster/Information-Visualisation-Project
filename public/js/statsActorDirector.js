@@ -18,12 +18,12 @@ class StatsActorDirector{
             height = 449 - margin.top - margin.bottom,
             width = svgBounds.width - margin.right - margin.left;
             
-        let ptg = d3.select("#plotTrendGroup")
-        .attr("transform", "translate(" + margin.top + ")" + margin.left + ",");
-
         let svg = d3.select("#plotTrend")
             .attr("height", 450 + margin.bottom + margin.top)
             .attr("width", svgBounds.width);
+
+        let ptg = d3.select("#plotTrendGroup")
+        .attr("transform", "translate(" + margin.top + ")" + margin.left + ",");
 
         let xScale = d3.scaleBand()
             .domain((this.films).map(d => d["movie_title"]))
@@ -41,7 +41,6 @@ class StatsActorDirector{
             .transition()
             .duration(1500)
             .call(d3.axisLeft(yScale));
-
 
         //Y-axis label being added
         let yLabel = d3.select("#yLabel").selectAll("text")
