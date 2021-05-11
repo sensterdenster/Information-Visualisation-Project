@@ -84,15 +84,15 @@ class StatsActorDirector{
         let EnterLabelx = Labelx.enter().append("text");
         Labelx.exit().remove();
         Labelx = Labelx.merge(EnterLabelx)
+            .attr("class", "font-weight-bold")
+            .attr("fill", "#000")
+            .style("opacity", 0)
             .attr("x", width/2)
             .attr("y", -7)
-            .attr("fill", "#000")
-            .attr("class", "font-weight-bold")
-            .attr("text-anchor", "middle")
             .text((d) => { return d; })
-            .duration(1500)
+            .attr("text-anchor", "middle")
             .transition()
-            .style("opacity", 0)
+            .duration(1500)
             .style("opacity", 1);
 
         //Plotpoints being added 
@@ -113,21 +113,21 @@ class StatsActorDirector{
         plotPoints = plotPoints.merge(enterPoints);
 
         plotPoints
-            .duration(1500)
             .transition()
+            .duration(1500)
             .attr("r", 4.5)
             .attr("cx", (d) => { return xScale(d["movie_title"]); })
             .attr("cy", (d) => { return yScale(d[this.feature]); });
 
         //Invoke the tip on the plot points
         plotPoints.call(tip)
-            .on("mouseout", tip.hide)
-            .on("mouseover", tip.show);
+            .on("mouseover", tip.show)
+            .on("mouseout", tip.hide);
 
         //Add the line graph
         let lineGraph = d3.line()
-            .y((d) => { return yScale(d[this.feature]); })
-            .x((d) => { return xScale(d["movie_title"]); });
+            .x((d) => { return xScale(d["movie_title"]); })
+            .y((d) => { return yScale(d[this.feature]); });
 
         let plotLines = ptg.selectAll(".line")
             .data([this.films]);
@@ -135,8 +135,8 @@ class StatsActorDirector{
         let enterLines = plotLines.enter().append("path");
         plotLines.exit().remove();
         plotLines = plotLines.merge(enterLines)
-            .transition()
             .attr("class", "line")
+            .transition()
             .duration(1500)
             .attr("d", lineGraph);
     }
