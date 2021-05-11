@@ -13,33 +13,33 @@ class StatsActorDirector{
         let statsActorDirector_Div = d3.select("#statsActorDirector");
 
         let margin = {top: 19, right: 19, bottom: 99, left: 119},
-        svgBounds = statsActorDirector_Div.node().getBoundingClientRect(),
-        height = 449 - margin.top - margin.bottom,
-        width = svgBounds.width - margin.right - margin.left;
+            svgBounds = statsActorDirector_Div.node().getBoundingClientRect(),
+            height = 449 - margin.top - margin.bottom,
+            width = svgBounds.width - margin.right - margin.left;
 
         let svg = d3.select("#plotTrend")
-        .attr("height", 449 + margin.bottom + margin.top)
-        .attr("width", svgBounds.width);
+            .attr("height", 449 + margin.bottom + margin.top)
+            .attr("width", svgBounds.width);
 
         let ptg = d3.select("#plotTrendGroup")
-        .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+            .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
         let xScale = d3.scaleBand()
-        .rangeRound([0, width])
-        .padding([1])
-        .domain((this.films).map(d => d["movie_title"]));
+            .rangeRound([0, width])
+            .padding([1])
+            .domain((this.films).map(d => d["movie_title"]));
 
         let yScale = d3.scaleLinear()
-        .range([height, 0])
-        .domain(d3.extent(this.films, (d) => { return parseFloat(d[this.feature])}));
+            .range([height, 0])
+            .domain(d3.extent(this.films, (d) => { return parseFloat(d[this.feature])}));
 
         yScale.nice();
 
         //Using d3 to add y-axis
         d3.select("#yAxis")
-            .transition()
             .duration(1500)
-            .call(d3.axisLeft(yScale));
+            .call(d3.axisLeft(yScale))
+            .transition();
 
         //Y-axis label being added
         let yLabel = d3.select("#yLabel").selectAll("text")
@@ -49,30 +49,29 @@ class StatsActorDirector{
         let yLabelEnter = yLabel.enter().append("text");
         yLabel.exit().remove();
         yLabel = yLabel.merge(yLabelEnter)
-            .attr("class", "font-weight-bold text-capitalize")
-            .attr("fill", "#000")
             .style("opacity", 0)
+            .text((d) => { return d; })
             .attr("transform", "rotate(-90)")
             .attr("x", -height/2)
             .attr("y", -width/10)
             .attr("text-anchor", "middle")
-            .text((d) => { return d; })
-            .transition()
+            .attr("fill", "#000")
+            .attr("class", "font-weight-bold text-capitalize")
             .duration(1500)
-            .style("opacity", 1);
+            .style("opacity", 1)
+            .transition();
 
         //Add the x Axis
         d3.select("#xAxis")
-            .attr("transform", "translate(" + 0 + "," + height + ")")
-            .transition()
-            .duration(1500)
             .call(d3.axisBottom(xScale))
             .selectAll("text")
-            .style("text-anchor", "end")
             .attr("dx", "-.8em")
             .attr("dy", ".15em")
-            .attr("transform", "rotate(-65)");
-
+            .attr("transform", "translate(" + 0 + "," + height + ")")
+            .attr("transform", "rotate(-65)")
+            .duration(1500)
+            .style("text-anchor", "end")
+            .transition();
 
         let textLabelx = (this.directorOrActor) + " " + this.nameDirectorActor + "'s" + " films";
 
