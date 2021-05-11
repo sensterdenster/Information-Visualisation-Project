@@ -13,7 +13,7 @@ class StatsActorDirector{
     {
         let statsActorDirector_Div = d3.select("#statsActorDirector");
 
-        let margin = {top: 19, bottom: 99, left: 119, right: 19},
+        let margin = {top: 19, right: 19, bottom: 99, left: 119},
             svgBounds = statsActorDirector_Div.node().getBoundingClientRect(),
             height = 449 - margin.bottom - margin.top,
             width = svgBounds.width - margin.left - margin.right;
@@ -50,16 +50,16 @@ class StatsActorDirector{
         let yLabelEnter = yLabel.enter().append("text");
         yLabel.exit().remove();
         yLabel = yLabel.merge(yLabelEnter)
-            .attr("fill", "#000")
             .attr("class", "font-weight-bold text-capitalize")
-            .attr("transform", "rotate(-90)")
+            .attr("fill", "#000")
             .style("opacity", 0)
-            .attr("y", -width/10)
+            .attr("transform", "rotate(-90)")
             .attr("x", -height/2)
-            .duration(1500)
+            .attr("y", -width/10)
+            .attr("text-anchor", "middle")
             .text((d) => { return d; })
             .transition()
-            .attr("text-anchor", "middle")
+            .duration(1500)
             .style("opacity", 1);
 
         //Add the x Axis
