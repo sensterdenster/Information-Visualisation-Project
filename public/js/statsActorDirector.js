@@ -12,14 +12,17 @@ class StatsActorDirector{
     {
         let statsActorDirector_Div = d3.select("#statsActorDirector");
 
-        let svg = d3.select("#plotTrend")
-            .attr("height", 449 + margin.bottom + margin.top)
-            .attr("width", svgBounds.width);
-
         let margin = {top: 19, right: 19, bottom: 99, left: 119},
             svgBounds = statsActorDirector_Div.node().getBoundingClientRect(),
             height = 449 - margin.top - margin.bottom,
             width = svgBounds.width - margin.right - margin.left;
+
+        let svg = d3.select("#plotTrend")
+            .attr("height", 449 + margin.bottom + margin.top)
+            .attr("width", svgBounds.width);
+
+        let ptg = d3.select("#plotTrendGroup")
+            .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
         let xScale = d3.scaleBand()
             .rangeRound([0, width])
@@ -29,9 +32,6 @@ class StatsActorDirector{
         let yScale = d3.scaleLinear()
             .range([height, 0])
             .domain(d3.extent(this.films, (d) => { return parseFloat(d[this.feature])}));
-
-        let ptg = d3.select("#plotTrendGroup")
-            .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
         yScale.nice();
 
@@ -72,6 +72,7 @@ class StatsActorDirector{
             .duration(1500)
             .style("text-anchor", "end")
             .transition();
+
 
         let textLabelx = (this.directorOrActor) + " " + this.nameDirectorActor + "'s" + " films";
 
