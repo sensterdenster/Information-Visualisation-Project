@@ -17,22 +17,24 @@ class StatsActorDirector{
             svgBounds = statsActorDirector_Div.node().getBoundingClientRect(),
             height = 450 - margin.top - margin.bottom,
             width = svgBounds.width - margin.right - margin.left;
+
+        let ptg = d3.select("#plotTrendGroup")
+        .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
             
         let svg = d3.select("#plotTrend")
             .attr("height", 450 + margin.bottom + margin.top)
             .attr("width", svgBounds.width);
 
-        let ptg = d3.select("#plotTrendGroup")
-            .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+        let yScale = d3.scaleLinear()
+        .range([height, 0])
+        .domain(d3.extent(this.films, (d) => { return parseFloat(d[this.feature])}));
 
         let xScale = d3.scaleBand()
-            .domain((this.films).map(d => d["movie_title"]))
+            .rangeRound([0, width])
             .padding([1])
-            .rangeRound([0, width]);
+            .domain((this.films).map(d => d["movie_title"]));
 
-        let yScale = d3.scaleLinear()
-            .domain(d3.extent(this.films, (d) => { return parseFloat(d[this.feature])}))
-            .range([height, 0]);
+      
 
         yScale.nice();
 
