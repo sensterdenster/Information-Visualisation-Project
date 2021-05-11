@@ -63,15 +63,15 @@ class StatsActorDirector{
 
         //Add the x Axis
         d3.select("#xAxis")
-            .attr("transform", "translate(" + 0 + "," + height + ")")
-            .transition()
-            .duration(1500)
-            .call(d3.axisBottom(xScale))
-            .selectAll("text")
-            .style("text-anchor", "end")
             .attr("dx", "-.8em")
             .attr("dy", ".15em")
-            .attr("transform", "rotate(-65)");
+            .attr("transform", "translate(" + 0 + "," + height + ")")
+            .attr("transform", "rotate(-65)")
+            .duration(1500)
+            .selectAll("text")
+            .call(d3.axisBottom(xScale))
+            .style("text-anchor", "end")
+            .transition();
 
 
         let textLabelx = (this.directorOrActor) + " " + this.nameDirectorActor + "'s" + " movies";
@@ -84,15 +84,15 @@ class StatsActorDirector{
         let EnterLabelx = Labelx.enter().append("text");
         Labelx.exit().remove();
         Labelx = Labelx.merge(EnterLabelx)
-            .attr("class", "font-weight-bold")
-            .attr("fill", "#000")
-            .style("opacity", 0)
             .attr("x", width/2)
             .attr("y", -7)
-            .text((d) => { return d; })
+            .attr("fill", "#000")
+            .attr("class", "font-weight-bold")
             .attr("text-anchor", "middle")
-            .transition()
+            .text((d) => { return d; })
             .duration(1500)
+            .transition()
+            .style("opacity", 0)
             .style("opacity", 1);
 
         //Plotpoints being added 
