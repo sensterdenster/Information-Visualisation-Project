@@ -115,14 +115,14 @@ class StatsActorDirector{
         plotPoints
             .duration(1500)
             .transition()
-            .attr("cx", (d) => { return xScale(d["movie_title"]); })
             .attr("r", 4.5)
+            .attr("cx", (d) => { return xScale(d["movie_title"]); })
             .attr("cy", (d) => { return yScale(d[this.feature]); });
 
         //Invoke the tip on the plot points
         plotPoints.call(tip)
-            .on("mouseout", tip.hide)
-            .on("mouseover", tip.show);
+            .on("mouseover", tip.show)
+            .on("mouseout", tip.hide);
 
         //Add the line graph
         let lineGraph = d3.line()
