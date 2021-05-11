@@ -58,21 +58,20 @@ class StatsActorDirector{
             .attr("fill", "#000")
             .attr("class", "font-weight-bold text-capitalize")
             .duration(1500)
-            .transition()
-            .style("opacity", 1);
+            .style("opacity", 1)
+            .transition();
 
         //Add the x Axis
         d3.select("#xAxis")
-            .attr("transform", "translate(" + 0 + "," + height + ")")
-            .transition()
-            .duration(1500)
             .call(d3.axisBottom(xScale))
             .selectAll("text")
-            .style("text-anchor", "end")
             .attr("dx", "-.8em")
             .attr("dy", ".15em")
-            .attr("transform", "rotate(-65)");
-
+            .attr("transform", "translate(" + 0 + "," + height + ")")
+            .attr("transform", "rotate(-65)")
+            .duration(1500)
+            .style("text-anchor", "end")
+            .transition();
 
         let textLabelx = (this.directorOrActor) + " " + this.nameDirectorActor + "'s" + " films";
 
