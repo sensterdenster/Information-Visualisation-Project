@@ -13,28 +13,28 @@ class StatsActorDirector{
     {
         let statsActorDirector_Div = d3.select("#statsActorDirector");
 
-        let ptg = d3.select("#plotTrendGroup")
-        .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
-
         let margin = {top: 19, right: 19, bottom: 99, left: 119},
         svgBounds = statsActorDirector_Div.node().getBoundingClientRect(),
         height = 449 - margin.top - margin.bottom,
         width = svgBounds.width - margin.right - margin.left;
-            
+
+    
         let svg = d3.select("#plotTrend")
-            .attr("height", 449 + margin.bottom + margin.top)
-            .attr("width", svgBounds.width);
+        .attr("height", 449 + margin.bottom + margin.top)
+        .attr("width", svgBounds.width);
+
+        let ptg = d3.select("#plotTrendGroup")
+        .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+
+        let xScale = d3.scaleBand()
+        .rangeRound([0, width])
+        .padding([1])
+        .domain((this.films).map(d => d["movie_title"]));
 
         let yScale = d3.scaleLinear()
         .range([height, 0])
         .domain(d3.extent(this.films, (d) => { return parseFloat(d[this.feature])}));
 
-        let xScale = d3.scaleBand()
-            .rangeRound([0, width])
-            .padding([1])
-            .domain((this.films).map(d => d["movie_title"]));
-
-      
         yScale.nice();
 
         //Using d3 to add y-axis
@@ -76,66 +76,67 @@ class StatsActorDirector{
             .attr("transform", "translate(" + 0 + "," + height + ")");
 
 
-        let xLabelText = (this.actorOrDirector) + " " + this.name + "'s" + " movies";
+        let textLabelx = (this.directorOrActor) + " " + this.nameDirectorActor + "'s" + " films";
 
         //Add the x Axis label
-        let xLabel = d3.select("#xLabel").selectAll("text")
-            .data([xLabelText]);
+        let Labelx = d3.select("#xLabel").selectAll("text")
+            .data([textLabelx]);
 
-        let xLabelEnter = xLabel.enter().append("text");
-        xLabel.exit().remove();
-        xLabel = xLabel.merge(xLabelEnter)
-            .attr("class", "font-weight-bold")
+        //Customising the x-axis label font, color, position opacity, etc
+        let EnterLabelx = Labelx.enter().append("text");
+        Labelx.exit().remove();
+        Labelx = Labelx.merge(EnterLabelx)
             .attr("fill", "#000")
             .style("opacity", 0)
-            .attr("x", width/2)
+            .attr("class", "font-weight-bold")
             .attr("y", -7)
-            .text((d) => { return d; })
-            .attr("text-anchor", "middle")
+            .attr("x", width/2)
             .transition()
+            .attr("text-anchor", "middle")
             .duration(1500)
+            .text((d) => { return d; })
             .style("opacity", 1);
 
-        //Add the plot points
-        let points = g.selectAll("circle")
-            .data(this.movies);
+        //Plotpoints being added 
+        let plotPoints = ptg.selectAll("circle")
+            .data(this.films);
 
         //Initialize tooltip
         let tip = d3.tip().attr("class", "d3-tip-node").html((d) => {
 
-            if(this.attribute == "imdb_score")
-                return d["movie_title"].trim() + ": " + parseFloat(d[this.attribute]);
+            if(this.feature == "imdb_score")
+                return d["movie_title"].trim() + ": " + parseFloat(d[this.feature]);
             else
-                return d["movie_title"].trim() + ": " + parseInt(d[this.attribute]).toLocaleString();
+                return d["movie_title"].trim() + ": " + parseInt(d[this.feature]).toLocaleString();
         });
 
-        let pointsEnter = points.enter().append("circle");
-        points.exit().remove();
-        points = points.merge(pointsEnter);
+        let enterPoints = plotPoints.enter().append("circle");
+        plotPoints.exit().remove();
+        plotPoints = plotPoints.merge(enterPoints);
 
-        points
-            .transition()
+        plotPoints
             .duration(1500)
-            .attr("r", 4.5)
+            .transition()
             .attr("cx", (d) => { return xScale(d["movie_title"]); })
-            .attr("cy", (d) => { return yScale(d[this.attribute]); });
+            .attr("r", 4.5)
+            .attr("cy", (d) => { return yScale(d[this.feature]); });
 
         //Invoke the tip on the plot points
-        points.call(tip)
-            .on("mouseover", tip.show)
-            .on("mouseout", tip.hide);
+        plotPoints.call(tip)
+            .on("mouseout", tip.hide)
+            .on("mouseover", tip.show);
 
         //Add the line graph
         let lineGraph = d3.line()
-            .x((d) => { return xScale(d["movie_title"]); })
-            .y((d) => { return yScale(d[this.attribute]); });
+            .y((d) => { return yScale(d[this.feature]); })
+            .x((d) => { return xScale(d["movie_title"]); });
 
-        let lines = g.selectAll(".line")
-            .data([this.movies]);
+        let plotLines = ptg.selectAll(".line")
+            .data([this.films]);
 
-        let linesEnter = lines.enter().append("path");
-        lines.exit().remove();
-        lines = lines.merge(linesEnter)
+        let enterLines = plotLines.enter().append("path");
+        plotLines.exit().remove();
+        plotLines = plotLines.merge(enterLines)
             .attr("class", "line")
             .transition()
             .duration(1500)
