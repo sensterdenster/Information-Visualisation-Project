@@ -58,8 +58,8 @@ class StatsActorDirector{
             .attr("fill", "#000")
             .attr("class", "font-weight-bold text-capitalize")
             .duration(1500)
-            .style("opacity", 1)
-            .transition();
+            .transition()
+            .style("opacity", 1);
 
         //Add the x Axis
         d3.select("#xAxis")
