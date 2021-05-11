@@ -117,7 +117,7 @@ class StatsActorDirector{
             .duration(1500)
             .attr("r", 4.5)
             .attr("cx", (d) => { return scaleX(d["movie_title"]); })
-            .attr("cy", (d) => { return scaleY(d[this.feature]); });
+            .attr("cy", (d) => { return yScale(d[this.feature]); });
 
         //Invoke the tip on the plot points
         plotPoints.call(tip)
@@ -127,7 +127,7 @@ class StatsActorDirector{
         //Add the line graph
         let lineGraph = d3.line()
             .x((d) => { return scaleX(d["movie_title"]); })
-            .y((d) => { return scaleY(d[this.feature]); });
+            .y((d) => { return yScale(d[this.feature]); });
 
         let plotLines = ptg.selectAll(".line")
             .data([this.films]);
