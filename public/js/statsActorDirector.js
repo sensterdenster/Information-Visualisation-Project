@@ -15,8 +15,8 @@ class StatsActorDirector{
 
         let margin = {top: 19, right: 19, bottom: 99, left: 119},
             svgBounds = statsActorDirector_Div.node().getBoundingClientRect(),
-            height = 449 - margin.bottom - margin.top,
-            width = svgBounds.width - margin.left - margin.right;
+            width = svgBounds.width - margin.left - margin.right,
+            height = 449 - margin.bottom - margin.top;
             
         let svg = d3.select("#plotTrend")
             .attr("height", 450 + margin.bottom + margin.top)
