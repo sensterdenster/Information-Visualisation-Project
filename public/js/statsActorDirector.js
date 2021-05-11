@@ -42,13 +42,13 @@ class StatsActorDirector{
             .call(d3.axisLeft(scaleY));
 
         //Y-axis label being added
-        let yLabel = d3.select("#yLabel").selectAll("text")
+        let Labely = d3.select("#yLabel").selectAll("text")
             .data([this.feature]);
 
         //Customising the y-axis label font, color, position, opacity, etc
-        let yLabelEnter = yLabel.enter().append("text");
-        yLabel.exit().remove();
-        yLabel = yLabel.merge(yLabelEnter)
+        let EnterLabely = Labely.enter().append("text");
+        Labely.exit().remove();
+        Labely = Labely.merge(EnterLabely)
             .style("opacity", 0)
             .text((d) => { return d; })
             .attr("transform", "rotate(-90)")
