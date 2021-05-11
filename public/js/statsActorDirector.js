@@ -21,25 +21,25 @@ class StatsActorDirector{
             height = 449 - margin.top - margin.bottom,
             width = svgBounds.width - margin.right - margin.left;
 
-        let xScale = d3.scaleBand()
+        let scaleX = d3.scaleBand()
             .rangeRound([0, width])
             .padding([1])
             .domain((this.films).map(d => d["movie_title"]));
 
-        let yScale = d3.scaleLinear()
+        let scaleY = d3.scaleLinear()
             .range([height, 0])
             .domain(d3.extent(this.films, (d) => { return parseFloat(d[this.feature])}));
 
         let ptg = d3.select("#plotTrendGroup")
             .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
-        yScale.nice();
+        scaleY.nice();
 
         //Using d3 to add y-axis
         d3.select("#yAxis")
             .duration(1500)
-            .call(d3.axisLeft(yScale))
-            .transition();
+            .transition()
+            .call(d3.axisLeft(scaleY));
 
         //Y-axis label being added
         let yLabel = d3.select("#yLabel").selectAll("text")
@@ -63,7 +63,7 @@ class StatsActorDirector{
 
         //Add the x Axis
         d3.select("#xAxis")
-            .call(d3.axisBottom(xScale))
+            .call(d3.axisBottom(scaleX))
             .selectAll("text")
             .attr("dx", "-.8em")
             .attr("dy", ".15em")
@@ -115,8 +115,8 @@ class StatsActorDirector{
             .transition()
             .duration(1500)
             .attr("r", 4.5)
-            .attr("cx", (d) => { return xScale(d["movie_title"]); })
-            .attr("cy", (d) => { return yScale(d[this.feature]); });
+            .attr("cx", (d) => { return scaleX(d["movie_title"]); })
+            .attr("cy", (d) => { return scaleY(d[this.feature]); });
 
         //Invoke the tip on the plot points
         plotPoints.call(tip)
@@ -125,8 +125,8 @@ class StatsActorDirector{
 
         //Add the line graph
         let lineGraph = d3.line()
-            .x((d) => { return xScale(d["movie_title"]); })
-            .y((d) => { return yScale(d[this.feature]); });
+            .x((d) => { return scaleX(d["movie_title"]); })
+            .y((d) => { return scaleY(d[this.feature]); });
 
         let plotLines = ptg.selectAll(".line")
             .data([this.films]);
