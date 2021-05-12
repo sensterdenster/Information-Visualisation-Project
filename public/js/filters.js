@@ -132,28 +132,21 @@ class Filters {
             .domain(d3.extent(this.IMDBratings))
             .clamp(true);
 
-        //create svg element for rating slider
+        //Creating element of SVG for the slider
         let ratingsvg = d3.select("#sliderRating").append("svg")
-            .attr("width", this.widthSVG + this.margin.right*2)
             .attr("height", this.heightSVG+10)
+            .attr("width", this.widthSVG + this.margin.right*2)
 
-        //creating group for sliderYear
+        //Creating slider year group so that the slider moves together when dragging in the middle 
         let sliderRating = ratingsvg.append("g")
-            .attr("class", "slider")
-            // .attr("transform", "translate(" + this.margin.left/2 + "," + this.heightSVG/4  + ")");
-            .attr("transform", "translate(" + this.margin.left/2 + ", 5 )");
+            .attr("transform", "translate(" + this.margin.left/2 + ", 5 )")
+            .attr("class", "slider");
 
-        // //initial load of page
-        //var mousex = sliderRating.node().getBoundingClientRect().x ;
-        // console.log(sliderRating.node().getBoundingClientRect())
-
-        // axis
+        //x-Axis translation ammendments
         sliderRating.append("g")
-            .attr("class", "axis axis--x")
             .attr("transform", "translate(0, 40)")
-            // .attr("transform", "translate(0," + this.heightSVG/4 + ")")
+            .attr("class", "axis axis--x")
             .call(d3.axisBottom(xrating));
-
 
         //creating year slider/line
         let ratingBrush = d3.brushX()
