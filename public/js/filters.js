@@ -231,66 +231,62 @@ class Filters {
         let checkBoxes = appGenre.selectAll("foreignObject");
 
         //Creating variables to adjust padding of checkboxes
-        let currentY = 0;
-        let currentX = 0;
+        let yVariable = 0;
+        let xVariable = 0;
 
+        //Checkboxes adjust accordingly to space and width/5 and returned
         checkBoxes
             .data(listGenre).enter()
             .append("foreignObject")
-            .attr('x', function(d,i){
-                if(i != 0 && i % 6 == 0){
-                    currentX = currentX + (variable.widthSVG/5);
-                    return currentX;
+            .attr('x', function(h,k){
+                if(k != 0 && k % 6 == 0){
+                    xVariable = xVariable + (variable.widthSVG/5);
+                    return xVariable;
                 }
-                return currentX;
+                return xVariable;
             })
-            .attr('y',  function(d,i){
-                if(i % 6 == 0){
-                    currentY = 0;
-                    return currentY;
+            .attr('y',  function(h,t){
+                if(t % 6 == 0){
+                    yVariable = 0;
+                    return yVariable;
                 }
                 else
                 {
-                    currentY += 33;
-                    return currentY;
+                    yVariable += 32;
+                    return yVariable;
                 }
             })
-            .attr('width', 30)
-            .attr('height', 20)
+            .attr('height', 19)
+            .attr('width', 29)
             .append("xhtml:body")
-            .html((d) => {return "<input type='checkbox' value = " + d + " id =" + d + ">"});
+            .html((h) => {return "<input type='checkbox' value = " + h + " id =" + h + ">"});
 
-        currentX = 18;
-        currentY = 0;
+        yVariable = 0;
+        xVariable = 18;
 
         appGenre.selectAll("text").data(listGenre).enter()
             .append('text')
             .attr('x', function(d,i){
-
                 if(i != 0 && i % 6 == 0){
-                    currentX = currentX + (variable.widthSVG/5);
-                    return currentX;
+                    xVariable = xVariable + (variable.widthSVG/5);
+                    return xVariable;
                 }
-                return currentX;
+                return xVariable;
             })
             .attr('y',  function(d,i){
                 if(i % 6 == 0){
-                    currentY = 15;
-                    return currentY;
+                    yVariable = 14;
+                    return yVariable;
                 }
                 else
                 {
-                    currentY += 33;
-                    return currentY;
+                    yVariable += 32;
+                    return yVariable;
                 }
             })
-            .text(function(d) { return d; });
-
-        // var scalev3 = d3v3.scale.linear()
-        //     .range([0, 5000])
-        // console.log(scalev3(0.4))
+            .text(function(r) { return r; });
 
 
-     }; // close create
+     }; 
 
 }
