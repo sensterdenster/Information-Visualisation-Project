@@ -18,16 +18,16 @@ class CorrelationMatrix {
 
     }
 
+    //Creating and setting up tooltip
     create() {
-        //Set up tooltip
         let toolTip = d3.tip()
-            .attr('class', 'tip-different')
             .offset([-10, 0])
-            .html(function (d) {
+            .attr('class', 'tip-different')
+            .html(function (f) {
                 let text = "";
                 text = "<ul>";
-                text +=  "<li> "+d.x + " vs " + d.y + "</li>";
-                text +=  "<li> "+"Correlation: "+ d.value + "</li>";
+                text +=  "<li> "+f.x + " vs " + f.y + "</li>";
+                text +=  "<li> "+"Correlation: "+ f.value + "</li>";
                 text += "</ul>";
                 return text
             });
