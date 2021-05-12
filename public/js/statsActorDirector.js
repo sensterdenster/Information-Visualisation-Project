@@ -50,16 +50,16 @@ class StatsActorDirector{
         let EnterLabely = Labely.enter().append("text");
         Labely.exit().remove();
         Labely = Labely.merge(EnterLabely)
-            .attr("fill", "#000")
             .attr("class", "font-weight-bold text-capitalize")
+            .attr("fill", "#000")
+            .style("opacity", 0)
+            .attr("transform", "rotate(-90)")
             .attr("x", -height/2)
             .attr("y", -width/10)
-            .attr("transform", "rotate(-90)")
             .attr("text-anchor", "middle")
             .text((d) => { return d; })
-            .duration(1500)
             .transition()
-            .style("opacity", 0)
+            .duration(1500)
             .style("opacity", 1);
 
         //Add the x Axis
