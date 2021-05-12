@@ -38,7 +38,6 @@ class Filters {
     create () {
         let variable = this;
 
-
         // setup range for sliderYear
         let yearX = d3.scaleLinear()
             .range([0, this.widthSVG])
@@ -57,42 +56,44 @@ class Filters {
 
         // Setting slider to move along x axis when controlled and setting this frame
         sliderYear.append("g")
-            .attr("class", "axis axis--x")
             .attr("transform", "translate(0, 40)")
-            // .attr("transform", "translate(0," + this.heightSVG/4 + ")")
+            .attr("class", "axis axis--x")
             .call(d3.axisBottom(yearX).tickFormat(d3.format("d"))
             );
 
-        let yearbrush = d3.brushX()
-            .extent([[0, 0], [this.widthSVG, 35]])
-            .on("start end", brushmoved);
+        //Brush set for year with width value given and start and end to which it can move between
+        let brushYear = d3.brushX()
+            .on("start end", brushmoved)
+            .extent([[0, 0], [this.widthSVG, 35]]);
 
-
-        let yearRect = sliderYear.append("rect")
-            .attr("width", yearX.range()[1] - yearX.range()[0])
-            .attr("height", 25)
+        //May not need this check..
+        let rectYear = sliderYear.append("rect")
             .attr("rx",15,"ry",15)
-            .attr("class","rangeSlider")
+            .attr("height", 25)
+            .attr("width", yearX.range()[1] - yearX.range()[0])
             .attr("transform", "translate(0,10)")
-            //.attr("transform", "translate(0," + this.heightSVG/10 + ")")
+            .attr("class","rangeSlider")
+        //May not need this 
 
-
-        let gYearBrush = sliderYear.append("g")
-            .attr("class", "brush")
+        //Setting the gap between the two sliders when moved together
+        let gBrushYear = sliderYear.append("g")
             .attr("transform", "translate(0,6)")
-            .call(yearbrush);
+            .attr("class", "brush")
+            .call(brushYear);
 
-        let handle = gYearBrush.selectAll(".handle--custom")
+        //Handle for brush slider and customising the theme
+        let settingHandle = gBrushYear.selectAll(".handle--custom")
             .data([{type: "w"}, {type: "e"}])
             .enter().append("path")
-            .attr("class", "handle--custom")
             .attr("fill", "#666")
+            .attr("class", "handle--custom")
+            .attr("cursor", "ew-resize")
             .attr("fill-opacity", 0.8)
-            .attr("stroke", "#000")
             .attr("stroke-width", 1.5)
-            .attr("cursor", "ew-resize");
+            .attr("stroke", "#000");
 
-        gYearBrush.call(yearbrush.move)
+        //Calling this function to allow the brush to move for the year slider
+        gBrushYear.call(brushYear.move)
 
         function brushmoved() {
             let s = d3.event.selection;
@@ -102,7 +103,7 @@ class Filters {
                 //with initial load of page set year to a range of 2000 to 2016
                 if(isNaN(mousex)){
 
-                    gYearBrush.call(yearbrush.move, [yearX(2000) , yearX(2016)]);
+                    gBrushYear.call(brushYear.move, [yearX(2000) , yearX(2016)]);
                     let start = 2000;
                     let end = 2016;
                     yearSelected = [];
@@ -111,7 +112,7 @@ class Filters {
                 }
                 //if selection == null
                 else{
-                    gYearBrush.call(yearbrush.move, [mousex, mousex+0.0000000000001]);
+                    gBrushYear.call(brushYear.move, [mousex, mousex+0.0000000000001]);
                 }
             } else {
                 let start = Math.round(yearX.invert(s[0]));
@@ -119,7 +120,7 @@ class Filters {
                 yearSelected = [];
                 yearSelected.push({start, end});
                 updateYearsText(start, end);
-                handle.attr("display", null).attr("transform", function(d, i) { return "translate(" + s[i] + "," + variable.heightSVG /4 + ")"; });
+                settingHandle.attr("display", null).attr("transform", function(d, i) { return "translate(" + s[i] + "," + variable.heightSVG /4 + ")"; });
             }
         }
         
