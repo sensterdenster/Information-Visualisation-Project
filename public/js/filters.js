@@ -2,13 +2,13 @@
 class Filters {
 
 
-    //Constructor used for creating the year section 
+    //Constructor used for creating the year slider on movie explorer page
     constructor(){
 
         // Setting the margin values for the chart
         this.margin = {top: 9, bottom: 29, left: 49, right: 19};
         
-        //Filtering variable to filter the years 
+        //Filtering variable to filter through select genres
         let filtering = d3.select("#filters");
 
         //fetch the svg bounds
@@ -18,12 +18,12 @@ class Filters {
         this.heightSVG = 75;
         this.widthSVG = (this.boundsSVG.width/2 - this.margin.left - this.margin.right);
 
-        //Sifting through ratings and sorting them by order 
+        //Sifting through IMDB ratings and pushing them
         this.ratings = [];
         for(let i = 1.6; i<9.5; i = i+0.1){
             this.ratings.push(i);
         }
-        //Sifting through years and sorting them by order
+        //Sifting through years of when movies are created and pushing them
         this.years = [];
         for(let i=1916;i<2016; i = i+1){
             this.years.push(i);
@@ -36,46 +36,40 @@ class Filters {
      * Creates a chart with circles representing each election year, populates text content and other required elements for the Year Chart
      */
     create () {
-        let that = this;
+        let variable = this;
 
-        //creating svg for year slider
-        let yearsvg = d3.select("#sliderYear").append("svg")
-            .attr("width", this.widthSVG + this.margin.right*2)
-            .attr("height", this.heightSVG+10)
 
         // setup range for sliderYear
-        let xyear = d3.scaleLinear()
-            .domain([1916, 2016])
+        let yearX = d3.scaleLinear()
             .range([0, this.widthSVG])
+            .domain([1916, 2016])
             .clamp(true);
 
-
+        //creating svg for year slider
+        let SVGyears = d3.select("#sliderYear").append("svg")
+            .attr("height", this.heightSVG+10)
+            .attr("width", this.widthSVG + this.margin.right*2)
+            
         //creating group for sliderYear
-        let sliderYear = yearsvg.append("g")
-            .attr("class", "slider")
-            //.attr("transform", "translate(" + this.margin.left/2 + "," + this.heightSVG/4  + ")");
-            .attr("transform", "translate(" + this.margin.left/2 + ", 5 )");
+        let sliderYear = SVGyears.append("g")
+            .attr("transform", "translate(" + this.margin.left/2 + ", 5 )")
+            .attr("class", "slider");
 
-
-        // axis
+        // Setting slider to move along x axis when controlled and setting this frame
         sliderYear.append("g")
             .attr("class", "axis axis--x")
             .attr("transform", "translate(0, 40)")
             // .attr("transform", "translate(0," + this.heightSVG/4 + ")")
-            .call(d3.axisBottom(xyear).tickFormat(d3.format("d"))
+            .call(d3.axisBottom(yearX).tickFormat(d3.format("d"))
             );
 
-
-        //creating year slider/line
         let yearbrush = d3.brushX()
             .extent([[0, 0], [this.widthSVG, 35]])
             .on("start end", brushmoved);
 
-        //.on("start brush end", brushmoved);
-
 
         let yearRect = sliderYear.append("rect")
-            .attr("width", xyear.range()[1] - xyear.range()[0])
+            .attr("width", yearX.range()[1] - yearX.range()[0])
             .attr("height", 25)
             .attr("rx",15,"ry",15)
             .attr("class","rangeSlider")
@@ -98,7 +92,7 @@ class Filters {
             .attr("stroke-width", 1.5)
             .attr("cursor", "ew-resize");
 
-        gYearBrush.call(yearbrush.move)//, [0.3, 0.5].map(xyear));
+        gYearBrush.call(yearbrush.move)
 
         function brushmoved() {
             let s = d3.event.selection;
@@ -107,9 +101,8 @@ class Filters {
                 let mousex = d3.mouse(this)[0];
                 //with initial load of page set year to a range of 2000 to 2016
                 if(isNaN(mousex)){
-                    //let gend = gYearBrush.node().getBoundingClientRect()
-                    //console.log(xyear(2010));
-                    gYearBrush.call(yearbrush.move, [xyear(2000) , xyear(2016)]);
+
+                    gYearBrush.call(yearbrush.move, [yearX(2000) , yearX(2016)]);
                     let start = 2000;
                     let end = 2016;
                     yearSelected = [];
@@ -121,13 +114,12 @@ class Filters {
                     gYearBrush.call(yearbrush.move, [mousex, mousex+0.0000000000001]);
                 }
             } else {
-                //let sx = s.map(xyear.invert);
-                let start = Math.round(xyear.invert(s[0]));
-                let end = Math.round(xyear.invert(s[1]));
+                let start = Math.round(yearX.invert(s[0]));
+                let end = Math.round(yearX.invert(s[1]));
                 yearSelected = [];
                 yearSelected.push({start, end});
                 updateYearsText(start, end);
-                handle.attr("display", null).attr("transform", function(d, i) { return "translate(" + s[i] + "," + that.heightSVG /4 + ")"; });
+                handle.attr("display", null).attr("transform", function(d, i) { return "translate(" + s[i] + "," + variable.heightSVG /4 + ")"; });
             }
         }
         
@@ -178,7 +170,7 @@ class Filters {
 
 
         let ratingRect = sliderRating.append("rect")
-            .attr("width", xrating.range()[1] - xyear.range()[0])
+            .attr("width", xrating.range()[1] - yearX.range()[0])
             .attr("height", 25)
             .attr("rx",15,"ry",15)
             .attr("class","rangeSlider")
@@ -201,7 +193,7 @@ class Filters {
             .attr("stroke-width", 1.5)
             .attr("cursor", "ew-resize");
 
-        gRatingBrush.call(ratingBrush.move)//, [0.3, 0.5].map(xyear));
+        gRatingBrush.call(ratingBrush.move)
 
         function ratingBrushMoved() {
             let s = d3.event.selection;
@@ -234,7 +226,7 @@ class Filters {
                 ratingSelected = []
                 ratingSelected.push({start, end});
                 updateRatingsText(start, end);
-                ratingHandle.attr("display", null).attr("transform", function(d, i) { return "translate(" + s[i] + "," + that.heightSVG /4 + ")"; });
+                ratingHandle.attr("display", null).attr("transform", function(d, i) { return "translate(" + s[i] + "," + variable.heightSVG /4 + ")"; });
             }
         }
 
@@ -268,7 +260,7 @@ class Filters {
             .append("foreignObject")
             .attr('x', function(d,i){
                 if(i != 0 && i % 6 == 0){
-                    currentX = currentX + (that.widthSVG/5);
+                    currentX = currentX + (variable.widthSVG/5);
                     return currentX;
                 }
                 return currentX;
@@ -297,7 +289,7 @@ class Filters {
             .attr('x', function(d,i){
 
                 if(i != 0 && i % 6 == 0){
-                    currentX = currentX + (that.widthSVG/5);
+                    currentX = currentX + (variable.widthSVG/5);
                     return currentX;
                 }
                 return currentX;
