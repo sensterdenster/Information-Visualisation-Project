@@ -56,7 +56,7 @@ class CorrelationMatrix {
                 col += 1;
             },this);
 
-        //Loggind the data in console: console.log(data)
+        //Setting domain of the function and its scales for x and y axis 
         let regionDomain = d3.set(data.map(function (d) {
                 return d.x
             })).values();
@@ -67,25 +67,36 @@ class CorrelationMatrix {
                 .range([0, this.widthSVG])
                 .domain(regionDomain),
 
-            xSpace = x.range()[1] - x.range()[0],
-            ySpace = y.range()[1] - y.range()[0];
-        //console.log(xSpace +"xspace-yspace"+ ySpace);
-        let num = Math.sqrt(data.length);
+        //xSpace and ySpace range setting 
+            ySpace = y.range()[1] - y.range()[0],
+            xSpace = x.range()[1] - x.range()[0];
+
+        //Setting parameters and values for scale of function for with and height
         let colorScale = d3.scaleLinear()
                 .domain([-1, 0, 1])
                 .range(["#B22222", "#fff", "#000080"]);
 
-        let cor = (this.svg).append("g").data(data)
+        //Setting number for square root of data length to be used in value to get appropriate width
+        let number = Math.sqrt(data.length);
 
-        let rect = cor.selectAll('rect').data(data);
-        let newrect= rect.enter().append("rect");
+        //Core variable to append all data 
+        let core = (this.svg).append("g").data(data)
 
-        rect.exit().remove;
+        //Rectangle variable selects all from cor variable data
+        let rectangle = core.selectAll('rect').data(data);
 
-        rect = newrect.merge(rect);
-        //console.log(that.widthSVG)
-        rect.attr('x', function (d) {
-                return (that.widthSVG/(num+2))*d.col;
+        //Newrect variable appends the data from rect
+        let newrect= rectangle.enter().append("rect");
+
+        //Close rect
+        rectangle.exit().remove;
+
+        //Rect is merged with newrect
+        rectangle = newrect.merge(rectangle);
+
+        //Rectangle attribute set for x and y function 
+        rectangle.attr('x', function (d) {
+                return (that.widthSVG/(number+2))*d.col;
              })
             .attr('y', function (d) {
                 //set default plot to row = 8, col = 1
@@ -93,14 +104,14 @@ class CorrelationMatrix {
                     d3.select(this).classed("highlight-rect",true);
                     scPlot.plot(d.x, d.x, d.y, d.y);
                 }
-                    return (that.heightSVG / (num + 2)) * d.row;
+                    return (that.heightSVG / (number + 2)) * d.row;
             })
             .attr("width", function(d){
-                //console.log(that.widthSVG/(num+1));
-                    return that.widthSVG / (num + 2)
+                //console.log(that.widthSVG/(number+1));
+                    return that.widthSVG / (number + 2)
             })
             .attr("height", function(d){
-                    return that.heightSVG/(num+2)
+                    return that.heightSVG/(number+2)
             })
             .attr("fill",function (d) {
                     return colorScale(d.value);
@@ -110,7 +121,7 @@ class CorrelationMatrix {
             .on('mouseout', toolTip.hide)
             .on("click", function(d){
                 //console.log(this);
-                rect.classed("highlight-rect",false);
+                rectangle.classed("highlight-rect",false);
                 d3.select(this).classed("highlight-rect",true);
                 // console.log(d.x);
                 // console.log(d.y);
