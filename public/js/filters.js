@@ -63,7 +63,7 @@ class Filters {
 
         //Brush set for year with width value given and start and end to which it can move between
         let brushYear = d3.brushX()
-            .on("start end", brushmoved)
+            .on("start end", moveBrushFunction)
             .extent([[0, 0], [this.widthSVG, 35]]);
 
         //May not need this check..
@@ -95,36 +95,35 @@ class Filters {
         //Calling this function to allow the brush to move for the year slider
         gBrushYear.call(brushYear.move)
 
-        function brushmoved() {
-            let s = d3.event.selection;
-            if (s == null) {
-                //handle.attr("display", "none");
-                let mousex = d3.mouse(this)[0];
-                //with initial load of page set year to a range of 2000 to 2016
-                if(isNaN(mousex)){
-
+        //Movement of brush function 
+        function moveBrushFunction() {
+            let t = d3.event.selection;
+            if (t == null) {
+                let xMouse = d3.mouse(this)[0];
+                //Setting initial loading of the page to display range of movies from the year 2000 - 2016 
+                if(isNaN(xMouse)){
                     gBrushYear.call(brushYear.move, [yearX(2000) , yearX(2016)]);
-                    let start = 2000;
                     let end = 2016;
+                    let start = 2000;
                     yearSelected = [];
                     yearSelected.push({start,end});
-                    updateYearsText(start, end);
+                    textYearsUpdated(start, end);
                 }
                 //if selection == null
                 else{
-                    gBrushYear.call(brushYear.move, [mousex, mousex+0.0000000000001]);
+                    gBrushYear.call(brushYear.move, [xMouse, xMouse+0.0000000000001]);
                 }
             } else {
-                let start = Math.round(yearX.invert(s[0]));
-                let end = Math.round(yearX.invert(s[1]));
+                let start = Math.round(yearX.invert(t[0]));
+                let end = Math.round(yearX.invert(t[1]));
                 yearSelected = [];
                 yearSelected.push({start, end});
-                updateYearsText(start, end);
-                settingHandle.attr("display", null).attr("transform", function(d, i) { return "translate(" + s[i] + "," + variable.heightSVG /4 + ")"; });
+                textYearsUpdated(start, end);
+                settingHandle.attr("display", null).attr("transform", function(d, i) { return "translate(" + t[i] + "," + variable.heightSVG /4 + ")"; });
             }
         }
         
-        function updateYearsText(start, end) {
+        function textYearsUpdated(start, end) {
             let yearsText = document.getElementById("yearSelected");
 
             if(start == end)
@@ -202,10 +201,10 @@ class Filters {
             if (s == null) {
                 //ratingHandle.attr("display", "none");
                 //circle.classed("active", false);
-                var mousex = d3.mouse(this)[0];
+                var xMouse = d3.mouse(this)[0];
 
                 //with initial load of page set rating to a range of 7 to 8
-                if(isNaN(mousex)){
+                if(isNaN(xMouse)){
                     //gRatingBrush.call(ratingBrush.move, [417.33331298828136 , 495.33331298828125]);
                     gRatingBrush.call(ratingBrush.move, [xrating(8.2) , xrating(9.5)]);
                     let start = 8.2;
@@ -216,7 +215,7 @@ class Filters {
                 }
                 //if selection == null
                 else{
-                    gRatingBrush.call(ratingBrush.move, [mousex, mousex+0.0000000000001]);
+                    gRatingBrush.call(ratingBrush.move, [xMouse, xMouse+0.0000000000001]);
                 }
                 //console.log(mousex);
                 //console.log(isNaN(mousex))
