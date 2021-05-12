@@ -13,14 +13,14 @@ class StatsActorDirector{
     {
         let statsActorDirector_Div = d3.select("#statsActorDirector");
 
-        let margin = {top: 20, right: 20, bottom: 100, left: 120},
+        let margin = {top: 19, right: 19, bottom: 99, left: 119},
             svgBounds = statsActorDirector_Div.node().getBoundingClientRect(),
-            height = 450 - margin.top - margin.bottom,
+            height = 449 - margin.top - margin.bottom,
             width = svgBounds.width - margin.left - margin.right;
         
         let svg = d3.select("#plotTrend")
             .attr("width", svgBounds.width)
-            .attr("height", 450 + margin.bottom + margin.top);
+            .attr("height", 449 + margin.bottom + margin.top);
 
         let ptg = d3.select("#plotTrendGroup")
             .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
@@ -113,11 +113,11 @@ class StatsActorDirector{
         plotPoints = plotPoints.merge(enterPoints);
  
         plotPoints
-            .duration(1500)
             .transition()
+            .duration(1500)
             .attr("r", 4.5)
-            .attr("cx", (d) => { return scaleX(d["movie_title"]); })
-            .attr("cy", (d) => { return scaleY(d[this.feature]); });
+            .attr("cy", (d) => { return scaleY(d[this.feature]); })
+            .attr("cx", (d) => { return scaleX(d["movie_title"]); });
 
         //Invoke the tip on the plot points
         plotPoints.call(tip)
@@ -135,8 +135,8 @@ class StatsActorDirector{
         let enterLines = plotLines.enter().append("path");
         plotLines.exit().remove();
         plotLines = plotLines.merge(enterLines)
-            .transition()
             .attr("class", "line")
+            .transition()
             .duration(1500)
             .attr("d", lineGraph);
     }
