@@ -50,13 +50,13 @@ class StatsActorDirector{
         let EnterLabely = Labely.enter().append("text");
         Labely.exit().remove();
         Labely = Labely.merge(EnterLabely)
-            .attr("class", "font-weight-bold text-capitalize")
-            .attr("fill", "#000")
-            .style("opacity", 0)
-            .attr("transform", "rotate(-90)")
+            .attr("text-anchor", "middle")
             .attr("x", -height/2)
             .attr("y", -width/10)
-            .attr("text-anchor", "middle")
+            .attr("class", "font-weight-bold text-capitalize")
+            .attr("fill", "#000")
+            .attr("transform", "rotate(-90)")
+            .style("opacity", 0)
             .text((d) => { return d; })
             .transition()
             .duration(1500)
@@ -70,9 +70,9 @@ class StatsActorDirector{
             .call(d3.axisBottom(scaleX))
             .selectAll("text")
             .style("text-anchor", "end")
+            .attr("transform", "rotate(-65)")
             .attr("dx", "-.8em")
-            .attr("dy", ".15em")
-            .attr("transform", "rotate(-65)");
+            .attr("dy", ".15em");
 
         let textLabelx = (this.directorOrActor) + " " + this.nameDirectorActor + "'s" + " movies";
 
@@ -84,13 +84,13 @@ class StatsActorDirector{
         let EnterLabelx = Labelx.enter().append("text");
         Labelx.exit().remove();
         Labelx = Labelx.merge(EnterLabelx)
-            .attr("class", "font-weight-bold")
-            .attr("fill", "#000")
             .style("opacity", 0)
             .attr("x", width/2)
             .attr("y", -7)
-            .text((d) => { return d; })
+            .attr("class", "font-weight-bold")
+            .attr("fill", "#000")
             .attr("text-anchor", "middle")
+            .text((d) => { return d; })
             .transition()
             .duration(1500)
             .style("opacity", 1);
