@@ -76,12 +76,12 @@ class Filters {
         let settingHandle = gBrushYear.selectAll(".handle--custom")
             .data([{type: "w"}, {type: "e"}])
             .enter().append("path")
-            .attr("fill", "#666")
+            .attr("fill", "#F5F5DC")
             .attr("class", "handle--custom")
             .attr("cursor", "ew-resize")
-            .attr("fill-opacity", 0.8)
-            .attr("stroke-width", 1.5)
-            .attr("stroke", "#000");
+            .attr("fill-opacity", 0.7)
+            .attr("stroke-width", 1.4)
+            .attr("stroke", "#F5F5DC");
 
         //Calling this function to allow the brush to move for the year slider
         gBrushYear.call(brushYear.move)
@@ -154,13 +154,13 @@ class Filters {
             .on("start end", ratingBrushMoved);
         
         //Rating brush translation 
-        let gRatingBrush = sliderRating.append("g")
+        let gBrushRating = sliderRating.append("g")
             .attr("class", "brush")
             .attr("transform", "translate(0,6)")
             .call(brushRating);
 
         //Handling rating brush customisation and theme (fill, opacity, stroke width, etc)
-        let ratingHandle = gRatingBrush.selectAll(".handle--custom")
+        let ratingHandle = gBrushRating.selectAll(".handle--custom")
             .data([{type: "w"}, {type: "e"}])
             .enter().append("path")
             .attr("fill-opacity", 0.7)
@@ -171,40 +171,39 @@ class Filters {
             .attr("stroke-width", 1.4);
 
         //Calling rating brush
-        gRatingBrush.call(brushRating.move)
+        gBrushRating.call(brushRating.move)
 
+        //Function for moving rating brush 
         function ratingBrushMoved() {
-            let s = d3.event.selection;
+            let q = d3.event.selection;
 
-            if (s == null) {
-                //ratingHandle.attr("display", "none");
-                //circle.classed("active", false);
+            //If the rating selection is null (no results)
+            if (q == null) {
                 var xMouse = d3.mouse(this)[0];
 
-                //with initial load of page set rating to a range of 7 to 8
+                //If conditions which sets initial loading page rating slider from 8.0 to 9.0 automatically
                 if(isNaN(xMouse)){
-                    //gRatingBrush.call(ratingBrush.move, [417.33331298828136 , 495.33331298828125]);
-                    gRatingBrush.call(brushRating.move, [xrating(8.2) , xrating(9.5)]);
-                    let start = 8.2;
-                    let end = 9.5;
+                    gBrushRating.call(brushRating.move, [xrating(8.0) , xrating(9.0)]);
+                    let start = 8.0;
+                    let end = 9.0;
                     ratingSelected = []
                     ratingSelected.push({start , end});
                     updateRatingsText(start, end);
                 }
                 //if selection == null
                 else{
-                    gRatingBrush.call(brushRating.move, [xMouse, xMouse+0.0000000000001]);
+                    gBrushRating.call(brushRating.move, [xMouse, xMouse+0.0000000000001]);
                 }
                 //console.log(mousex);
                 //console.log(isNaN(mousex))
             }
             else{
-                let start = Math.round(xrating.invert(s[0]) * 10) / 10;
-                let end = Math.round(xrating.invert(s[1]) * 10) / 10;
+                let start = Math.round(xrating.invert(q[0]) * 10) / 10;
+                let end = Math.round(xrating.invert(q[1]) * 10) / 10;
                 ratingSelected = []
                 ratingSelected.push({start, end});
                 updateRatingsText(start, end);
-                ratingHandle.attr("display", null).attr("transform", function(d, i) { return "translate(" + s[i] + "," + variable.heightSVG /4 + ")"; });
+                ratingHandle.attr("display", null).attr("transform", function(d, i) { return "translate(" + q[i] + "," + variable.heightSVG /4 + ")"; });
             }
         }
 
