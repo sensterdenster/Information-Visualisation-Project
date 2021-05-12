@@ -17,7 +17,7 @@ class MovieTable
     create()
     {
         //Setting name of headers for table head 
-        let tableHead = d3.select("#tableMovies").select("tableHead");
+        let tableHead = d3.select("#tableMovies").select("thead");
 
         //Selecting all headers in table head and setting the correct data to each column
         let columnsTableHead = tableHead.selectAll("th")
@@ -27,43 +27,44 @@ class MovieTable
         columnsTableHead
             .on("click", (p, q) => {
 
-                // For each click on a column's header, sort all value-rows for that column in ascending order
+                // For each even click on a column's header, sort all row-values for that column in descending order
                 if(this.columnsSortOrder[q] % 2 == 0)
                 {
-                    //Sort
-                    this.films = (this.films).slice().sort(function (a, b) {
-
-                        if(a[p] < b[p])
+                    //Sorting films 
+                    this.films = (this.films).slice().sort(function (x, y) {
+                        if(x[p] < y[p])
                             return -1;
-                        else if(a[p] > b[p])
+                        else if(x[p] > y[p])
                             return 1;
                         else
                             return 0;
                     });
                 }
-                else    // Every odd click, sort all rows in descending order of the chosen column's values
+                else    
                 {
-                    this.films = (this.films).slice().sort(function (a, b) {
-
-                        if(a[p] > b[p])
+                    //Else, for every odd click on a column's header the row-values should be sorted in descending order for that chosen column 
+                    this.films = (this.films).slice().sort(function (x, y) {
+                        if(x[p] > y[p])
                             return -1;
-                        else if(a[p] < b[p])
+                        else if(x[p] < y[p])
                             return 1;
                         else
                             return 0;
                     });
                 }
 
+                //Column sort order array updated and apply funtion called to sort data for table with new sort
                 this.columnsSortOrder[q] += 1;
-                this.update()   //Update the table contents with sorted data
+                this.apply()   
             });
     }
 
-    update()
+    //Apply function updates the values for the table and displays them
+    apply()
     {
-        let tbody = d3.select("#tableMovies").select("tbody");
+        let topBody = d3.select("#tableMovies").select("tbody");
 
-        let tbodyRows = tbody.selectAll("tr")
+        let tbodyRows = topBody.selectAll("tr")
             .data(this.films);
 
         let tbodyRowsEnter = tbodyRows.enter().append("tr");
