@@ -29,16 +29,16 @@ class StatsActorDirector{
         let ptg = d3.select("#plotTrendGroup")
             .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
-        //Setting padding, width and domain of scale x of plot 
-        let scaleX = d3.scaleBand()
-            .padding([1])
-            .rangeRound([0, width])
-            .domain((this.films).map(d => d["movie_title"]));
-
         //Setting padding, width and domain of scale y of plot 
         let scaleY = d3.scaleLinear()
             .range([height, 0])
             .domain(d3.extent(this.films, (d) => { return parseFloat(d[this.feature])}));
+
+        //Setting padding, width and domain of scale x of plot 
+            let scaleX = d3.scaleBand()
+            .padding([1])
+            .rangeRound([0, width])
+            .domain((this.films).map(d => d["movie_title"]));
         
         scaleY.nice();
 

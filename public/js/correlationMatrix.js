@@ -56,17 +56,16 @@ class CorrelationMatrix {
                 col += 1;
             },this);
 
-        //console.log(data);
-        let domain = d3.set(data.map(function (d) {
+        //Loggind the data in console: console.log(data)
+        let regionDomain = d3.set(data.map(function (d) {
                 return d.x
             })).values();
-
         let x = d3.scaleOrdinal()
                 .range([0, this.widthSVG])
-                .domain(domain),
+                .domain(regionDomain),
             y = d3.scaleOrdinal()
                 .range([0, this.heightSVG])
-                .domain(domain),
+                .domain(regionDomain),
             xSpace = x.range()[1] - x.range()[0],
             ySpace = y.range()[1] - y.range()[0];
         //console.log(xSpace +"xspace-yspace"+ ySpace);
