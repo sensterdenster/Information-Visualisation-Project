@@ -144,9 +144,9 @@ class StatsActorDirector{
         let enterLines = plotLines.enter().append("path");
         plotLines.exit().remove();
         plotLines = plotLines.merge(enterLines)
-            .attr("class", "line")
             .transition()
             .duration(1500)
+            .attr("class", "line")
             .attr("d", lineGraph);
     }
 }
