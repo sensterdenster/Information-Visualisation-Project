@@ -66,15 +66,6 @@ class Filters {
             .on("start end", moveBrushFunction)
             .extent([[0, 0], [this.widthSVG, 35]]);
 
-        //May not need this check..
-        let rectYear = sliderYear.append("rect")
-            .attr("rx",15,"ry",15)
-            .attr("height", 25)
-            .attr("width", yearX.range()[1] - yearX.range()[0])
-            .attr("transform", "translate(0,10)")
-            .attr("class","rangeSlider")
-        //May not need this 
-
         //Setting the gap between the two sliders when moved together
         let gBrushYear = sliderYear.append("g")
             .attr("transform", "translate(0,6)")
