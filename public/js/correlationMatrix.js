@@ -1,5 +1,4 @@
 class CorrelationMatrix {
-
     constructor(rows) {
         //Margin values set for correlation matrix along with rows being initialised
         this.margin = {top: 29, right: 19, bottom: 29, left: 49};
@@ -17,8 +16,6 @@ class CorrelationMatrix {
         this.svg = tilesDiv.append("svg")
             .attr("height",this.heightSVG)
             .attr("width",this.widthSVG)
-
-
     }
 
     //Creating and setting up tooltip
@@ -145,21 +142,21 @@ class CorrelationMatrix {
             .call(axisRight)
             .attr("transform", "translate(" + (this.widthSVG - (this.margin.right*2)) + " ,4)")
 
-        //Info range function to set range of the plot and set height appropriate to this length
+        //Infor range variable to set range using d3, also h variable for height with respect to inforange value length
         let infoRange = d3.range(-1.0, 1.01, 0.01);
         let h = this.heightSVG / infoRange.length + 3;
+       
+        //Info range function to set range of the plot and set height appropriate to this length
         infoRange.forEach(function (q) {
             appendG.append('rect')
-                .style('fill', colorScale(q))
-                .style('stroke-width', 0)
-                .style('stoke', 'none')
-                .attr('height', h)
                 .attr('width', 10)
-                .attr('x', 0)
+                .attr('height', h)
                 .attr('y', scaleLin(q))
+                .attr('x', 0)
+                .style('stroke-width', 0)
+                .style('fill', colorScale(q))
+                .style('stoke', 'none')
         });
 
-
-
-    }//create()
-}//class
+    }
+}
