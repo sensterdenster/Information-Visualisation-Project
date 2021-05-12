@@ -2,34 +2,32 @@
 class Filters {
 
 
-    //Constructor used for creating the year section in the chart 
-    constructor () {
+    //Constructor used for creating the year section 
+    constructor(){
 
-        // Initializes the svg elements required for this chart
-        this.margin = {top: 10, right: 20, bottom: 30, left: 50};
-        let filters = d3.select("#filters");
+        // Setting the margin values for the chart
+        this.margin = {top: 9, bottom: 29, left: 49, right: 19};
+        
+        //Filtering variable to filter the years 
+        let filtering = d3.select("#filters");
 
         //fetch the svg bounds
-        this.boundsSVG = filters.node().getBoundingClientRect();
-        //this.widthSVG = (this.boundsSVG.width - this.margin.left - this.margin.right);
-        this.widthSVG = (this.boundsSVG.width/2 - this.margin.left - this.margin.right);
+        this.boundsSVG = filtering.node().getBoundingClientRect();
+
+        //Height and width set for boundaries of year section
         this.heightSVG = 75;
+        this.widthSVG = (this.boundsSVG.width/2 - this.margin.left - this.margin.right);
 
-        //add the svg to the div
-        // this.svg = slider.append("svg")
-        //     .attr("width", this.widthSVG)
-        //     .attr("height", this.heightSVG)
-
-        this.years = [];
-        for(let i=1916;i<2016; i = i+1){
-            this.years.push(i);
-        }
+        //Sifting through ratings and sorting them by order 
         this.ratings = [];
         for(let i = 1.6; i<9.5; i = i+0.1){
             this.ratings.push(i);
         }
-
-
+        //Sifting through years and sorting them by order
+        this.years = [];
+        for(let i=1916;i<2016; i = i+1){
+            this.years.push(i);
+        }
     };
 
 
