@@ -163,12 +163,12 @@ class Filters {
         let ratingHandle = gRatingBrush.selectAll(".handle--custom")
             .data([{type: "w"}, {type: "e"}])
             .enter().append("path")
-            .attr("fill-opacity", 0.8)
+            .attr("fill-opacity", 0.7)
             .attr("class", "handle--custom")
-            .attr("fill", "#666")
+            .attr("fill", "#F5F5DC")
             .attr("cursor", "ew-resize")
             .attr("stroke", "#000")
-            .attr("stroke-width", 1.5);
+            .attr("stroke-width", 1.4);
 
         //Calling rating brush
         gRatingBrush.call(brushRating.move)
