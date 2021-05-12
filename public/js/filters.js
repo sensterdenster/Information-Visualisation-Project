@@ -1,12 +1,8 @@
 
 class Filters {
 
-    /**
-     * Constructor for the Year Chart
-     *
-     * @param
 
-     */
+    //Constructor used for creating the year section in the chart 
     constructor () {
 
         // Initializes the svg elements required for this chart
