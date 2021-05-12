@@ -25,21 +25,21 @@ class StatsActorDirector{
         let ptg = d3.select("#plotTrendGroup")
             .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
-        let scaleX = d3.scaleBand()
+        let xScale = d3.scaleBand()
             .padding([1])
             .rangeRound([0, width])
             .domain((this.films).map(d => d["movie_title"]));
 
-        let scaleY = d3.scaleLinear()
+        let yScale = d3.scaleLinear()
             .range([height, 0])
             .domain(d3.extent(this.films, (d) => { return parseFloat(d[this.feature])}));
         
-        scaleY.nice();
+        yScale.nice();
 
         //Using d3 to add y-axis
         d3.select("#yAxis")
             .transition()
-            .call(d3.axisLeft(scaleY))
+            .call(d3.axisLeft(yScale))
             .duration(1500);
 
         //Y-axis label being added
@@ -50,29 +50,29 @@ class StatsActorDirector{
         let EnterLabely = Labely.enter().append("text");
         Labely.exit().remove();
         Labely = Labely.merge(EnterLabely)
-            .attr("fill", "#000")
             .attr("class", "font-weight-bold text-capitalize")
+            .attr("fill", "#000")
+            .style("opacity", 0)
+            .attr("transform", "rotate(-90)")
             .attr("x", -height/2)
             .attr("y", -width/10)
-            .attr("transform", "rotate(-90)")
             .attr("text-anchor", "middle")
             .text((d) => { return d; })
-            .duration(1500)
             .transition()
-            .style("opacity", 0)
+            .duration(1500)
             .style("opacity", 1);
 
         //Add the x Axis
         d3.select("#xAxis")
+            .attr("transform", "translate(" + 0 + "," + height + ")")
+            .transition()
+            .duration(1500)
+            .call(d3.axisBottom(xScale))
+            .selectAll("text")
+            .style("text-anchor", "end")
             .attr("dx", "-.8em")
             .attr("dy", ".15em")
-            .attr("transform", "translate(" + 0 + "," + height + ")")
-            .attr("transform", "rotate(-65)")
-            .duration(1500)
-            .selectAll("text")
-            .call(d3.axisBottom(scaleX))
-            .style("text-anchor", "end")
-            .transition();
+            .attr("transform", "rotate(-65)");
 
         let textLabelx = (this.directorOrActor) + " " + this.nameDirectorActor + "'s" + " movies";
 
@@ -84,15 +84,15 @@ class StatsActorDirector{
         let EnterLabelx = Labelx.enter().append("text");
         Labelx.exit().remove();
         Labelx = Labelx.merge(EnterLabelx)
+            .attr("class", "font-weight-bold")
+            .attr("fill", "#000")
+            .style("opacity", 0)
             .attr("x", width/2)
             .attr("y", -7)
-            .attr("fill", "#000")
-            .attr("class", "font-weight-bold")
-            .attr("text-anchor", "middle")
             .text((d) => { return d; })
-            .duration(1500)
+            .attr("text-anchor", "middle")
             .transition()
-            .style("opacity", 0)
+            .duration(1500)
             .style("opacity", 1);
 
         //Plotpoints being added 
@@ -116,8 +116,8 @@ class StatsActorDirector{
             .transition()
             .duration(1500)
             .attr("r", 4.5)
-            .attr("cx", (d) => { return scaleX(d["movie_title"]); })
-            .attr("cy", (d) => { return scaleY(d[this.feature]); });
+            .attr("cx", (d) => { return xScale(d["movie_title"]); })
+            .attr("cy", (d) => { return yScale(d[this.feature]); });
 
         //Invoke the tip on the plot points
         plotPoints.call(tip)
@@ -126,8 +126,8 @@ class StatsActorDirector{
 
         //Add the line graph
         let lineGraph = d3.line()
-            .x((d) => { return scaleX(d["movie_title"]); })
-            .y((d) => { return scaleY(d[this.feature]); });
+            .x((d) => { return xScale(d["movie_title"]); })
+            .y((d) => { return yScale(d[this.feature]); });
 
         let plotLines = ptg.selectAll(".line")
             .data([this.films]);
