@@ -66,6 +66,15 @@ class Filters {
             .on("start end", moveBrushFunction)
             .extent([[0, 0], [this.widthSVG, 35]]);
 
+        //May not need this check..
+                let rectYear = sliderYear.append("rect")
+                .attr("rx",15,"ry",15)
+                .attr("height", 25)
+                .attr("width", yearX.range()[1] - yearX.range()[0])
+                .attr("transform", "translate(0,10)")
+                .attr("class","rangeSlider")
+        //May not need this 
+
         //Setting the gap between the two sliders when moved together
         let gBrushYear = sliderYear.append("g")
             .attr("transform", "translate(0,6)")
@@ -134,24 +143,31 @@ class Filters {
 
         //Creating element of SVG for the slider
         let ratingsvg = d3.select("#sliderRating").append("svg")
-            .attr("height", this.heightSVG+10)
             .attr("width", this.widthSVG + this.margin.right*2)
+            .attr("height", this.heightSVG+10)
 
         //Creating slider year group so that the slider moves together when dragging in the middle 
         let sliderRating = ratingsvg.append("g")
-            .attr("transform", "translate(" + this.margin.left/2 + ", 5 )")
-            .attr("class", "slider");
+            .attr("class", "slider")
+            .attr("transform", "translate(" + this.margin.left/2 + ", 5 )");
 
         //x-Axis translation ammendments
         sliderRating.append("g")
-            .attr("transform", "translate(0, 40)")
             .attr("class", "axis axis--x")
+            .attr("transform", "translate(0, 40)")
             .call(d3.axisBottom(xrating));
 
         //Creating slider line for year which extends from both sides of range outwards towards each end 
         let brushRating = d3.brushX()
             .extent([[0, 0], [this.widthSVG,35]])
             .on("start end", ratingBrushMoved);
+
+        let ratingRect = sliderRating.append("rect")
+            .attr("width", xrating.range()[1] - yearX.range()[0])
+            .attr("height", 25)
+            .attr("rx",15,"ry",15)
+            .attr("class","rangeSlider")
+            .attr("transform", "translate(0,10)")
         
         //Rating brush translation 
         let gRatingBrush = sliderRating.append("g")
