@@ -1,35 +1,41 @@
 
 class MovieTable
 {
-    constructor(movies)
+    constructor(films)
     {
-        this.tableHeaders = ["title_year", "movie_title", "director_name", "imdb_score", "budget"];
-        this.columnsSortOrder = [ 0, 0, 0, 0, 0];  // Click-counters for each of the 5 columns
+        // Counters at the top header of each column which can be clicked to sort 
+        this.columnsSortOrder = [ 0, 0, 0, 0, 0];  
 
-        //Todo: List of movies passed needs to depend on the filter criteria specified by the user
-        //this.movies = movies.slice(0, 11);  //Just taking 11 movies for now
-        this.movies = movies;
+        //Headers of the table with reference to the CSV file name headers
+        this.tableHeaders = ["title_year", "movie_title", "director_name", "imdb_score", "budget"];
+
+        //This films reference so constructor can be called when used
+        this.films = films;
     }
 
+    //Create function to create table for movies
     create()
     {
-        let thead = d3.select("#tableMovies").select("thead");
+        //Setting name of headers for table head 
+        let tableHead = d3.select("#tableMovies").select("tableHead");
 
-        let theadColumns = thead.selectAll("th")
+        //Selecting all headers in table head and setting the correct data to each column
+        let columnsTableHead = tableHead.selectAll("th")
             .data(this.tableHeaders);
 
-        // Adding sorting functionality to each column
-        theadColumns
-            .on("click", (d, i) => {
+        //Sorting function added to each column
+        columnsTableHead
+            .on("click", (p, q) => {
 
-                // Every even click, sort all rows in ascending order of the chosen column's values
-                if(this.columnsSortOrder[i] % 2 == 0)
+                // For each click on a column's header, sort all value-rows for that column in ascending order
+                if(this.columnsSortOrder[q] % 2 == 0)
                 {
-                    this.movies = (this.movies).slice().sort(function (a, b) {
+                    //Sort
+                    this.films = (this.films).slice().sort(function (a, b) {
 
-                        if(a[d] < b[d])
+                        if(a[p] < b[p])
                             return -1;
-                        else if(a[d] > b[d])
+                        else if(a[p] > b[p])
                             return 1;
                         else
                             return 0;
@@ -37,18 +43,18 @@ class MovieTable
                 }
                 else    // Every odd click, sort all rows in descending order of the chosen column's values
                 {
-                    this.movies = (this.movies).slice().sort(function (a, b) {
+                    this.films = (this.films).slice().sort(function (a, b) {
 
-                        if(a[d] > b[d])
+                        if(a[p] > b[p])
                             return -1;
-                        else if(a[d] < b[d])
+                        else if(a[p] < b[p])
                             return 1;
                         else
                             return 0;
                     });
                 }
 
-                this.columnsSortOrder[i] += 1;
+                this.columnsSortOrder[q] += 1;
                 this.update()   //Update the table contents with sorted data
             });
     }
@@ -58,7 +64,7 @@ class MovieTable
         let tbody = d3.select("#tableMovies").select("tbody");
 
         let tbodyRows = tbody.selectAll("tr")
-            .data(this.movies);
+            .data(this.films);
 
         let tbodyRowsEnter = tbodyRows.enter().append("tr");
         tbodyRows.exit().remove();
