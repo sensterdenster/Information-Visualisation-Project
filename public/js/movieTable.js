@@ -3,7 +3,7 @@ class MovieTable
 {
     constructor(movies)
     {
-        this.tableHeaders = ["title_year", "film_title", "director_name", "imdb_score", "budget"];
+        this.tableHeaders = ["title_year", "movie_title", "director_name", "imdb_score", "budget"];
         this.columnsSortOrder = [ 0, 0, 0, 0, 0];  // Click-counters for each of the 5 columns
 
         //Todo: List of movies passed needs to depend on the filter criteria specified by the user
@@ -67,7 +67,7 @@ class MovieTable
         let tbodyColumns = tbodyRows.selectAll("td")
             .data( (d) => {
                 return [
-                    d["title_year"], d["film_title"], d["director_name"], d["imdb_score"], d["budget"]
+                    d["title_year"], d["movie_title"], d["director_name"], d["imdb_score"], d["budget"]
                 ]
             } );
 

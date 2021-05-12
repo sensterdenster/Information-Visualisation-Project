@@ -33,7 +33,7 @@ class StatsActorDirector{
         let scaleX = d3.scaleBand()
             .padding([1])
             .rangeRound([0, width])
-            .domain((this.films).map(d => d["film_title"]));
+            .domain((this.films).map(d => d["movie_title"]));
 
         //Setting padding, width and domain of scale y of plot 
         let scaleY = d3.scaleLinear()
@@ -109,9 +109,9 @@ class StatsActorDirector{
         let tip = d3.tip().attr("class", "d3-tip-node").html((d) => {
 
             if(this.feature == "imdb_score")
-                return d["film_title"].trim() + ": " + parseFloat(d[this.feature]);
+                return d["movie_title"].trim() + ": " + parseFloat(d[this.feature]);
             else
-                return d["film_title"].trim() + ": " + parseInt(d[this.feature]).toLocaleString();
+                return d["movie_title"].trim() + ": " + parseInt(d[this.feature]).toLocaleString();
         });
 
         let enterPoints = plotPoints.enter().append("circle");
@@ -124,7 +124,7 @@ class StatsActorDirector{
             .duration(1500)
             .attr("r", 4.5)
             .attr("cy", (d) => { return scaleY(d[this.feature]); })
-            .attr("cx", (d) => { return scaleX(d["film_title"]); });
+            .attr("cx", (d) => { return scaleX(d["movie_title"]); });
 
         //Tip on plot points being invoked
         plotPoints.call(tip)
@@ -134,7 +134,7 @@ class StatsActorDirector{
         //Line graph being added
         let lineGraph = d3.line()
             .y((d) => { return scaleY(d[this.feature]); })
-            .x((d) => { return scaleX(d["film_title"]); });
+            .x((d) => { return scaleX(d["movie_title"]); });
 
         //Selecting all plot lines for films when run
         let plotLines = ptg.selectAll(".line")
