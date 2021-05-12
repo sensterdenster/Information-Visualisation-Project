@@ -167,7 +167,7 @@ class Filters {
             .attr("class", "handle--custom")
             .attr("fill", "#F5F5DC")
             .attr("cursor", "ew-resize")
-            .attr("stroke", "#000")
+            .attr("stroke", "#F5F5DC")
             .attr("stroke-width", 1.4);
 
         //Calling rating brush
