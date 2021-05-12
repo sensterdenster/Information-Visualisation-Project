@@ -14,15 +14,15 @@ class Filters {
         let filters = d3.select("#filters");
 
         //fetch the svg bounds
-        this.svgBounds = filters.node().getBoundingClientRect();
-        //this.svgWidth = (this.svgBounds.width - this.margin.left - this.margin.right);
-        this.svgWidth = (this.svgBounds.width/2 - this.margin.left - this.margin.right);
-        this.svgHeight = 75;
+        this.boundsSVG = filters.node().getBoundingClientRect();
+        //this.widthSVG = (this.boundsSVG.width - this.margin.left - this.margin.right);
+        this.widthSVG = (this.boundsSVG.width/2 - this.margin.left - this.margin.right);
+        this.heightSVG = 75;
 
         //add the svg to the div
         // this.svg = slider.append("svg")
-        //     .attr("width", this.svgWidth)
-        //     .attr("height", this.svgHeight)
+        //     .attr("width", this.widthSVG)
+        //     .attr("height", this.heightSVG)
 
         this.years = [];
         for(let i=1916;i<2016; i = i+1){
@@ -46,20 +46,20 @@ class Filters {
 
         //creating svg for year slider
         let yearsvg = d3.select("#sliderYear").append("svg")
-            .attr("width", this.svgWidth + this.margin.right*2)
-            .attr("height", this.svgHeight+10)
+            .attr("width", this.widthSVG + this.margin.right*2)
+            .attr("height", this.heightSVG+10)
 
         // setup range for sliderYear
         let xyear = d3.scaleLinear()
             .domain([1916, 2016])
-            .range([0, this.svgWidth])
+            .range([0, this.widthSVG])
             .clamp(true);
 
 
         //creating group for sliderYear
         let sliderYear = yearsvg.append("g")
             .attr("class", "slider")
-            //.attr("transform", "translate(" + this.margin.left/2 + "," + this.svgHeight/4  + ")");
+            //.attr("transform", "translate(" + this.margin.left/2 + "," + this.heightSVG/4  + ")");
             .attr("transform", "translate(" + this.margin.left/2 + ", 5 )");
 
 
@@ -67,14 +67,14 @@ class Filters {
         sliderYear.append("g")
             .attr("class", "axis axis--x")
             .attr("transform", "translate(0, 40)")
-            // .attr("transform", "translate(0," + this.svgHeight/4 + ")")
+            // .attr("transform", "translate(0," + this.heightSVG/4 + ")")
             .call(d3.axisBottom(xyear).tickFormat(d3.format("d"))
             );
 
 
         //creating year slider/line
         let yearbrush = d3.brushX()
-            .extent([[0, 0], [this.svgWidth, 35]])
+            .extent([[0, 0], [this.widthSVG, 35]])
             .on("start end", brushmoved);
 
         //.on("start brush end", brushmoved);
@@ -86,7 +86,7 @@ class Filters {
             .attr("rx",15,"ry",15)
             .attr("class","rangeSlider")
             .attr("transform", "translate(0,10)")
-            //.attr("transform", "translate(0," + this.svgHeight/10 + ")")
+            //.attr("transform", "translate(0," + this.heightSVG/10 + ")")
 
 
         let gYearBrush = sliderYear.append("g")
@@ -133,7 +133,7 @@ class Filters {
                 yearSelected = [];
                 yearSelected.push({start, end});
                 updateYearsText(start, end);
-                handle.attr("display", null).attr("transform", function(d, i) { return "translate(" + s[i] + "," + that.svgHeight /4 + ")"; });
+                handle.attr("display", null).attr("transform", function(d, i) { return "translate(" + s[i] + "," + that.heightSVG /4 + ")"; });
             }
         }
         
@@ -150,18 +150,18 @@ class Filters {
         //setup scale for rating slider
         let xrating = d3.scaleLinear()
             .domain(d3.extent(this.ratings))
-            .range([0, this.svgWidth])
+            .range([0, this.widthSVG])
             .clamp(true);
 
         //create svg element for rating slider
         let ratingsvg = d3.select("#sliderRating").append("svg")
-            .attr("width", this.svgWidth + this.margin.right*2)
-            .attr("height", this.svgHeight+10)
+            .attr("width", this.widthSVG + this.margin.right*2)
+            .attr("height", this.heightSVG+10)
 
         //creating group for sliderYear
         let sliderRating = ratingsvg.append("g")
             .attr("class", "slider")
-            // .attr("transform", "translate(" + this.margin.left/2 + "," + this.svgHeight/4  + ")");
+            // .attr("transform", "translate(" + this.margin.left/2 + "," + this.heightSVG/4  + ")");
             .attr("transform", "translate(" + this.margin.left/2 + ", 5 )");
 
         // //initial load of page
@@ -172,13 +172,13 @@ class Filters {
         sliderRating.append("g")
             .attr("class", "axis axis--x")
             .attr("transform", "translate(0, 40)")
-            // .attr("transform", "translate(0," + this.svgHeight/4 + ")")
+            // .attr("transform", "translate(0," + this.heightSVG/4 + ")")
             .call(d3.axisBottom(xrating));
 
 
         //creating year slider/line
         let ratingBrush = d3.brushX()
-            .extent([[0, 0], [this.svgWidth,35]])
+            .extent([[0, 0], [this.widthSVG,35]])
             //.handleSize([4])
             .on("start end", ratingBrushMoved);
 
@@ -189,7 +189,7 @@ class Filters {
             .attr("rx",15,"ry",15)
             .attr("class","rangeSlider")
             .attr("transform", "translate(0,10)")
-        //.attr("transform", "translate(0," + this.svgHeight/10 + ")")
+        //.attr("transform", "translate(0," + this.heightSVG/10 + ")")
 
 
         let gRatingBrush = sliderRating.append("g")
@@ -240,7 +240,7 @@ class Filters {
                 ratingSelected = []
                 ratingSelected.push({start, end});
                 updateRatingsText(start, end);
-                ratingHandle.attr("display", null).attr("transform", function(d, i) { return "translate(" + s[i] + "," + that.svgHeight /4 + ")"; });
+                ratingHandle.attr("display", null).attr("transform", function(d, i) { return "translate(" + s[i] + "," + that.heightSVG /4 + ")"; });
             }
         }
 
@@ -255,13 +255,13 @@ class Filters {
 
         //---------------//genre checkboxes //---------------//
         let genresvg = d3.select("#checkBoxGenre").append("svg")
-            .attr("width", this.svgWidth)
-            .attr("height", this.svgHeight*2.5);
+            .attr("width", this.widthSVG)
+            .attr("height", this.heightSVG*2.5);
 
         let genreg = genresvg.append("g");
         //.attr("transform", "translate(0, 5)");
 
-        // .attr("transform", "translate(" + this.margin.left/2 + "," + this.svgHeight/4  + ")");
+        // .attr("transform", "translate(" + this.margin.left/2 + "," + this.heightSVG/4  + ")");
 
         let genrelist = Array.from(allGenres);
         let checkBox = genreg.selectAll("foreignObject");
@@ -274,7 +274,7 @@ class Filters {
             .append("foreignObject")
             .attr('x', function(d,i){
                 if(i != 0 && i % 6 == 0){
-                    currentX = currentX + (that.svgWidth/5);
+                    currentX = currentX + (that.widthSVG/5);
                     return currentX;
                 }
                 return currentX;
@@ -303,7 +303,7 @@ class Filters {
             .attr('x', function(d,i){
 
                 if(i != 0 && i % 6 == 0){
-                    currentX = currentX + (that.svgWidth/5);
+                    currentX = currentX + (that.widthSVG/5);
                     return currentX;
                 }
                 return currentX;

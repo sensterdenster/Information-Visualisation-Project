@@ -12,9 +12,9 @@ class NodeLinkFD{
         this.legendHeight = 60;
 
         //fetch the svg bounds
-        this.svgBounds = this.nodeLink.node().getBoundingClientRect();
-        this.svgWidth = (this.svgBounds.width - this.margin.right);
-        this.svgHeight = 550;
+        this.boundsSVG = this.nodeLink.node().getBoundingClientRect();
+        this.widthSVG = (this.boundsSVG.width - this.margin.right);
+        this.heightSVG = 550;
 
         this.movies = movies;  //default 50 movies
         //console.log(this.data[0].movie_title);
@@ -30,7 +30,7 @@ class NodeLinkFD{
         let that = this;
         // create legend
         let svgLegend = this.legend.select("svg")
-            .attr("width", this.svgWidth)
+            .attr("width", this.widthSVG)
             .attr("height", this.legendHeight);
         // if(this.movies.length > 20){
             //svgLegend.attr("transform", "translate(" + this.margin.left + ", 0)");
@@ -57,7 +57,7 @@ class NodeLinkFD{
                 return d.color;
             })
             .attr("cx", function (d,i) {
-                return i * (that.svgWidth/7) + that.margin.left;
+                return i * (that.widthSVG/7) + that.margin.left;
             })
             .attr("cy", "50%")
             .attr("r", 5)
@@ -69,7 +69,7 @@ class NodeLinkFD{
             enter().append("text")
             .data(colors)
             .attr("x", function (d,i) {
-                return i * (that.svgWidth/7) + that.margin.left*1.2;
+                return i * (that.widthSVG/7) + that.margin.left*1.2;
             })
             .attr("y", "60%")
             .text(function (d) {
@@ -181,12 +181,12 @@ class NodeLinkFD{
         //setting up svg
         // if(this.movies.length < 20){
         //     console.log(this.movies.length);
-        //     this.svgWidth = this.svgWidth/2;
-        //     this.svgHeight = this.svgHeight/2;
+        //     this.widthSVG = this.widthSVG/2;
+        //     this.heightSVG = this.heightSVG/2;
         // }
         let svgnodeLink = d3.select('#canvas')
-            .attr("width", this.svgWidth )
-            .attr("height", this.svgHeight);
+            .attr("width", this.widthSVG )
+            .attr("height", this.heightSVG);
 
         //calling tool-tip
         svgnodeLink.call(tip);
@@ -201,7 +201,7 @@ class NodeLinkFD{
             // forceManyBody creates a repulsive force between nodes, keeping them away from each other
             .force("charge", d3.forceManyBody().strength(-17))
             // forceCenter acts like gravity, keeping the whole visualization in the middle of the screen
-            .force("center", d3.forceCenter(this.svgWidth / 2, this.svgHeight / 2))
+            .force("center", d3.forceCenter(this.widthSVG / 2, this.heightSVG / 2))
             .force("forceX", d3.forceX())
             .force("forceY", d3.forceY())
             // .force("collide", d3.forceCollide([20]));

@@ -16,13 +16,13 @@ class StatsActorDirector{
 
         //Margin setting for graph 
         let margin = {top: 19, bottom: 99, left: 119, right: 19},
-            svgBounds = statsActorDirector_Div.node().getBoundingClientRect(),
+            boundsSVG = statsActorDirector_Div.node().getBoundingClientRect(),
             height = 449 - margin.bottom - margin.top,
-            width = svgBounds.width - margin.right - margin.left;
+            width = boundsSVG.width - margin.right - margin.left;
         
         //Setting height and width of plot
         let svg = d3.select("#plotTrend")
-            .attr("width", svgBounds.width)
+            .attr("width", boundsSVG.width)
             .attr("height", 449 + margin.bottom + margin.top);
 
         //Plotting trend group through d3 for transformations and translation

@@ -6,16 +6,15 @@ class CorrelationMatrix {
         
         //Attains div element acces which is created for this plot and the element of the legend from HTML
         let tilesDiv = d3.select("#correlationMatrix")
-        let svgBounds = tilesDiv.node().getBoundingClientRect();
+        let boundsSVG = tilesDiv.node().getBoundingClientRect();
 
-        this.svgWidth = svgBounds.width - this.margin.left - this.margin.right;
-        this.svgHeight = this.svgWidth;
+        this.widthSVG = boundsSVG.width - this.margin.left - this.margin.right;
+        this.heightSVG = this.widthSVG;
 
-        //creates svg elements within the div
+        //SVG elements here are created within the div
         this.svg = tilesDiv.append("svg")
-            .attr("width",this.svgWidth)
-            .attr("height",this.svgHeight)
-            //.attr("transform", "translate(" + this.margin.left/4 + ",0)")
+            .attr("width",this.widthSVG)
+            .attr("height",this.heightSVG)
 
     }
 
@@ -62,10 +61,10 @@ class CorrelationMatrix {
             })).values();
 
         let x = d3.scaleOrdinal()
-                .range([0, this.svgWidth])
+                .range([0, this.widthSVG])
                 .domain(domain),
             y = d3.scaleOrdinal()
-                .range([0, this.svgHeight])
+                .range([0, this.heightSVG])
                 .domain(domain),
             xSpace = x.range()[1] - x.range()[0],
             ySpace = y.range()[1] - y.range()[0];
@@ -83,9 +82,9 @@ class CorrelationMatrix {
         rect.exit().remove;
 
         rect = newrect.merge(rect);
-        //console.log(that.svgWidth)
+        //console.log(that.widthSVG)
         rect.attr('x', function (d) {
-                return (that.svgWidth/(num+2))*d.col;
+                return (that.widthSVG/(num+2))*d.col;
              })
             .attr('y', function (d) {
                 //set default plot to row = 8, col = 1
@@ -93,14 +92,14 @@ class CorrelationMatrix {
                     d3.select(this).classed("highlight-rect",true);
                     scPlot.plot(d.x, d.x, d.y, d.y);
                 }
-                    return (that.svgHeight / (num + 2)) * d.row;
+                    return (that.heightSVG / (num + 2)) * d.row;
             })
             .attr("width", function(d){
-                //console.log(that.svgWidth/(num+1));
-                    return that.svgWidth / (num + 2)
+                //console.log(that.widthSVG/(num+1));
+                    return that.widthSVG / (num + 2)
             })
             .attr("height", function(d){
-                    return that.svgHeight/(num+2)
+                    return that.heightSVG/(num+2)
             })
             .attr("fill",function (d) {
                     return colorScale(d.value);
@@ -120,7 +119,7 @@ class CorrelationMatrix {
 
         //Legend
         let aS = d3.scaleLinear()
-            .range([0, this.svgHeight - this.margin.bottom])
+            .range([0, this.heightSVG - this.margin.bottom])
             .domain([1, -1]);
 
         let yA = d3.axisRight(aS)
@@ -129,10 +128,10 @@ class CorrelationMatrix {
         let aG = this.svg.append("g")
             // .attr("class", "y axis")
             .call(yA)
-            .attr("transform", "translate(" + (this.svgWidth - (this.margin.right*2)) + " ,4)")
+            .attr("transform", "translate(" + (this.widthSVG - (this.margin.right*2)) + " ,4)")
 
         let iR = d3.range(-1.0, 1.01, 0.01);
-        let h = this.svgHeight / iR.length + 3;
+        let h = this.heightSVG / iR.length + 3;
         iR.forEach(function (d) {
             aG.append('rect')
                 .style('fill', colorScale(d))

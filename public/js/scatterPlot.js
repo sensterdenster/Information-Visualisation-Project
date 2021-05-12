@@ -8,12 +8,12 @@ class ScatterPlot
         this.plotDiv = d3.select("#scatterPlot");
 
         this.margin = {top: 20, right: 20, bottom: 50, left: 110};
-        let svgBounds = this.plotDiv.node().getBoundingClientRect();
-        this.width = svgBounds.width - this.margin.left - this.margin.right;
+        let boundsSVG = this.plotDiv.node().getBoundingClientRect();
+        this.width = boundsSVG.width - this.margin.left - this.margin.right;
         this.height = 450 - this.margin.top - this.margin.bottom;
 
         this.svg = this.plotDiv.append("svg")
-            .attr("width", svgBounds.width)
+            .attr("width", boundsSVG.width)
             .attr("height", 450 + this.margin.top + this.margin.bottom);
 
     }
