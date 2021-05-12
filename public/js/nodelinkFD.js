@@ -132,13 +132,13 @@ class NodeLinkFD{
             }
 
             //edges from movie to director, actor1,2,3
-            this.edges.push({"source": movie.film_title.trim(), "target": movie.director_name.trim()});
-            this.edges.push({"source": movie.film_title.trim(), "target": movie.actor_1_name.trim()});
-            this.edges.push({"source": movie.film_title.trim(), "target": movie.actor_2_name.trim()});
-            this.edges.push({"source": movie.film_title.trim(), "target": movie.actor_3_name.trim()});
+            this.edges.push({"source": movie.movie_title.trim(), "target": movie.director_name.trim()});
+            this.edges.push({"source": movie.movie_title.trim(), "target": movie.actor_1_name.trim()});
+            this.edges.push({"source": movie.movie_title.trim(), "target": movie.actor_2_name.trim()});
+            this.edges.push({"source": movie.movie_title.trim(), "target": movie.actor_3_name.trim()});
 
             //nodes data for title, director, actor1,2,3
-            this.nodes.push({"id": movie.film_title.trim(),  "group": 0, "color":"blue", "degree": 1});
+            this.nodes.push({"id": movie.movie_title.trim(),  "group": 0, "color":"blue", "degree": 1});
 
             //check for this current movie if actor and director is the same person and decrement their degree
             if(movie.director_name.trim() === movie.actor_1_name.trim() ||

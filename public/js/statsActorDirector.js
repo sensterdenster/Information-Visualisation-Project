@@ -11,25 +11,31 @@ class StatsActorDirector{
 
     plot()
     {
+        //Using d3 to set statsActorDirector for actors and directors 
         let statsActorDirector_Div = d3.select("#statsActorDirector");
 
+        //Margin setting for graph 
         let margin = {top: 19, right: 19, bottom: 99, left: 119},
             svgBounds = statsActorDirector_Div.node().getBoundingClientRect(),
             height = 449 - margin.top - margin.bottom,
             width = svgBounds.width - margin.left - margin.right;
-
-            let ptg = d3.select("#plotTrendGroup")
-            .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
         
+        //Setting height and width of plot
         let svg = d3.select("#plotTrend")
             .attr("width", svgBounds.width)
             .attr("height", 449 + margin.bottom + margin.top);
 
+        //Plotting trend group through d3 for transformations and translation
+        let ptg = d3.select("#plotTrendGroup")
+            .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+
+        //Setting padding, width and domain of scale x of plot 
         let scaleX = d3.scaleBand()
             .padding([1])
             .rangeRound([0, width])
             .domain((this.films).map(d => d["film_title"]));
 
+        //Setting padding, width and domain of scale y of plot 
         let scaleY = d3.scaleLinear()
             .range([height, 0])
             .domain(d3.extent(this.films, (d) => { return parseFloat(d[this.feature])}));
@@ -62,7 +68,7 @@ class StatsActorDirector{
             .duration(1500)
             .style("opacity", 1);
 
-        //Add the x Axis
+        //x-Axis being added 
         d3.select("#xAxis")
             .attr("transform", "translate(" + 0 + "," + height + ")")
             .transition()
@@ -76,7 +82,7 @@ class StatsActorDirector{
 
         let textLabelx = (this.directorOrActor) + " " + this.nameDirectorActor + "'s" + " movies";
 
-        //Add the x Axis label
+        // x-Axis Label being added using d3
         let Labelx = d3.select("#xLabel").selectAll("text")
             .data([textLabelx]);
 
@@ -99,7 +105,7 @@ class StatsActorDirector{
         let plotPoints = ptg.selectAll("circle")
             .data(this.films);
 
-        //Initialize tooltip
+        //Tooltip being initialised
         let tip = d3.tip().attr("class", "d3-tip-node").html((d) => {
 
             if(this.feature == "imdb_score")
@@ -112,6 +118,7 @@ class StatsActorDirector{
         plotPoints.exit().remove();
         plotPoints = plotPoints.merge(enterPoints);
  
+        //Points on the plot being set for transition and duration 
         plotPoints
             .transition()
             .duration(1500)
@@ -119,19 +126,21 @@ class StatsActorDirector{
             .attr("cy", (d) => { return scaleY(d[this.feature]); })
             .attr("cx", (d) => { return scaleX(d["film_title"]); });
 
-        //Invoke the tip on the plot points
+        //Tip on plot points being invoked
         plotPoints.call(tip)
             .on("mouseout", tip.hide)
             .on("mouseover", tip.show);
 
-        //Add the line graph
+        //Line graph being added
         let lineGraph = d3.line()
             .y((d) => { return scaleY(d[this.feature]); })
             .x((d) => { return scaleX(d["film_title"]); });
 
+        //Selecting all plot lines for films when run
         let plotLines = ptg.selectAll(".line")
             .data([this.films]);
 
+        //Setting transition and duration of plot lines 
         let enterLines = plotLines.enter().append("path");
         plotLines.exit().remove();
         plotLines = plotLines.merge(enterLines)
