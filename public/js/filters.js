@@ -113,7 +113,7 @@ class Filters {
                 else{
                     gBrushYear.call(brushYear.move, [xMouse, xMouse + 0.00000000001]);
                 }
-            //else if the event selection is empty, (no filters selected)
+            //Else if the event selection is empty, (no filters selected)
             } else {
                 let end = Math.round(yearX.invert(t[1]));
                 let start = Math.round(yearX.invert(t[0]));
@@ -124,13 +124,15 @@ class Filters {
             }
         }
         
+        //Function for updating the text for selected years
         function textYearsUpdated(start, end) {
-            let yearsText = document.getElementById("yearSelected");
+            let textYears = document.getElementById("yearSelected");
 
+            //If selected year is just one year where (start = end) just display the starting year, else if a range is selected display the start to the ending year
             if(start == end)
-                yearsText.innerText = "Selected Year(s): " + start;
+                textYears.innerText = "Year(s) Selected " + start;
             else
-                yearsText.innerText = "Selected Year(s): " + start + " to " + end;
+                textYears.innerText = "Year(s) Selected " + start + " to " + end;
         }
 
         //ratings slider
