@@ -113,9 +113,10 @@ class Filters {
                 else{
                     gBrushYear.call(brushYear.move, [xMouse, xMouse + 0.00000000001]);
                 }
+            //else if the event selection is empty, (no filters selected)
             } else {
-                let start = Math.round(yearX.invert(t[0]));
                 let end = Math.round(yearX.invert(t[1]));
+                let start = Math.round(yearX.invert(t[0]));
                 yearSelected = [];
                 yearSelected.push({start, end});
                 textYearsUpdated(start, end);
