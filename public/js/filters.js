@@ -216,24 +216,26 @@ class Filters {
                 textRatings.innerText = "Rating(s) Selected: " + start + " to " + end;
         }
 
-        //---------------//genre checkboxes //---------------//
+        //Setting checkboxes for genres (shown on the right side of the screen of index.html)
         let genresvg = d3.select("#checkBoxGenre").append("svg")
             .attr("width", this.widthSVG)
             .attr("height", this.heightSVG*2.5);
 
-        let genreg = genresvg.append("g");
-        //.attr("transform", "translate(0, 5)");
+        //Appending genres
+        let appGenre = genresvg.append("g");
 
-        // .attr("transform", "translate(" + this.margin.left/2 + "," + this.heightSVG/4  + ")");
+        //Getting genre list as an array 
+        let listGenre = Array.from(allGenres);
 
-        let genrelist = Array.from(allGenres);
-        let checkBox = genreg.selectAll("foreignObject");
+        //Settings checkboxes to each genre
+        let checkBoxes = appGenre.selectAll("foreignObject");
 
-        let currentX = 0;
+        //Creating variables to adjust padding of checkboxes
         let currentY = 0;
+        let currentX = 0;
 
-        checkBox
-            .data(genrelist).enter()
+        checkBoxes
+            .data(listGenre).enter()
             .append("foreignObject")
             .attr('x', function(d,i){
                 if(i != 0 && i % 6 == 0){
@@ -261,7 +263,7 @@ class Filters {
         currentX = 18;
         currentY = 0;
 
-        genreg.selectAll("text").data(genrelist).enter()
+        appGenre.selectAll("text").data(listGenre).enter()
             .append('text')
             .attr('x', function(d,i){
 
