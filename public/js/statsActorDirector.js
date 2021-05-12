@@ -50,29 +50,29 @@ class StatsActorDirector{
         let EnterLabely = Labely.enter().append("text");
         Labely.exit().remove();
         Labely = Labely.merge(EnterLabely)
-            .attr("fill", "#000")
             .attr("class", "font-weight-bold text-capitalize")
+            .attr("fill", "#000")
+            .style("opacity", 0)
+            .attr("transform", "rotate(-90)")
             .attr("x", -height/2)
             .attr("y", -width/10)
-            .attr("transform", "rotate(-90)")
             .attr("text-anchor", "middle")
             .text((d) => { return d; })
-            .duration(1500)
             .transition()
-            .style("opacity", 0)
+            .duration(1500)
             .style("opacity", 1);
 
         //Add the x Axis
         d3.select("#xAxis")
+            .attr("transform", "translate(" + 0 + "," + height + ")")
+            .transition()
+            .duration(1500)
+            .call(d3.axisBottom(scaleX))
+            .selectAll("text")
+            .style("text-anchor", "end")
             .attr("dx", "-.8em")
             .attr("dy", ".15em")
-            .attr("transform", "translate(" + 0 + "," + height + ")")
-            .attr("transform", "rotate(-65)")
-            .duration(1500)
-            .selectAll("text")
-            .call(d3.axisBottom(scaleX))
-            .style("text-anchor", "end")
-            .transition();
+            .attr("transform", "rotate(-65)");
 
         let textLabelx = (this.directorOrActor) + " " + this.nameDirectorActor + "'s" + " movies";
 
@@ -84,15 +84,15 @@ class StatsActorDirector{
         let EnterLabelx = Labelx.enter().append("text");
         Labelx.exit().remove();
         Labelx = Labelx.merge(EnterLabelx)
+            .attr("class", "font-weight-bold")
+            .attr("fill", "#000")
+            .style("opacity", 0)
             .attr("x", width/2)
             .attr("y", -7)
-            .attr("fill", "#000")
-            .attr("class", "font-weight-bold")
-            .attr("text-anchor", "middle")
             .text((d) => { return d; })
-            .duration(1500)
+            .attr("text-anchor", "middle")
             .transition()
-            .style("opacity", 0)
+            .duration(1500)
             .style("opacity", 1);
 
         //Plotpoints being added 
@@ -113,21 +113,21 @@ class StatsActorDirector{
         plotPoints = plotPoints.merge(enterPoints);
 
         plotPoints
-            .duration(1500)
             .transition()
+            .duration(1500)
             .attr("r", 4.5)
             .attr("cx", (d) => { return scaleX(d["movie_title"]); })
             .attr("cy", (d) => { return scaleY(d[this.feature]); });
 
         //Invoke the tip on the plot points
         plotPoints.call(tip)
-            .on("mouseout", tip.hide)
-            .on("mouseover", tip.show);
+            .on("mouseover", tip.show)
+            .on("mouseout", tip.hide);
 
         //Add the line graph
         let lineGraph = d3.line()
-            .y((d) => { return scaleY(d[this.feature]); })
-            .x((d) => { return scaleX(d["movie_title"]); });
+            .x((d) => { return scaleX(d["movie_title"]); })
+            .y((d) => { return scaleY(d[this.feature]); });
 
         let plotLines = ptg.selectAll(".line")
             .data([this.films]);
@@ -135,8 +135,8 @@ class StatsActorDirector{
         let enterLines = plotLines.enter().append("path");
         plotLines.exit().remove();
         plotLines = plotLines.merge(enterLines)
-            .transition()
             .attr("class", "line")
+            .transition()
             .duration(1500)
             .attr("d", lineGraph);
     }
