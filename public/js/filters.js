@@ -23,7 +23,7 @@ class Filters {
         for(let i = 1.6; i<9.5; i = i+0.1){
             this.IMDBratings.push(i);
         }
-        //Sifting through years of when movies are created and pushing them
+        //Sifting through years of when movies are created (lowest - 1916, latest - 2016) and pushing them
         this.years = [];
         for(let i=1916;i<2016; i = i+1){
             this.years.push(i);
@@ -91,10 +91,10 @@ class Filters {
             let t = d3.event.selection;
             if (t == null) {
                 let xMouse = d3.mouse(this)[0];
-                //Setting initial loading of the page to display range of movies from the year 2000 - 2016 
+                //Setting initial loading of the page to display range of movies from the year 2000 - 2010 
                 if(isNaN(xMouse)){
-                    gBrushYear.call(brushYear.move, [yearX(2000) , yearX(2016)]);
-                    let end = 2016;
+                    gBrushYear.call(brushYear.move, [yearX(2000) , yearX(2010)]);
+                    let end = 2010;
                     let start = 2000;
                     yearSelected = [];
                     yearSelected.push({start,end});
@@ -177,43 +177,43 @@ class Filters {
         function ratingBrushMoved() {
             let q = d3.event.selection;
 
-            //If the rating selection is null (no results)
+            //If the rating selection is null (not chosen manually)
             if (q == null) {
                 var xMouse = d3.mouse(this)[0];
 
                 //If conditions which sets initial loading page rating slider from 8.0 to 9.0 automatically
                 if(isNaN(xMouse)){
                     gBrushRating.call(brushRating.move, [xrating(8) , xrating(9)]);
-                    let start = 8;
                     let end = 9;
+                    let start = 8;
                     ratingSelected = []
                     ratingSelected.push({start , end});
-                    updateRatingsText(start, end);
+                    textRatingsUpdate(start, end);
                 }
-                //if selection == null
+                //If rating selection is null otherwise 
                 else{
-                    gBrushRating.call(brushRating.move, [xMouse, xMouse+0.0000000000001]);
+                    gBrushRating.call(brushRating.move, [xMouse, xMouse+0.00000000001]);
                 }
-                //console.log(mousex);
-                //console.log(isNaN(mousex))
+  
             }
+            //Otherwise if ratings selected are chosen manually, set end and start to values of mouse selection and push these values
             else{
-                let start = Math.round(xrating.invert(q[0]) * 10) / 10;
                 let end = Math.round(xrating.invert(q[1]) * 10) / 10;
+                let start = Math.round(xrating.invert(q[0]) * 10) / 10;
                 ratingSelected = []
                 ratingSelected.push({start, end});
-                updateRatingsText(start, end);
+                textRatingsUpdate(start, end);
                 ratingHandle.attr("display", null).attr("transform", function(d, i) { return "translate(" + q[i] + "," + variable.heightSVG /4 + ")"; });
             }
         }
 
-        function updateRatingsText(start, end) {
-            let yearsText = document.getElementById("ratingSelected");
-
+        //Function to update the text of the
+        function textRatingsUpdate(start, end) {
+            let textRatings = document.getElementById("ratingSelected");
             if(start == end)
-                yearsText.innerText = "Rating(s) Selected: " + start;
+                textRatings.innerText = "Rating(s) Selected: " + start;
             else
-                yearsText.innerText = "Rating(s) Selected: " + start + " to " + end;
+                textRatings.innerText = "Rating(s) Selected: " + start + " to " + end;
         }
 
         //---------------//genre checkboxes //---------------//
