@@ -15,7 +15,7 @@ class StatsActorDirector{
         let statsActorDirector_Div = d3.select("#statsActorDirector");
 
         //Margin setting for graph 
-        let margin = {top: 19, right: 19, bottom: 99, left: 119},
+        let margin = {top: 19, bottom: 99, left: 119, right: 19},
             svgBounds = statsActorDirector_Div.node().getBoundingClientRect(),
             height = 449 - margin.top - margin.bottom,
             width = svgBounds.width - margin.left - margin.right;

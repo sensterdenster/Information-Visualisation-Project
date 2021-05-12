@@ -1,18 +1,18 @@
 class CorrelationMatrix {
 
     constructor(rows) {
+        this.margin = {top: 29, right: 19, bottom: 29, left: 49};
         this.rows = rows;
-        this.margin = {top: 30, right: 20, bottom: 30, left: 50};
         //Gets access to the div element created for this chart and legend element from HTML
-        let divTiles = d3.select("#correlationMatrix")
-        let svgBounds = divTiles.node().getBoundingClientRect();
+        let tilesDiv = d3.select("#correlationMatrix")
+        let svgBounds = tilesDiv.node().getBoundingClientRect();
         this.svgWidth = svgBounds.width - this.margin.left - this.margin.right;
         this.svgHeight = this.svgWidth;
         // this.svgWidth = 500;
         // this.svgHeight = 500;
 
         //creates svg elements within the div
-        this.svg = divTiles.append("svg")
+        this.svg = tilesDiv.append("svg")
             .attr("width",this.svgWidth)
             .attr("height",this.svgHeight)
             //.attr("transform", "translate(" + this.margin.left/4 + ",0)")
