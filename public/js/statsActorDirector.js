@@ -113,21 +113,21 @@ class StatsActorDirector{
         plotPoints = plotPoints.merge(enterPoints);
 
         plotPoints
-            .duration(1500)
             .transition()
+            .duration(1500)
             .attr("r", 4.5)
             .attr("cx", (d) => { return scaleX(d["movie_title"]); })
             .attr("cy", (d) => { return scaleY(d[this.feature]); });
 
         //Invoke the tip on the plot points
         plotPoints.call(tip)
-            .on("mouseout", tip.hide)
-            .on("mouseover", tip.show);
+            .on("mouseover", tip.show)
+            .on("mouseout", tip.hide);
 
         //Add the line graph
         let lineGraph = d3.line()
-            .y((d) => { return scaleY(d[this.feature]); })
-            .x((d) => { return scaleX(d["movie_title"]); });
+            .x((d) => { return scaleX(d["movie_title"]); })
+            .y((d) => { return scaleY(d[this.feature]); });
 
         let plotLines = ptg.selectAll(".line")
             .data([this.films]);
@@ -135,8 +135,8 @@ class StatsActorDirector{
         let enterLines = plotLines.enter().append("path");
         plotLines.exit().remove();
         plotLines = plotLines.merge(enterLines)
-            .transition()
             .attr("class", "line")
+            .transition()
             .duration(1500)
             .attr("d", lineGraph);
     }
