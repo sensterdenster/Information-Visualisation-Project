@@ -19,9 +19,9 @@ class Filters {
         this.widthSVG = (this.boundsSVG.width/2 - this.margin.left - this.margin.right);
 
         //Sifting through IMDB ratings and pushing them
-        this.ratings = [];
+        this.IMDBratings = [];
         for(let i = 1.6; i<9.5; i = i+0.1){
-            this.ratings.push(i);
+            this.IMDBratings.push(i);
         }
         //Sifting through years of when movies are created and pushing them
         this.years = [];
@@ -135,11 +135,10 @@ class Filters {
                 textYears.innerText = "Year(s) Selected " + start + " to " + end;
         }
 
-        //ratings slider
-        //setup scale for rating slider
+        //Rating slider - adjusting range, domain and scale for the rating slider 
         let xrating = d3.scaleLinear()
-            .domain(d3.extent(this.ratings))
             .range([0, this.widthSVG])
+            .domain(d3.extent(this.IMDBratings))
             .clamp(true);
 
         //create svg element for rating slider
