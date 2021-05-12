@@ -109,9 +109,9 @@ class Filters {
                     yearSelected.push({start,end});
                     textYearsUpdated(start, end);
                 }
-                //if selection == null
+                //Else statement if the selection appears is null (no results)
                 else{
-                    gBrushYear.call(brushYear.move, [xMouse, xMouse+0.0000000000001]);
+                    gBrushYear.call(brushYear.move, [xMouse, xMouse + 0.00000000001]);
                 }
             } else {
                 let start = Math.round(yearX.invert(t[0]));
