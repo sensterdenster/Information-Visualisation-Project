@@ -8,8 +8,8 @@ class CorrelationMatrix {
         let tilesDiv = d3.select("#correlationMatrix")
         let svgBounds = tilesDiv.node().getBoundingClientRect();
 
-        this.svgHeight = this.svgWidth;
         this.svgWidth = svgBounds.width - this.margin.left - this.margin.right;
+        this.svgHeight = this.svgWidth;
 
         //creates svg elements within the div
         this.svg = tilesDiv.append("svg")
