@@ -13,8 +13,9 @@ class CorrelationMatrix {
 
         //SVG elements here are created within the div
         this.svg = tilesDiv.append("svg")
-            .attr("width",this.widthSVG)
             .attr("height",this.heightSVG)
+            .attr("width",this.widthSVG)
+
 
     }
 
@@ -32,27 +33,27 @@ class CorrelationMatrix {
                 return text
             });
 
-        let data = [];
         let that = this;
-        let row
+        let data = [];
         let col = 0;
-        (this.rows).forEach(function (d) {
-                let x = d[""];
-                delete d[""];
+        let row
+        (this.rows).forEach(function (f) {
+                let x = f[""];
+                delete f[""];
                 row = 0;
-            for (let prop in d) {
+            for (let prop in f) {
                     let y = prop,
-                        value = d[prop];
+                        value = f[prop];
                     data.push({
-                        x: x,
                         y: y,
-                        value: +(+value).toFixed(2), //rounding to two decimals
-                        row: row,
-                        col: col
+                        x: x,
+                        value: +(+value).toFixed(2), //2 decimal places rounded
+                        col: col,
+                        row: row
                     });
-                    row = row + 1;
+                    row += 1;
                 }
-                col = col + 1;
+                col += 1;
             },this);
 
         //console.log(data);
