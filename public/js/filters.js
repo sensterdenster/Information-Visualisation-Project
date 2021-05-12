@@ -183,9 +183,9 @@ class Filters {
 
                 //If conditions which sets initial loading page rating slider from 8.0 to 9.0 automatically
                 if(isNaN(xMouse)){
-                    gBrushRating.call(brushRating.move, [xrating(8.0) , xrating(9.0)]);
-                    let start = 8.0;
-                    let end = 9.0;
+                    gBrushRating.call(brushRating.move, [xrating(8) , xrating(9)]);
+                    let start = 8;
+                    let end = 9;
                     ratingSelected = []
                     ratingSelected.push({start , end});
                     updateRatingsText(start, end);
