@@ -20,7 +20,7 @@ class CorrelationMatrix {
 
     create() {
         //Set up tooltip
-        let tip = d3.tip()
+        let toolTip = d3.tip()
             .attr('class', 'tip-different')
             .offset([-10, 0])
             .html(function (d) {
@@ -104,9 +104,9 @@ class CorrelationMatrix {
             .attr("fill",function (d) {
                     return colorScale(d.value);
             })
-            .call(tip)
-            .on('mouseover', tip.show)
-            .on('mouseout', tip.hide)
+            .call(toolTip)
+            .on('mouseover', toolTip.show)
+            .on('mouseout', toolTip.hide)
             .on("click", function(d){
                 //console.log(this);
                 rect.classed("highlight-rect",false);

@@ -21,7 +21,7 @@ class ScatterPlot
     plot(yAttribute, yLabel, xAttribute, xLabel)
     {
         //Set up tooltip
-        let tip = d3.tip()
+        let toolTip = d3.tip()
             .attr('class', 'tip-different')
             .offset([-10, 0])
             .html(function (d) {
@@ -151,9 +151,9 @@ class ScatterPlot
             .attr("r", 4)
             .attr("cx", (d) => { return xScale(d.cx); })
             .attr("cy", (d) => { return yScale(d.cy); })
-            .call(tip)
-            .on('mouseover', tip.show)
-            .on('mouseout', tip.hide);
+            .call(toolTip)
+            .on('mouseover', toolTip.show)
+            .on('mouseout', toolTip.hide);
 
 
 

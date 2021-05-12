@@ -163,7 +163,7 @@ class NodeLinkFD{
         // let rscale = d3.scaleLinear().domain([]).range([]);
 
         //Set up tooltip
-        let tip = d3.tip()
+        let toolTip = d3.tip()
             .attr('class', 'd3-tip')
             .offset([-10, 0])
             .html(function (d) {
@@ -189,7 +189,7 @@ class NodeLinkFD{
             .attr("height", this.heightSVG);
 
         //calling tool-tip
-        svgnodeLink.call(tip);
+        svgnodeLink.call(toolTip);
 
         // Here we create our simulation, and give it some forces to apply to all the nodes:
         let simulation = d3.forceSimulation()
@@ -284,9 +284,9 @@ class NodeLinkFD{
                 .on("start", dragstarted)
                 .on("drag", dragged)
                 .on("end", dragended))
-                .call(tip)
-                .on('mouseover', tip.show)
-                .on('mouseout', tip.hide)
+                .call(toolTip)
+                .on('mouseover', toolTip.show)
+                .on('mouseout', toolTip.hide)
                 .on('dblclick', connectedNodes); //Added code;
 
         // Binding data, to the simulation...
