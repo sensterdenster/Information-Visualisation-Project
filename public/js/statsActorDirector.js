@@ -13,14 +13,14 @@ class StatsActorDirector{
     {
         let statsActorDirector_Div = d3.select("#statsActorDirector");
 
-        let margin = {top: 20, right: 20, bottom: 100, left: 120},
+        let margin = {top: 19, right: 19, bottom: 99, left: 119},
             svgBounds = statsActorDirector_Div.node().getBoundingClientRect(),
-            height = 450 - margin.top - margin.bottom,
+            height = 449 - margin.top - margin.bottom,
             width = svgBounds.width - margin.left - margin.right;
         
         let svg = d3.select("#plotTrend")
             .attr("width", svgBounds.width)
-            .attr("height", 450 + margin.bottom + margin.top);
+            .attr("height", 449 + margin.bottom + margin.top);
 
         let ptg = d3.select("#plotTrendGroup")
             .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
