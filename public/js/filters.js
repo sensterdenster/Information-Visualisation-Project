@@ -72,7 +72,7 @@ class Filters {
             .attr("class", "brush")
             .call(brushYear);
 
-        //Handle for brush slider and customising the theme
+        //Handle for brush slider and customising the theme (fill, opacity, stroke width, etc)
         let settingHandle = gBrushYear.selectAll(".handle--custom")
             .data([{type: "w"}, {type: "e"}])
             .enter().append("path")
@@ -148,38 +148,30 @@ class Filters {
             .attr("class", "axis axis--x")
             .call(d3.axisBottom(xrating));
 
-        //creating year slider/line
-        let ratingBrush = d3.brushX()
+        //Creating slider line for year which extends from both sides of range outwards towards each end 
+        let brushRating = d3.brushX()
             .extent([[0, 0], [this.widthSVG,35]])
-            //.handleSize([4])
             .on("start end", ratingBrushMoved);
-
-
-        let ratingRect = sliderRating.append("rect")
-            .attr("width", xrating.range()[1] - yearX.range()[0])
-            .attr("height", 25)
-            .attr("rx",15,"ry",15)
-            .attr("class","rangeSlider")
-            .attr("transform", "translate(0,10)")
-        //.attr("transform", "translate(0," + this.heightSVG/10 + ")")
-
-
+        
+        //Rating brush translation 
         let gRatingBrush = sliderRating.append("g")
             .attr("class", "brush")
             .attr("transform", "translate(0,6)")
-            .call(ratingBrush);
+            .call(brushRating);
 
+        //Handling rating brush customisation and theme (fill, opacity, stroke width, etc)
         let ratingHandle = gRatingBrush.selectAll(".handle--custom")
             .data([{type: "w"}, {type: "e"}])
             .enter().append("path")
+            .attr("fill-opacity", 0.8)
             .attr("class", "handle--custom")
             .attr("fill", "#666")
-            .attr("fill-opacity", 0.8)
+            .attr("cursor", "ew-resize")
             .attr("stroke", "#000")
-            .attr("stroke-width", 1.5)
-            .attr("cursor", "ew-resize");
+            .attr("stroke-width", 1.5);
 
-        gRatingBrush.call(ratingBrush.move)
+        //Calling rating brush
+        gRatingBrush.call(brushRating.move)
 
         function ratingBrushMoved() {
             let s = d3.event.selection;
@@ -192,7 +184,7 @@ class Filters {
                 //with initial load of page set rating to a range of 7 to 8
                 if(isNaN(xMouse)){
                     //gRatingBrush.call(ratingBrush.move, [417.33331298828136 , 495.33331298828125]);
-                    gRatingBrush.call(ratingBrush.move, [xrating(8.2) , xrating(9.5)]);
+                    gRatingBrush.call(brushRating.move, [xrating(8.2) , xrating(9.5)]);
                     let start = 8.2;
                     let end = 9.5;
                     ratingSelected = []
@@ -201,7 +193,7 @@ class Filters {
                 }
                 //if selection == null
                 else{
-                    gRatingBrush.call(ratingBrush.move, [xMouse, xMouse+0.0000000000001]);
+                    gRatingBrush.call(brushRating.move, [xMouse, xMouse+0.0000000000001]);
                 }
                 //console.log(mousex);
                 //console.log(isNaN(mousex))
