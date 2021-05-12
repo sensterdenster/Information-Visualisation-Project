@@ -95,26 +95,29 @@ class CorrelationMatrix {
         rectangle = newrect.merge(rectangle);
 
         //Rectangle attribute set for x and y function 
-        rectangle.attr('x', function (d) {
-                return (that.widthSVG/(number+2))*d.col;
+        rectangle.attr('x', function (e) {
+                return (that.widthSVG/(number+2))*e.col;
              })
-            .attr('y', function (d) {
+             //If a category is selected for both actor/director and attribute then plot the graph
+            .attr('y', function (g) {
                 //set default plot to row = 8, col = 1
-                if(d.row === 8 && d.col === 1){
+                if(g.row === 8 && g.col === 1){
                     d3.select(this).classed("highlight-rect",true);
-                    scPlot.plot(d.x, d.x, d.y, d.y);
+                    scPlot.plot(g.x, g.x, g.y, g.y);
                 }
-                    return (that.heightSVG / (number + 2)) * d.row;
+                    return (that.heightSVG / (number + 2)) * g.row;
             })
-            .attr("width", function(d){
-                //console.log(that.widthSVG/(number+1));
-                    return that.widthSVG / (number + 2)
+            //Fill color for scale of function
+            .attr("fill",function(j) {
+                return colorScale(d.value);
             })
-            .attr("height", function(d){
-                    return that.heightSVG/(number+2)
+            //Height of svg function
+            .attr("height", function(i){
+                return that.heightSVG/(number+2)
             })
-            .attr("fill",function (d) {
-                    return colorScale(d.value);
+            //Width of svg function
+            .attr("width", function(h){
+                return that.widthSVG / (number + 2)
             })
             .call(toolTip)
             .on('mouseover', toolTip.show)
