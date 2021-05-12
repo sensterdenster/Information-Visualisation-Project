@@ -84,15 +84,15 @@ class StatsActorDirector{
         let EnterLabelx = Labelx.enter().append("text");
         Labelx.exit().remove();
         Labelx = Labelx.merge(EnterLabelx)
+            .attr("class", "font-weight-bold")
+            .attr("fill", "#000")
+            .style("opacity", 0)
             .attr("x", width/2)
             .attr("y", -7)
-            .attr("fill", "#000")
-            .attr("class", "font-weight-bold")
-            .attr("text-anchor", "middle")
             .text((d) => { return d; })
-            .duration(1500)
+            .attr("text-anchor", "middle")
             .transition()
-            .style("opacity", 0)
+            .duration(1500)
             .style("opacity", 1);
 
         //Plotpoints being added 
