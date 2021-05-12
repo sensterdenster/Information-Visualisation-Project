@@ -121,9 +121,9 @@ class Filters {
 
             //If selected year is just one year where (start = end) just display the starting year, else if a range is selected display the start to the ending year
             if(start == end)
-                textYears.innerText = "Year(s) Selected " + start;
+                textYears.innerText = "Year(s) Selected: " + start;
             else
-                textYears.innerText = "Year(s) Selected " + start + " to " + end;
+                textYears.innerText = "Year(s) Selected: " + start + " to " + end;
         }
 
         //Rating slider - adjusting range, domain and scale for the rating slider 
@@ -212,9 +212,9 @@ class Filters {
             let yearsText = document.getElementById("ratingSelected");
 
             if(start == end)
-                yearsText.innerText = "Selected Rating(s): " + start;
+                yearsText.innerText = "Rating(s) Selected: " + start;
             else
-                yearsText.innerText = "Selected Rating(s): " + start + " to " + end;
+                yearsText.innerText = "Rating(s) Selected: " + start + " to " + end;
         }
 
         //---------------//genre checkboxes //---------------//
