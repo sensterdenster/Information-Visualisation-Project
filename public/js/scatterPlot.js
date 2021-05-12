@@ -42,7 +42,7 @@ class ScatterPlot
         (this.movies).forEach((movie) => {
             cx = +(movie[xAttribute]);
             cy = +(movie[yAttribute]);
-            title = movie["movie_title"].trim();
+            title = movie["film_title"].trim();
             xaxis = xAttribute;
             yaxis = yAttribute;
             if(!isNaN(cx) && !isNaN(cy) && (cx != 0) && (cy != 0))

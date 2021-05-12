@@ -17,18 +17,18 @@ class StatsActorDirector{
             svgBounds = statsActorDirector_Div.node().getBoundingClientRect(),
             height = 449 - margin.top - margin.bottom,
             width = svgBounds.width - margin.left - margin.right;
+
+            let ptg = d3.select("#plotTrendGroup")
+            .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
         
         let svg = d3.select("#plotTrend")
             .attr("width", svgBounds.width)
             .attr("height", 449 + margin.bottom + margin.top);
 
-        let ptg = d3.select("#plotTrendGroup")
-            .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
-
         let scaleX = d3.scaleBand()
             .padding([1])
             .rangeRound([0, width])
-            .domain((this.films).map(d => d["movie_title"]));
+            .domain((this.films).map(d => d["film_title"]));
 
         let scaleY = d3.scaleLinear()
             .range([height, 0])
@@ -103,9 +103,9 @@ class StatsActorDirector{
         let tip = d3.tip().attr("class", "d3-tip-node").html((d) => {
 
             if(this.feature == "imdb_score")
-                return d["movie_title"].trim() + ": " + parseFloat(d[this.feature]);
+                return d["film_title"].trim() + ": " + parseFloat(d[this.feature]);
             else
-                return d["movie_title"].trim() + ": " + parseInt(d[this.feature]).toLocaleString();
+                return d["film_title"].trim() + ": " + parseInt(d[this.feature]).toLocaleString();
         });
 
         let enterPoints = plotPoints.enter().append("circle");
@@ -117,7 +117,7 @@ class StatsActorDirector{
             .duration(1500)
             .attr("r", 4.5)
             .attr("cy", (d) => { return scaleY(d[this.feature]); })
-            .attr("cx", (d) => { return scaleX(d["movie_title"]); });
+            .attr("cx", (d) => { return scaleX(d["film_title"]); });
 
         //Invoke the tip on the plot points
         plotPoints.call(tip)
@@ -127,7 +127,7 @@ class StatsActorDirector{
         //Add the line graph
         let lineGraph = d3.line()
             .y((d) => { return scaleY(d[this.feature]); })
-            .x((d) => { return scaleX(d["movie_title"]); });
+            .x((d) => { return scaleX(d["film_title"]); });
 
         let plotLines = ptg.selectAll(".line")
             .data([this.films]);

@@ -186,9 +186,9 @@ function getMoviesForFilters() {
 
             if(yearMatches && ratingMatches && genresMatch)
             {
-                if(!matchingMovies_set.has(movie["movie_title"]))   //Avoid movie duplication using set
+                if(!matchingMovies_set.has(movie["film_title"]))   //Avoid movie duplication using set
                 {
-                    matchingMovies_set.add(movie["movie_title"]);
+                    matchingMovies_set.add(movie["film_title"]);
                     matchingMovies.push(movie);
                 }
             }

@@ -137,13 +137,13 @@ function getMoviesFor(directorOrActor, name) {
         //Extract movies which involve the selected actor
         excelMovies.forEach((movie) => {
 
-            if(!movies_set.has(movie["movie_title"]))   //Avoid movie duplication using set
+            if(!movies_set.has(movie["film_title"]))   //Avoid movie duplication using set
             {
                 if(movie["actor_1_name"] == name || movie["actor_2_name"] == name || movie["actor_3_name"] == name)
                 {
                     if(!isNaN(parseInt(movie["title_year"])))
                     {
-                        movies_set.add(movie["movie_title"]);
+                        movies_set.add(movie["film_title"]);
                         movies.push(movie);
                     }
                 }
@@ -155,13 +155,13 @@ function getMoviesFor(directorOrActor, name) {
         //Extract movies which involve the selected director
         excelMovies.forEach((movie) => {
 
-            if(!movies_set.has(movie["movie_title"]))   //Avoid movie duplication using set
+            if(!movies_set.has(movie["film_title"]))   //Avoid movie duplication using set
             {
                 if(movie["director_name"] == name)
                 {
                     if(!isNaN(parseInt(movie["title_year"])))
                     {
-                        movies_set.add(movie["movie_title"]);
+                        movies_set.add(movie["film_title"]);
                         movies.push(movie);
                     }
                 }
