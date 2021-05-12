@@ -1,6 +1,7 @@
 class CorrelationMatrix {
 
     constructor(rows) {
+        //Margin values set for correlation matrix along with rows being initialised
         this.margin = {top: 29, right: 19, bottom: 29, left: 49};
         this.rows = rows;
         
@@ -8,6 +9,7 @@ class CorrelationMatrix {
         let tilesDiv = d3.select("#correlationMatrix")
         let boundsSVG = tilesDiv.node().getBoundingClientRect();
 
+        //Height and width of SVG bounds set for margin scale
         this.widthSVG = boundsSVG.width - this.margin.left - this.margin.right;
         this.heightSVG = this.widthSVG;
 
@@ -119,43 +121,42 @@ class CorrelationMatrix {
             .attr("width", function(h){
                 return that.widthSVG / (number + 2)
             })
+            //Calling tootip so that the content is shown on click and mouse hover
             .call(toolTip)
-            .on('mouseover', toolTip.show)
             .on('mouseout', toolTip.hide)
-            .on("click", function(d){
-                //console.log(this);
+            .on('mouseover', toolTip.show)
+            .on("click", function(p){
                 rectangle.classed("highlight-rect",false);
                 d3.select(this).classed("highlight-rect",true);
-                // console.log(d.x);
-                // console.log(d.y);
-                scPlot.plot(d.x, d.x, d.y, d.y);
+                scPlot.plot(p.x, p.x, p.y, p.y);
             });
 
-
-        //Legend
-        let aS = d3.scaleLinear()
+        //Scale linear function to meet height of SVG and margin bottom 
+        let scaleLin = d3.scaleLinear()
             .range([0, this.heightSVG - this.margin.bottom])
             .domain([1, -1]);
 
-        let yA = d3.axisRight(aS)
+        //Setting axis right to scale to scaleLin function
+        let axisRight = d3.axisRight(scaleLin)
             .tickPadding(7);
 
-        let aG = this.svg.append("g")
-            // .attr("class", "y axis")
-            .call(yA)
+        //AppendG function to append axis right and translate it to stretch widht of SVG
+        let appendG = this.svg.append("g")
+            .call(axisRight)
             .attr("transform", "translate(" + (this.widthSVG - (this.margin.right*2)) + " ,4)")
 
-        let iR = d3.range(-1.0, 1.01, 0.01);
-        let h = this.heightSVG / iR.length + 3;
-        iR.forEach(function (d) {
-            aG.append('rect')
-                .style('fill', colorScale(d))
+        //Info range function to set range of the plot and set height appropriate to this length
+        let infoRange = d3.range(-1.0, 1.01, 0.01);
+        let h = this.heightSVG / infoRange.length + 3;
+        infoRange.forEach(function (q) {
+            appendG.append('rect')
+                .style('fill', colorScale(q))
                 .style('stroke-width', 0)
                 .style('stoke', 'none')
                 .attr('height', h)
                 .attr('width', 10)
                 .attr('x', 0)
-                .attr('y', aS(d))
+                .attr('y', scaleLin(q))
         });
 
 
