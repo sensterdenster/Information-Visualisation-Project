@@ -63,40 +63,36 @@ class MovieTable
     apply()
     {
         //Setting names of values for body of table from csv file
-        let topBody = d3.select("#tableMovies").select("tbody");
+        let tbody = d3.select("#tableMovies").select("tbody");
 
         //Selecting all values in table body and setting correct values accordingly
-        let topRowsBody = topBody.selectAll("tr")
-            .data(this.films);
+        let tbodyRows = tbody.selectAll("tr")
+        .data(this.films);
 
-        //Appending values from selected values accordingly, removing old ones and mergeing new ones to fit the sorted list
-        let topRowsBodyEnter = topRowsBody.enter().append("tr");
-        topRowsBody.exit().remove();
-        topRowsBody = topRowsBody.merge(topRowsBodyEnter);
+        let tbodyRowsEnter = tbodyRows.enter().append("tr");
+        tbodyRows.exit().remove();
+        tbodyRows = tbodyRows.merge(tbodyRowsEnter);
 
-        //Selecting all data from rows and columns and filtering the right data for each of the headers
-        let topColumnsBody = topRowsBody.selectAll("td")
-            .data( (p) => {
+        let tbodyColumns = tbodyRows.selectAll("td")
+            .data( (d) => {
                 return [
-                    p["title_year"], p["movie_title"], p["director_name"], p["imdb_score"], p["budget"]
+                    d["title_year"], d["movie_title"], d["director_name"], d["imdb_score"], d["budget"]
                 ]
             } );
 
-        //Appending these new values and removing the old one 
-        let topColumnsBodyEnter = topColumnsBody.enter().append("td");
-        topColumnsBody.exit().remove();
+        let tbodyColumnsEnter = tbodyColumns.enter().append("td");
+        tbodyColumns.exit().remove();
 
-        //Mergeing this with the new columns after sorting
-        topColumnsBody = topColumnsBody.merge(topColumnsBodyEnter)
+        tbodyColumns = tbodyColumns.merge(tbodyColumnsEnter)
             .style("opacity", 0)
-            .text( (p, q) => {
-                if(!p)
+            .text( (d, i) => {
+                if(!d)
                     return "N/A";
 
-                if(q == 4)  //Column for budget as some values are 'N/A' (strings)
-                    return parseInt(p).toLocaleString();
+                if(i == 4)  //Budget column
+                    return parseInt(d).toLocaleString();
 
-                return p;
+                return d;
             })
             .transition()
             .duration(500)
