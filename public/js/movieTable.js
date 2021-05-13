@@ -16,10 +16,10 @@ class MovieTable
     create()
     {
         //Setting name of headers for table head 
-        let tableHead = d3.select("#tableMovies").select("tableHead");
+        let thead = d3.select("#tableMovies").select("thead");
 
         //Selecting all headers in table head and setting the correct data to each column
-        let columnsTableHead = tableHead.selectAll("th")
+        let columnsTableHead = thead.selectAll("th")
             .data(this.tableHeaders);
 
         //Sorting function added to each column
@@ -62,10 +62,10 @@ class MovieTable
     apply()
     {
         //Setting names of values for body of table from csv file
-        let topBody = d3.select("#tableMovies").select("topBody");
+        let tbody = d3.select("#tableMovies").select("tbody");
 
         //Selecting all values in table body and setting correct values accordingly
-        let topRowsBody = topBody.selectAll("tr")
+        let topRowsBody = tbody.selectAll("tr")
             .data(this.films);
 
         //Appending values from selected values accordingly, removing old ones and mergeing new ones to fit the sorted list
