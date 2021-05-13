@@ -15,7 +15,7 @@ d3.csv("data/movie_metadata.csv", function (error, films) {
     d3.csv("data/correlation_matrix.csv", function (error, rows) {
         if (error) throw error;
         let corrMatrix = new CorrelationMatrix(rows);
-        corrMatrix.produce();
+        corrMatrix.create();
 
     });
 
