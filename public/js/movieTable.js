@@ -13,7 +13,7 @@ class MovieTable
     }
 
     //Create function to create table for movies
-    produce()
+    create()
     {
         //Setting name of headers for table head 
         let thead = d3.select("#tableMovies").select("thead");

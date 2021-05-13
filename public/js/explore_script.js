@@ -18,7 +18,7 @@ d3.csv("data/movie_metadata.csv", function (error, films) {
 
     //Alter the filtersettings which are linked to the node-link diagram and films table 
     let filterObj = new Filters();
-    filterObj.produce();
+    filterObj.create();
 
     let filmsInitial = getMoviesForFilters();
 
@@ -28,7 +28,7 @@ d3.csv("data/movie_metadata.csv", function (error, films) {
 
     //Render the initial films table with 50 arbitrary films
     window.movieTable = new MovieTable(filmsInitial.slice(0, 100));
-    movieTable.produce();
+    movieTable.create();
     movieTable.update();
 });
 
@@ -109,7 +109,7 @@ function filterProcess() {
     if(matchingMovies.length > 0)
     {
         movieTable = new MovieTable(matchingMovies.slice(0, 100));  //Limiting films matching search criteria to 100
-        movieTable.produce();
+        movieTable.create();
         movieTable.update();
 
         let nodelinkfd = new NodeLinkFD(matchingMovies.slice(0, 100));  //Limiting films matching search criteria to 100
