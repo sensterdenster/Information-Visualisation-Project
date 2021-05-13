@@ -24,16 +24,16 @@ class MovieTable
 
         //Sorting function added to each column
         columnsTableHead
-            .on("click", (p, q) => {
+            .on("click", (d, i) => {
 
                 
-                if(this.columnsSortOrder[q] % 2 == 0)
+                if(this.columnsSortOrder[i] % 2 == 0)
                 {
                     // For each even click on a column's header, sort all row-values for that column in ascending order
-                    this.movies = (this.movies).slice().sort(function (x, y) {
-                        if(x[p] < y[p])
+                    this.movies = (this.movies).slice().sort(function (a, b) {
+                        if(a[d] < b[d])
                             return -1;
-                        else if(x[p] > y[p])
+                        else if(a[d] > b[d])
                             return 1;
                         else
                             return 0;
@@ -42,10 +42,10 @@ class MovieTable
                 else    
                 {
                     //Else, for every odd click on a column's header the row-values for that column should be sorted in descending order 
-                    this.movies = (this.movies).slice().sort(function (x, y) {
-                        if(x[p] > y[p])
+                    this.movies = (this.movies).slice().sort(function (a, b) {
+                        if(a[d] > b[d])
                             return -1;
-                        else if(x[p] < y[p])
+                        else if(a[d] < b[d])
                             return 1;
                         else
                             return 0;
@@ -53,7 +53,7 @@ class MovieTable
                 }
 
                 //Column sort order array updated and apply funtion called to sort data for table with new sort
-                this.columnsSortOrder[q] += 1;
+                this.columnsSortOrder[i] += 1;
                 this.apply()   
             });
     }
@@ -75,9 +75,9 @@ class MovieTable
 
         //Selecting all data from rows and columns and filtering the right data for each of the headers
         let topColumnsBody = topRowsBody.selectAll("td")
-            .data( (p) => {
+            .data( (d) => {
                 return [
-                    p["title_year"], p["movie_title"], p["director_name"], p["imdb_score"], p["budget"]
+                    d["title_year"], d["movie_title"], d["director_name"], d["imdb_score"], d["budget"]
                 ]
             } );
 
@@ -88,14 +88,14 @@ class MovieTable
         //Mergeing this with the new columns after sorting
         topColumnsBody = topColumnsBody.merge(topColumnsBodyEnter)
             .style("opacity", 0)
-            .text( (p, q) => {
-                if(!p)
+            .text( (d, i) => {
+                if(!d)
                     return "N/A";
 
-                if(q == 4)  //Column for budget as some values are 'N/A' (strings)
-                    return parseInt(p).toLocaleString();
+                if(i == 4)  //Column for budget as some values are 'N/A' (strings)
+                    return parseInt(d).toLocaleString();
 
-                return p;
+                return d;
             })
             .transition()
             .duration(500)
