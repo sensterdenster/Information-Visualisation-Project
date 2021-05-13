@@ -24,7 +24,7 @@ class NodeLinkFD{
         // this.movietitles = new Set([]);
     }
 
-    apply(filmsSelected){
+    update(filmsSelected){
 
         let that = this;
         // create legend
@@ -190,7 +190,7 @@ class NodeLinkFD{
         //calling tool-tip
         svgnodeLink.call(toolTip);
 
-        // Here we create our simulation, and give it some forces to apply to all the nodes:
+        // Here we create our simulation, and give it some forces to update to all the nodes:
         let simulation = d3.forceSimulation()
         // forceLink creates tension along each link, keeping connected nodes together
             .force("link", d3.forceLink()

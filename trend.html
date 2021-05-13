@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Information Visualisation Project - Sen</title>
-    
+
     <!-- CSS Stylesheets -->
     <link rel="stylesheet" href="public/css/bootstrap-4.0.0-beta.2-dist/bootstrap.min.css">
     <link rel="stylesheet" href="public/css/style.css"/>
@@ -55,9 +55,9 @@
                             <input class="form-control-sm" id="nameDirectorOrActor" list="namesDirectorOrActor">
                             <datalist id="namesDirectorOrActor"></datalist>
                         </div>
-                        <!-- Button to select apply changes and update actor or director-->
+                        <!-- Button to select update changes and update actor or director-->
                         <div class="col-sm">
-                            <button class="btn btn-primary" type="button" id="applyDirectorOrActor" onclick="applyTrend()">Update actor</button>
+                            <button class="btn btn-primary" type="button" id="updateDirectorOrActor" onclick="updateTrend()">Update actor</button>
                         </div>                        
                         <!-- Radio button to select and filter movie attribute for field: (Rating, Gross, Budget, Facebook likes, User Reviews)-->
                         <div class="col-sm">
@@ -66,7 +66,7 @@
 
 
                         <div class="col-sm">
-                            <select class="form-control-sm" id="attributes" onchange="applyTrend()">
+                            <select class="form-control-sm" id="attributes" onchange="updateTrend()">
                                 <option selected value="num_user_for_reviews">User reviews</option>
                                 <option value="imdb_score">Rating</option>
                                 <option value="budget">Budget</option>

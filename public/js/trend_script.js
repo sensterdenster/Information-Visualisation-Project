@@ -189,7 +189,7 @@ function getMoviesFor(directorOrActor, name) {
 function changeDirectorOrActor(choice) {
 
     updateSearchFilter(choice.value);
-    document.getElementById("applyDirectorOrActor").innerText = "Update " + choice.value;
+    document.getElementById("updateDirectorOrActor").innerText = "Update " + choice.value;
 }
 
 /**
@@ -241,7 +241,7 @@ function updateSearchFilter(directorOrActor) {
 /**
  *  Update the actor/director trend plot based on selected parameters
  */
-function applyTrend() {
+function updateTrend() {
 
     let name = d3.select("#nameDirectorOrActor").node().value;
     let selectedAttribute = d3.select("#attributes").node().value;
