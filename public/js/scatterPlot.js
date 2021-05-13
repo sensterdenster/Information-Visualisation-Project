@@ -39,10 +39,10 @@ class ScatterPlot
         //console.log(xAttribute+": "+yAttribute)
         let plotPoints = [];
         let cx, cy, title, xaxis, yaxis;
-        (this.films).forEach((movie) => {
-            cx = +(movie[xAttribute]);
-            cy = +(movie[yAttribute]);
-            title = movie["movie_title"].trim();
+        (this.films).forEach((film) => {
+            cx = +(film[xAttribute]);
+            cy = +(film[yAttribute]);
+            title = film["movie_title"].trim();
             xaxis = xAttribute;
             yaxis = yAttribute;
             if(!isNaN(cx) && !isNaN(cy) && (cx != 0) && (cy != 0))

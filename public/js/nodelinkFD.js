@@ -4,7 +4,6 @@
 class NodeLinkFD{
 
     constructor(films){
-        //this.movies = movies;
         this.margin = {top: 10, right: 20, bottom: 30, left: 50};
         this.nodeLink = d3.select("#nodeLink");
 
@@ -32,7 +31,7 @@ class NodeLinkFD{
         let svgLegend = this.legend.select("svg")
             .attr("width", this.widthSVG)
             .attr("height", this.legendHeight);
-        // if(this.movies.length > 20){
+        // if(this.films.length > 20){
             //svgLegend.attr("transform", "translate(" + this.margin.left + ", 0)");
         // }
 
@@ -81,10 +80,10 @@ class NodeLinkFD{
 
 
         if(!selectedmovies){
-            selectedmovies = this.movies.slice(0, 100) //default selection
+            selectedmovies = this.films.slice(0, 100) //default selection
         }
 
-        selectedmovies.forEach(function(movie) {
+        selectedmovies.forEach(function(film) {
             let sameActorDirector = 0;
 
             //function to check if a node exists and increment degree
@@ -108,45 +107,45 @@ class NodeLinkFD{
             }
 
             //if director doesn't exists add to nodes list
-            let directorDegree = nodeExists(movie.director_name.trim(), 1);
+            let directorDegree = nodeExists(film.director_name.trim(), 1);
             if(!directorDegree){
-                this.nodes.push({"id": movie.director_name.trim(), "group": 1, "color":"orange", "degree": 1});
+                this.nodes.push({"id": film.director_name.trim(), "group": 1, "color":"orange", "degree": 1});
             }
 
             //if actor doesn't exists add to nodes list
-            let actor1Degree = nodeExists(movie.actor_1_name.trim(), 2);
+            let actor1Degree = nodeExists(film.actor_1_name.trim(), 2);
             if(!actor1Degree){
-                this.nodes.push({"id": movie.actor_1_name.trim(), "group": 2, "color":"red", "degree": 1});
+                this.nodes.push({"id": film.actor_1_name.trim(), "group": 2, "color":"red", "degree": 1});
             }
 
             //if actor doesn't exists add to nodes list
-            let actor2Degree = nodeExists(movie.actor_2_name.trim(), 2);
+            let actor2Degree = nodeExists(film.actor_2_name.trim(), 2);
             if(!actor2Degree){
-                this.nodes.push({"id": movie.actor_2_name.trim(), "group": 2, "color":"red", "degree": 1});
+                this.nodes.push({"id": film.actor_2_name.trim(), "group": 2, "color":"red", "degree": 1});
             }
 
             //if actor doesn't exists add to nodes list
-            let actor3Degree = nodeExists(movie.actor_3_name.trim(), 2);
+            let actor3Degree = nodeExists(film.actor_3_name.trim(), 2);
             if(!actor3Degree){
-                this.nodes.push({"id": movie.actor_3_name.trim(), "group": 2, "color":"red", "degree": 1});
+                this.nodes.push({"id": film.actor_3_name.trim(), "group": 2, "color":"red", "degree": 1});
             }
 
-            //edges from movie to director, actor1,2,3
-            this.edges.push({"source": movie.movie_title.trim(), "target": movie.director_name.trim()});
-            this.edges.push({"source": movie.movie_title.trim(), "target": movie.actor_1_name.trim()});
-            this.edges.push({"source": movie.movie_title.trim(), "target": movie.actor_2_name.trim()});
-            this.edges.push({"source": movie.movie_title.trim(), "target": movie.actor_3_name.trim()});
+            //edges from film to director, actor1,2,3
+            this.edges.push({"source": film.movie_title.trim(), "target": film.director_name.trim()});
+            this.edges.push({"source": film.movie_title.trim(), "target": film.actor_1_name.trim()});
+            this.edges.push({"source": film.movie_title.trim(), "target": film.actor_2_name.trim()});
+            this.edges.push({"source": film.movie_title.trim(), "target": film.actor_3_name.trim()});
 
             //nodes data for title, director, actor1,2,3
-            this.nodes.push({"id": movie.movie_title.trim(),  "group": 0, "color":"blue", "degree": 1});
+            this.nodes.push({"id": film.movie_title.trim(),  "group": 0, "color":"blue", "degree": 1});
 
-            //check for this current movie if actor and director is the same person and decrement their degree
-            if(movie.director_name.trim() === movie.actor_1_name.trim() ||
-                movie.director_name.trim() === movie.actor_2_name.trim() ||
-                movie.director_name.trim() === movie.actor_3_name.trim()){
+            //check for this current film if actor and director is the same person and decrement their degree
+            if(film.director_name.trim() === film.actor_1_name.trim() ||
+                film.director_name.trim() === film.actor_2_name.trim() ||
+                film.director_name.trim() === film.actor_3_name.trim()){
                 sameActorDirector = 1;
                 return (that.nodes).some(function(elem){
-                    if(elem.id === movie.director_name.trim()) {
+                    if(elem.id === film.director_name.trim()) {
                         elem.degree = elem.degree - 1;
                     }
                 })
@@ -179,8 +178,8 @@ class NodeLinkFD{
             });
 
         //setting up svg
-        // if(this.movies.length < 20){
-        //     console.log(this.movies.length);
+        // if(this.films.length < 20){
+        //     console.log(this.films.length);
         //     this.widthSVG = this.widthSVG/2;
         //     this.heightSVG = this.heightSVG/2;
         // }
@@ -367,7 +366,7 @@ class NodeLinkFD{
 
                 let d = d3.select(this).node().__data__;
 
-                if(d["group"] == 0)   //If selected node is a movie
+                if(d["group"] == 0)   //If selected node is a film
                 {
                     //console.log(d["id"]);
                 }
