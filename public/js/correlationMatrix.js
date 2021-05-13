@@ -19,7 +19,7 @@ class CorrelationMatrix {
     }
 
     //Creating and setting up tooltip
-    generate() {
+    create() {
         let toolTip = d3.tip()
             .offset([-10, 0])
             .attr('class', 'tip-different')

@@ -35,7 +35,7 @@ class Filters {
     /**
      * Creates a chart with circles representing each election year, populates text content and other required elements for the Year Chart
      */
-    generate() {
+    create() {
         let variable = this;
 
         // setup range for sliderYear

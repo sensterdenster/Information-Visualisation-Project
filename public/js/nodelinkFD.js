@@ -388,6 +388,6 @@ class NodeLinkFD{
             }
         }
 
-        }// close apply()
+        }// close update()
 
 }//close class
