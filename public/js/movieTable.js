@@ -89,14 +89,14 @@ class MovieTable
         //Mergeing this with the new columns after sorting
         topColumnsBody = topColumnsBody.merge(topColumnsBodyEnter)
             .style("opacity", 0)
-            .text( (k, j) => {
-                if(!k)
+            .text( (p, q) => {
+                if(!p)
                     return "N/A";
 
-                if(j == 4)  //Budget column
-                    return parseInt(k).toLocaleString();
+                if(q == 4)  //Column for budget as some values are 'N/A' (strings)
+                    return parseInt(p).toLocaleString();
 
-                return k;
+                return p;
             })
             .transition()
             .duration(500)
