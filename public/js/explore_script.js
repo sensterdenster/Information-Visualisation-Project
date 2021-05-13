@@ -16,7 +16,6 @@ d3.csv("data/movie_metadata.csv", function (error, films) {
     //Array for years selected
     window.yearSelected = [];
 
-
     //Alter the filtersettings which are linked to the node-link diagram and films table 
     let filterObj = new Filters();
     filterObj.create();
