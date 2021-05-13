@@ -4,7 +4,7 @@
 class NodeLinkFD{
 
     constructor(films){
-        this.margin = {top: 10, right: 20, bottom: 30, left: 50};
+        this.dimensions = {top: 10, right: 20, bottom: 30, left: 50};
         this.nodeLink = d3.select("#nodeLink");
 
         this.legend = d3.select("#legend");
@@ -12,7 +12,7 @@ class NodeLinkFD{
 
         //fetch the svg bounds
         this.boundsSVG = this.nodeLink.node().getBoundingClientRect();
-        this.widthSVG = (this.boundsSVG.width - this.margin.right);
+        this.widthSVG = (this.boundsSVG.width - this.dimensions.right);
         this.heightSVG = 550;
 
         this.films = films;  //default 50 movies
@@ -32,13 +32,13 @@ class NodeLinkFD{
             .attr("width", this.widthSVG)
             .attr("height", this.legendHeight);
         // if(this.films.length > 20){
-            //svgLegend.attr("transform", "translate(" + this.margin.left + ", 0)");
+            //svgLegend.attr("transform", "translate(" + this.dimensions.left + ", 0)");
         // }
 
         let gLegend = svgLegend.append("g");
 
         svgLegend.append("text").text(["Double click on a node to highlight it's neighbors"])
-            .attr("transform", "translate(" + this.margin.left*1.5 + ", 55)");
+            .attr("transform", "translate(" + this.dimensions.left*1.5 + ", 55)");
 
         // svgLegend.selectAll(".feature")
         //     .enter().append("text")
@@ -56,7 +56,7 @@ class NodeLinkFD{
                 return d.color;
             })
             .attr("cx", function (d,i) {
-                return i * (that.widthSVG/7) + that.margin.left;
+                return i * (that.widthSVG/7) + that.dimensions.left;
             })
             .attr("cy", "50%")
             .attr("r", 5)
@@ -68,7 +68,7 @@ class NodeLinkFD{
             enter().append("text")
             .data(colors)
             .attr("x", function (d,i) {
-                return i * (that.widthSVG/7) + that.margin.left*1.2;
+                return i * (that.widthSVG/7) + that.dimensions.left*1.2;
             })
             .attr("y", "60%")
             .text(function (d) {

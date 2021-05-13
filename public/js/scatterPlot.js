@@ -7,14 +7,14 @@ class ScatterPlot
         this.films = filmsExcel;
         this.plotDiv = d3.select("#scatterPlot");
 
-        this.margin = {top: 20, right: 20, bottom: 50, left: 110};
+        this.dimensions = {top: 20, right: 20, bottom: 50, left: 110};
         let boundsSVG = this.plotDiv.node().getBoundingClientRect();
-        this.width = boundsSVG.width - this.margin.left - this.margin.right;
-        this.height = 450 - this.margin.top - this.margin.bottom;
+        this.width = boundsSVG.width - this.dimensions.left - this.dimensions.right;
+        this.height = 450 - this.dimensions.top - this.dimensions.bottom;
 
         this.svg = this.plotDiv.append("svg")
             .attr("width", boundsSVG.width)
-            .attr("height", 450 + this.margin.top + this.margin.bottom);
+            .attr("height", 450 + this.dimensions.top + this.dimensions.bottom);
 
     }
 
@@ -79,11 +79,11 @@ class ScatterPlot
          g = gEnter.merge(g);
          //shift right
          g.attr("class","gplot")
-             .attr("transform", "translate(" + this.margin.left + "," + this.margin.top + ")");
+             .attr("transform", "translate(" + this.dimensions.left + "," + this.dimensions.top + ")");
         */
         this.svg.selectAll("g").remove();
-        let g = this.svg.append("g").attr("transform", "translate(" + this.margin.left + "," + this.margin.top + ")");
-        //let g = this.svg.append("g").attr("transform", "translate(" + "0" + "," + this.margin.top + ")");
+        let g = this.svg.append("g").attr("transform", "translate(" + this.dimensions.left + "," + this.dimensions.top + ")");
+        //let g = this.svg.append("g").attr("transform", "translate(" + "0" + "," + this.dimensions.top + ")");
 
         g.append("g")
         .call(d3.axisLeft(yScale));

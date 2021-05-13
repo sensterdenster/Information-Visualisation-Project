@@ -15,19 +15,19 @@ class StatsActorDirector{
         let statsActorDirector_Div = d3.select("#statsActorDirector");
 
         //Margin setting for graph 
-        let margin = {top: 19, bottom: 99, left: 119, right: 19},
+        let dimensions = {top: 19, bottom: 99, left: 119, right: 19},
             boundsSVG = statsActorDirector_Div.node().getBoundingClientRect(),
-            height = 449 - margin.bottom - margin.top,
-            width = boundsSVG.width - margin.right - margin.left;
+            height = 449 - dimensions.bottom - dimensions.top,
+            width = boundsSVG.width - dimensions.right - dimensions.left;
         
         //Setting height and width of plot
         let svg = d3.select("#plotTrend")
             .attr("width", boundsSVG.width)
-            .attr("height", 449 + margin.bottom + margin.top);
+            .attr("height", 449 + dimensions.bottom + dimensions.top);
 
         //Plotting trend group through d3 for transformations and translation
         let ptg = d3.select("#plotTrendGroup")
-            .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+            .attr("transform", "translate(" + dimensions.left + "," + dimensions.top + ")");
 
         //Setting padding, width and domain of scale y of plot 
         let scaleY = d3.scaleLinear()

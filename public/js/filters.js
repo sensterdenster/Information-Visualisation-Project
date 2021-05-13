@@ -5,8 +5,8 @@ class Filters {
     //Constructor used for creating the year slider on movie explorer page
     constructor(){
 
-        // Setting the margin values for the chart
-        this.margin = {top: 9, bottom: 29, left: 49, right: 19};
+        // Setting the dimensions values for the chart
+        this.dimensions = {top: 9, bottom: 29, left: 49, right: 19};
         
         //Filtering variable to filter through select genres
         let filtering = d3.select("#filters");
@@ -16,7 +16,7 @@ class Filters {
 
         //Height and width set for boundaries of year section
         this.heightSVG = 75;
-        this.widthSVG = (this.boundsSVG.width/2 - this.margin.left - this.margin.right);
+        this.widthSVG = (this.boundsSVG.width/2 - this.dimensions.left - this.dimensions.right);
 
         //Sifting through IMDB ratings and pushing them
         this.IMDBratings = [];
@@ -47,11 +47,11 @@ class Filters {
         //creating svg for year slider
         let SVGyears = d3.select("#sliderYear").append("svg")
             .attr("height", this.heightSVG+10)
-            .attr("width", this.widthSVG + this.margin.right*2)
+            .attr("width", this.widthSVG + this.dimensions.right*2)
             
         //creating group for sliderYear
         let sliderYear = SVGyears.append("g")
-            .attr("transform", "translate(" + this.margin.left/2 + ", 5 )")
+            .attr("transform", "translate(" + this.dimensions.left/2 + ", 5 )")
             .attr("class", "slider");
 
         // Setting slider to move along x axis when controlled and setting this frame
@@ -134,13 +134,13 @@ class Filters {
 
         //Creating element of SVG for the slider
         let ratingsvg = d3.select("#sliderRating").append("svg")
-            .attr("width", this.widthSVG + this.margin.right*2)
+            .attr("width", this.widthSVG + this.dimensions.right*2)
             .attr("height", this.heightSVG+10)
 
         //Creating slider year group so that the slider moves together when dragging in the middle 
         let sliderRating = ratingsvg.append("g")
             .attr("class", "slider")
-            .attr("transform", "translate(" + this.margin.left/2 + ", 5 )");
+            .attr("transform", "translate(" + this.dimensions.left/2 + ", 5 )");
 
         //x-Axis translation ammendments
         sliderRating.append("g")

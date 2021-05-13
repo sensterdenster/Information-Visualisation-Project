@@ -1,15 +1,15 @@
 class CorrelationMatrix {
     constructor(rows) {
         //Margin values set for correlation matrix along with rows being initialised
-        this.margin = {top: 29, right: 19, bottom: 29, left: 49};
+        this.dimensions = {top: 29, right: 19, bottom: 29, left: 49};
         this.rows = rows;
         
         //Attains div element acces which is created for this plot and the element of the legend from HTML
         let tilesDiv = d3.select("#correlationMatrix")
         let boundsSVG = tilesDiv.node().getBoundingClientRect();
 
-        //Height and width of SVG bounds set for margin scale
-        this.widthSVG = boundsSVG.width - this.margin.left - this.margin.right;
+        //Height and width of SVG bounds set for dimensions scale
+        this.widthSVG = boundsSVG.width - this.dimensions.left - this.dimensions.right;
         this.heightSVG = this.widthSVG;
 
         //SVG elements here are created within the div
@@ -128,9 +128,9 @@ class CorrelationMatrix {
                 scPlot.plot(p.x, p.x, p.y, p.y);
             });
 
-        //Scale linear function to meet height of SVG and margin bottom 
+        //Scale linear function to meet height of SVG and dimensions bottom 
         let scaleLin = d3.scaleLinear()
-            .range([0, this.heightSVG - this.margin.bottom])
+            .range([0, this.heightSVG - this.dimensions.bottom])
             .domain([1, -1]);
 
         //Setting axis right to scale to scaleLin function
@@ -140,7 +140,7 @@ class CorrelationMatrix {
         //AppendG function to append axis right and translate it to stretch widht of SVG
         let appendG = this.svg.append("g")
             .call(axisRight)
-            .attr("transform", "translate(" + (this.widthSVG - (this.margin.right*2)) + " ,4)")
+            .attr("transform", "translate(" + (this.widthSVG - (this.dimensions.right*2)) + " ,4)")
 
         //Infor range variable to set range using d3, also h variable for height with respect to inforange value length
         let infoRange = d3.range(-1.0, 1.01, 0.01);
