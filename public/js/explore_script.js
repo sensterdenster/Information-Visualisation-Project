@@ -21,11 +21,11 @@ d3.csv("data/movie_metadata.csv", function (error, films) {
     filterObj.create();
 
     //Call function to retrieve initial films and stores it in filmsInitial variable
-    let filmsInitial = getMoviesForFilters();
+    let filmsInitial = retrieveFilmsFiltered();
 
     //Rendering the 50 arbitrary films from the node-link diagram which is initially loaded on the page
-    let nodelinkfd = new NodeLinkFD(filmsInitial.slice(0, 100));
-    nodelinkfd.update();
+    let filmNodeLink = new NodeLinkFD(filmsInitial.slice(0, 100));
+    filmNodeLink.update();
 
     //Rendering the 50 arbitrary films into the table for the initial loaded page 
     window.tableFilms = new TableFilms(filmsInitial.slice(0, 100));
@@ -81,30 +81,30 @@ function selectAll()
 //Function to apply films table and node-link diagram in regards to the filters selected
 function filterProcess() {
     //Messages for header and body if number of films exceed 100 as this would be too much  as error messages if no films found
-    let messageForBody = document.getElementById("bodyMessage");
-    let messageForHeader = document.getElementById("headerMessage");
-    let filmsMatching = getMoviesForFilters();
+    let bodyMessage = document.getElementById("messageBody");
+    let headerMessage = document.getElementById("messageHeader");
+    let filmsMatching = retrieveFilmsFiltered();
     let messageError = "";
 
     //If number of films are geater than 100, display following prompt text 
     if(filmsMatching.length > 100)
     {
-        messageForHeader.innerText = "Note";
-        messageForHeader.setAttribute("class", "text-info");
+        headerMessage.innerText = "Note";
+        headerMessage.setAttribute("class", "text-info");
         messageError = "Number of films matching criteria exceed 100 - Results reduced";
     }
     //Else if no films match criteria, display error message as shown below
     else if(filmsMatching.length == 0)
     {
-        messageForHeader.innerText = "Error";
-        messageForHeader.setAttribute("class", "text-danger");
+        headerMessage.innerText = "Error";
+        headerMessage.setAttribute("class", "text-danger");
         messageError = "No films matching criteria found";
     }
 
     //If error message, show the body of the message in the form of a modal 
     if(messageError)
     {
-        messageForBody.innerText = messageError;
+        bodyMessage.innerText = messageError;
         $('#modalError').modal('show');
     }
 
@@ -114,14 +114,14 @@ function filterProcess() {
         tableFilms.create();
         tableFilms.update();
 
-        let nodelinkfd = new NodeLinkFD(filmsMatching.slice(0, 100));  //Limiting films matching search criteria to 100
-        nodelinkfd.update();
+        let filmNodeLink = new NodeLinkFD(filmsMatching.slice(0, 100));  //Limiting films matching search criteria to 100
+        filmNodeLink.update();
     }
 }
 
 
 //Retrieves films which match the specific criteria of rating, genre, and year for filters
-function getMoviesForFilters() {
+function retrieveFilmsFiltered() {
 
     genresSelected = [];
 
