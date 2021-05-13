@@ -1,27 +1,22 @@
-/**
- * Created by Kashyap on 11/26/2017.
- */
 class NodeLinkFD{
 
     constructor(films){
-        this.dimensions = {top: 10, right: 20, bottom: 30, left: 50};
+        //Dimensions of nodelink
         this.nodeLink = d3.select("#nodeLink");
+        this.dimensions = {top: 9, bottom: 29, right: 19, left: 39};
 
-        this.legend = d3.select("#legend");
         this.legendHeight = 60;
+        this.legend = d3.select("#legend");
 
-        //fetch the svg bounds
-        this.boundsSVG = this.nodeLink.node().getBoundingClientRect();
+        //Retrieving bounds for svg
         this.widthSVG = (this.boundsSVG.width - this.dimensions.right);
-        this.heightSVG = 550;
+        this.boundsSVG = this.nodeLink.node().getBoundingClientRect();
+        this.heightSVG = 549;
 
-        this.films = films;  //default 50 movies
-        //console.log(this.data[0].movie_title);
-        this.edges = [];
+        this.films = films;  
         this.nodes = [];
-        // this.directors = new Set([]);
-        // this.actors = new Set();
-        // this.movietitles = new Set([]);
+
+        this.borders = [];
     }
 
     update(filmsSelected){
@@ -130,11 +125,11 @@ class NodeLinkFD{
                 this.nodes.push({"id": film.actor_3_name.trim(), "group": 2, "color":"red", "degree": 1});
             }
 
-            //edges from film to director, actor1,2,3
-            this.edges.push({"source": film.movie_title.trim(), "target": film.director_name.trim()});
-            this.edges.push({"source": film.movie_title.trim(), "target": film.actor_1_name.trim()});
-            this.edges.push({"source": film.movie_title.trim(), "target": film.actor_2_name.trim()});
-            this.edges.push({"source": film.movie_title.trim(), "target": film.actor_3_name.trim()});
+            //borders from film to director, actor1,2,3
+            this.borders.push({"source": film.movie_title.trim(), "target": film.director_name.trim()});
+            this.borders.push({"source": film.movie_title.trim(), "target": film.actor_1_name.trim()});
+            this.borders.push({"source": film.movie_title.trim(), "target": film.actor_2_name.trim()});
+            this.borders.push({"source": film.movie_title.trim(), "target": film.actor_3_name.trim()});
 
             //nodes data for title, director, actor1,2,3
             this.nodes.push({"id": film.movie_title.trim(),  "group": 0, "color":"blue", "degree": 1});
@@ -156,7 +151,7 @@ class NodeLinkFD{
 
 
         // console.log(this.nodes)
-        // console.log(this.edges)
+        // console.log(this.borders)
 
         //Scale for setting up size of the node based on the degree
         // let rscale = d3.scaleLinear().domain([]).range([]);
@@ -218,7 +213,7 @@ class NodeLinkFD{
 
         // Now let's create the lines
         let links = linkLayer.selectAll("line")
-            .data(this.edges)
+            .data(this.borders)
 
 
 
@@ -294,7 +289,7 @@ class NodeLinkFD{
         // The tension force (the forceLink that we named "link" above) also needs to know
         // about the link data that we finally have
         simulation.force("link")
-            .links(this.edges)
+            .links(this.borders)
             .distance(15);
 
 
@@ -351,7 +346,7 @@ class NodeLinkFD{
         for (let i = 0; i < this.nodes.length; i++) {
             linkedByIndex[i + "," + i] = 1;
         };
-        this.edges.forEach(function (d) {
+        this.borders.forEach(function (d) {
             linkedByIndex[d.source.index + "," + d.target.index] = 1;
         });
 
