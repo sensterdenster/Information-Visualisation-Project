@@ -76,9 +76,9 @@ class MovieTable
 
         //Selecting all data from rows and columns and filtering the right data for each of the headers
         let topColumnsBody = topRowsBody.selectAll("td")
-            .data( (d) => {
+            .data( (p) => {
                 return [
-                    d["title_year"], d["movie_title"], d["director_name"], d["imdb_score"], d["budget"]
+                    p["title_year"], p["movie_title"], p["director_name"], p["imdb_score"], p["budget"]
                 ]
             } );
 
