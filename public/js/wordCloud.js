@@ -1,13 +1,13 @@
 
 class WordCloud{
 
-    constructor(movies){
-        this.movies = movies.slice(0,15);
+    constructor(films){
+        this.films = films.slice(0,15);
 
     }
 
 
-update(){
+apply(){
     let frequency_list = [];
 
     //check if a word exists
@@ -24,8 +24,8 @@ update(){
     }
 
         //process data and collect similar words
-        this.movies.forEach((movie) => {
-                let plotkeywords = movie["plot_keywords"].split("|");
+        this.films.forEach((film) => {
+                let plotkeywords = film["plot_keywords"].split("|");
                 plotkeywords.forEach(function (plotword) {
                     let wordInList = wordExists(plotword.trim())
                     if(!wordInList){

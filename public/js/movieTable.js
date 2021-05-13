@@ -54,12 +54,12 @@ class MovieTable
 
                 //Column sort order array updated and apply funtion called to sort data for table with new sort
                 this.sortColumnOrder[q] += 1;
-                this.update()   
+                this.apply()   
             });
     }
 
     //Apply function updates the values for the table and displays them
-    update()
+    apply()
     {
         //Setting names of values for body of table from csv file
         let tbody = d3.select("#tableMovies").select("tbody");

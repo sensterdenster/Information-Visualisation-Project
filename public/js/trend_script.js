@@ -1,7 +1,7 @@
-d3.csv("data/movie_metadata.csv", function (error, movies) {
+d3.csv("data/movie_metadata.csv", function (error, films) {
     if (error) throw error;
 
-    window.excelMovies = movies;
+    window.filmsExcel = films;
     window.allActors = getActors();
     window.allDirectors = getDirectors();
 
@@ -25,7 +25,7 @@ d3.csv("data/movie_metadata.csv", function (error, movies) {
     //wordCloud.update();
 
     //Prepare data for scatter plots
-    let plotMovies = movies.map((d) => {
+    let plotMovies = films.map((d) => {
         return {"imdb_score": d["imdb_score"], "gross": d["gross"], "num_user_for_reviews": d["num_user_for_reviews"]};
     });
 
@@ -58,9 +58,9 @@ d3.csv("data/movie_metadata.csv", function (error, movies) {
 function getActors() {
 
     //Get all actors
-    let actor1names = excelMovies.map(d => d["actor_1_name"]);
-    let actor2names = excelMovies.map(d => d["actor_2_name"]);
-    let actor3names = excelMovies.map(d => d["actor_3_name"]);
+    let actor1names = filmsExcel.map(d => d["actor_1_name"]);
+    let actor2names = filmsExcel.map(d => d["actor_2_name"]);
+    let actor3names = filmsExcel.map(d => d["actor_3_name"]);
 
     //Merge all actors and sort
     let actor123names = actor1names.concat(actor2names, actor3names).sort();
@@ -96,7 +96,7 @@ function getActors() {
 function getDirectors() {
 
     //Get all directors
-    let directorNames = excelMovies.map(d => d["director_name"]);
+    let directorNames = filmsExcel.map(d => d["director_name"]);
     let directorNames_sorted = directorNames.sort();    //Sort
 
     let directors_set = new Set();
@@ -129,22 +129,22 @@ function getDirectors() {
  */
 function getMoviesFor(directorOrActor, name) {
 
-    let movies = [];
-    let movies_set = new Set();
+    let films = [];
+    let set_films = new Set();
 
     if(directorOrActor == "actor")
     {
         //Extract movies which involve the selected actor
-        excelMovies.forEach((movie) => {
+        filmsExcel.forEach((film) => {
 
-            if(!movies_set.has(movie["movie_title"]))   //Avoid movie duplication using set
+            if(!set_films.has(film["movie_title"]))   //Avoid movie duplication using set
             {
-                if(movie["actor_1_name"] == name || movie["actor_2_name"] == name || movie["actor_3_name"] == name)
+                if(film["actor_1_name"] == name || film["actor_2_name"] == name || film["actor_3_name"] == name)
                 {
-                    if(!isNaN(parseInt(movie["title_year"])))
+                    if(!isNaN(parseInt(film["title_year"])))
                     {
-                        movies_set.add(movie["movie_title"]);
-                        movies.push(movie);
+                        set_films.add(film["movie_title"]);
+                        films.push(film);
                     }
                 }
             }
@@ -153,16 +153,16 @@ function getMoviesFor(directorOrActor, name) {
     else
     {
         //Extract movies which involve the selected director
-        excelMovies.forEach((movie) => {
+        filmsExcel.forEach((film) => {
 
-            if(!movies_set.has(movie["movie_title"]))   //Avoid movie duplication using set
+            if(!set_films.has(film["movie_title"]))   //Avoid movie duplication using set
             {
-                if(movie["director_name"] == name)
+                if(film["director_name"] == name)
                 {
-                    if(!isNaN(parseInt(movie["title_year"])))
+                    if(!isNaN(parseInt(film["title_year"])))
                     {
-                        movies_set.add(movie["movie_title"]);
-                        movies.push(movie);
+                        set_films.add(film["movie_title"]);
+                        films.push(film);
                     }
                 }
             }
@@ -170,17 +170,17 @@ function getMoviesFor(directorOrActor, name) {
     }
 
     //Sort the movies by year
-    movies = (movies).slice().sort(function (movie1, movie2) {
+    films = (films).slice().sort(function (film1, film2) {
 
-        if(parseInt(movie1["title_year"]) < parseInt(movie2["title_year"]))
+        if(parseInt(film1["title_year"]) < parseInt(film2["title_year"]))
             return -1;
-        else if(parseInt(movie1["title_year"]) > parseInt(movie2["title_year"]))
+        else if(parseInt(film1["title_year"]) > parseInt(film2["title_year"]))
             return 1;
         else
             return 0;
     });
 
-    return movies;
+    return films;
 }
 
 /**
@@ -245,7 +245,7 @@ function applyTrend() {
 
     let name = d3.select("#nameDirectorOrActor").node().value;
     let selectedAttribute = d3.select("#attributes").node().value;
-    let movies = [];
+    let films = [];
     let errorMessage = "";
     let errorDiv = document.getElementsByClassName("modal-body")[0];
 
@@ -256,8 +256,8 @@ function applyTrend() {
 
         if(allActors.has(name)) //Ensure actor name passed is valid
         {
-            movies = getMoviesFor("actor", name).filter((movie) => movie[selectedAttribute]);
-            statsActorDirector = new StatsActorDirector("Actor", name, movies, selectedAttribute);
+            films = getMoviesFor("actor", name).filter((film) => film[selectedAttribute]);
+            statsActorDirector = new StatsActorDirector("Actor", name, films, selectedAttribute);
             statsActorDirector.plot();
 
             //let wordCloud = new WordCloud(movies);
@@ -274,8 +274,8 @@ function applyTrend() {
     {
         if(allDirectors.has(name))  //Ensure director name passed is valid
         {
-            movies = getMoviesFor("director", name).filter((movie) => movie[selectedAttribute]);
-            statsActorDirector = new StatsActorDirector("Director", name, movies, selectedAttribute);
+            films = getMoviesFor("director", name).filter((film) => film[selectedAttribute]);
+            statsActorDirector = new StatsActorDirector("Director", name, films, selectedAttribute);
             statsActorDirector.plot();
 
             //let wordCloud = new WordCloud(movies);

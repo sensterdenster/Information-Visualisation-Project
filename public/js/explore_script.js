@@ -1,27 +1,27 @@
-d3.csv("data/movie_metadata.csv", function (error, movies) {
+d3.csv("data/movie_metadata.csv", function (error, films) {
     if (error) throw error;
 
-    window.excelMovies = movies;
+    window.filmsExcel = films;
     window.allGenres = getGenres();
 
     window.yearSelected = [];
     window.ratingSelected = [];
     window.selectedGenres = [];
 
-    //Render the filters associated with the movies table & node-link diagram
+    //Render the filters associated with the films table & node-link diagram
     let filters = new Filters();
     filters.create();
 
-    let initialMovies = getMoviesForFilters();
+    let filmsInitial = getMoviesForFilters();
 
-    //Render the initial node-link diagram with 50 arbitrary movies
-    let nodelinkfd = new NodeLinkFD(initialMovies.slice(0, 100));
-    nodelinkfd.update();
+    //Render the initial node-link diagram with 50 arbitrary films
+    let nodelinkfd = new NodeLinkFD(filmsInitial.slice(0, 100));
+    nodelinkfd.apply();
 
-    //Render the initial movies table with 50 arbitrary movies
-    window.movieTable = new MovieTable(initialMovies.slice(0, 100));
+    //Render the initial films table with 50 arbitrary films
+    window.movieTable = new MovieTable(filmsInitial.slice(0, 100));
     movieTable.create();
-    movieTable.update();
+    movieTable.apply();
 });
 
 
@@ -32,8 +32,8 @@ function getGenres() {
 
     let genres_set = new Set();
 
-    excelMovies.forEach((movie) => {
-        let movieGenres = movie["genres"].split("|");
+    filmsExcel.forEach((films) => {
+        let movieGenres = films["genres"].split("|");
         movieGenres.forEach((genre) => {
             genres_set.add(genre);
         })
@@ -68,7 +68,7 @@ function selectAll()
 }
 
 /**
- *  Update the movies table & node-link diagram based on filter selection
+ *  Update the films table & node-link diagram based on filter selection
  */
 
 
@@ -83,13 +83,13 @@ function filterProcess() {
     {
         headerMessage.innerText = "Note";
         headerMessage.setAttribute("class", "text-info");
-        errorMessage = "Matching movies exceeded 100 - results trimmed";
+        errorMessage = "Matching films exceeded 100 - results trimmed";
     }
     else if(matchingMovies.length == 0)
     {
         headerMessage.innerText = "Error";
         headerMessage.setAttribute("class", "text-danger");
-        errorMessage = "No matching movies found for the selected filters";
+        errorMessage = "No matching films found for the selected filters";
     }
 
     if(errorMessage)
@@ -100,17 +100,17 @@ function filterProcess() {
 
     if(matchingMovies.length > 0)
     {
-        movieTable = new MovieTable(matchingMovies.slice(0, 100));  //Limiting movies matching search criteria to 100
+        movieTable = new MovieTable(matchingMovies.slice(0, 100));  //Limiting films matching search criteria to 100
         movieTable.create();
-        movieTable.update();
+        movieTable.apply();
 
-        let nodelinkfd = new NodeLinkFD(matchingMovies.slice(0, 100));  //Limiting movies matching search criteria to 100
-        nodelinkfd.update();
+        let nodelinkfd = new NodeLinkFD(matchingMovies.slice(0, 100));  //Limiting films matching search criteria to 100
+        nodelinkfd.apply();
     }
 }
 
 /**
- *  Return matching movies for the selected year, rating and genre filter values
+ *  Return matching films for the selected year, rating and genre filter values
  */
 function getMoviesForFilters() {
 
@@ -132,13 +132,13 @@ function getMoviesForFilters() {
 
     if(isYearFilterSet || isRatingFilterSet || isGenreFilterSet)    //If at least one filter has been set by user
     {
-        excelMovies.forEach((movie) => {
+        filmsExcel.forEach((film) => {
 
             let yearMatches = true;
 
             if(isYearFilterSet)
             {
-                let currentMovieYear = parseInt(movie["title_year"]);
+                let currentMovieYear = parseInt(film["title_year"]);
                 let startYear = yearSelected[0].start;
                 let endYear = yearSelected[0].end;
 
@@ -155,7 +155,7 @@ function getMoviesForFilters() {
 
             if(isRatingFilterSet)
             {
-                let currentMovieRating = parseFloat(movie["imdb_score"]);
+                let currentMovieRating = parseFloat(film["imdb_score"]);
                 let startRating = ratingSelected[0].start;
                 let endRating = ratingSelected[0].end;
 
@@ -174,7 +174,7 @@ function getMoviesForFilters() {
             {
                 for(let genreIndex = 0; genreIndex < selectedGenres.length; genreIndex++)
                 {
-                    if(movie["genres"].includes(selectedGenres[genreIndex]))
+                    if(film["genres"].includes(selectedGenres[genreIndex]))
                     {
                         genresMatch = true;
                         break;
@@ -186,10 +186,10 @@ function getMoviesForFilters() {
 
             if(yearMatches && ratingMatches && genresMatch)
             {
-                if(!matchingMovies_set.has(movie["movie_title"]))   //Avoid movie duplication using set
+                if(!matchingMovies_set.has(film["movie_title"]))   //Avoid film duplication using set
                 {
-                    matchingMovies_set.add(movie["movie_title"]);
-                    matchingMovies.push(movie);
+                    matchingMovies_set.add(film["movie_title"]);
+                    matchingMovies.push(film);
                 }
             }
         })

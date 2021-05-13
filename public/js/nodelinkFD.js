@@ -3,7 +3,7 @@
  */
 class NodeLinkFD{
 
-    constructor(movies){
+    constructor(films){
         //this.movies = movies;
         this.margin = {top: 10, right: 20, bottom: 30, left: 50};
         this.nodeLink = d3.select("#nodeLink");
@@ -16,7 +16,7 @@ class NodeLinkFD{
         this.widthSVG = (this.boundsSVG.width - this.margin.right);
         this.heightSVG = 550;
 
-        this.movies = movies;  //default 50 movies
+        this.films = films;  //default 50 movies
         //console.log(this.data[0].movie_title);
         this.edges = [];
         this.nodes = [];
