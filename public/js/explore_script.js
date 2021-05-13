@@ -209,12 +209,15 @@ function retrieveFilmsFiltered() {
                     }
                 }
             }
+            //Else avoid entering for loop if all films have been filtered already
             else
                 matchingGenres = true;
 
-            if(matchingYear && matchingRating && matchingGenres)
+            //If all has been sorted and filtered accordingly for genre, year, and rating
+            if(matchingRating &&  matchingYear && matchingGenres)
             {
-                if(!filmsMatchingSet.has(film["movie_title"]))   //Avoid film duplication using set
+                //Condition to avoid film being duplicated 
+                if(!filmsMatchingSet.has(film["movie_title"]))   
                 {
                     filmsMatchingSet.add(film["movie_title"]);
                     filmsMatching.push(film);
@@ -222,6 +225,5 @@ function retrieveFilmsFiltered() {
             }
         })
     }
-
     return filmsMatching;
 }
