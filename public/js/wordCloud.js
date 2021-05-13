@@ -1,4 +1,6 @@
-
+/**
+ * Created by Sen Thotawatte on 08/05/2021.
+ */
 class WordCloud{
 
     constructor(films){

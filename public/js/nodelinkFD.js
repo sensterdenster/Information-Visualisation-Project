@@ -1,19 +1,21 @@
+/**
+ * Created by Sen Thotawatte on 08/05/2021.
+ */
 class NodeLinkFD{
 
     constructor(films){
         //Selecting nodelink from d3 and setting its dimensions 
-        this.dimensions = {top: 9, bottom: 29, right: 19, left: 39};
         this.nodeLink = d3.select("#nodeLink");
+        this.dimensions = {top: 9, bottom: 29, right: 19, left: 39};
 
         //Selecting legend for nodelink from d3
-        this.legend = d3.select("#legend");
         this.heightOfLegend = 60;
+        this.legend = d3.select("#legend");
 
         //Retrieving bounds for svg
         this.boundsSVG = this.nodeLink.node().getBoundingClientRect();
         this.heightSVG = 549;
         this.widthSVG = (this.boundsSVG.width - this.dimensions.right);
-
 
         //Consturctor reference to border values of nodelink which are stored in array 
         this.borders = [];

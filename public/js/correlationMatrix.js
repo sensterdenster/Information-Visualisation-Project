@@ -1,3 +1,6 @@
+/**
+ * Created by Sen Thotawatte on 08/05/2021.
+ */
 class CorrelationMatrix {
     constructor(rows) {
         //Margin values set for correlation matrix along with rows being initialised

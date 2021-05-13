@@ -1,3 +1,6 @@
+/**
+ * Created by Sen Thotawatte on 08/05/2021.
+ */
 class StatsActorDirector{
     
     constructor(directorOrActor, nameDirectorActor, films, feature)
