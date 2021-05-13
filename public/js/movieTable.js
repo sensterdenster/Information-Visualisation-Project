@@ -1,6 +1,6 @@
 class MovieTable
 {
-    constructor(films)
+    constructor(movies)
     {
         //Headers of the table with reference to the CSV file name headers
         this.tableHeaders = ["title_year", "movie_title", "director_name", "imdb_score", "budget"];
