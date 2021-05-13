@@ -150,10 +150,10 @@ function retrieveFilmsFiltered() {
 
     //Arrary to store films which fit the specified criteria, as well as creating a new interface to display this 
     let filmsMatching = [];
-    let filmsMatchingSet = new Set();
+    let matchingMovies_set = new Set();
 
     //Condition for if at least one filter has been chosen for the three categories and applied
-    if(filterSetYear ||  filterSetRating || filterSetGenre)    
+    if(filterSetYear || filterSetRating || filterSetGenre)    
     {
         //For each film in the csv file 
         filmsExcel.forEach((film) => {
@@ -171,7 +171,7 @@ function retrieveFilmsFiltered() {
                 //Ordering descending/ascending years for films
                 if(!isNaN(filmChosenYear))
                 {
-                    if(!(filmChosenYear >= yearBeginning && filmChosenYear <= yearEnding ))
+                    if(!(filmChosenYear >= yearBeginning && filmChosenYear <= yearEnding))
                         matchingYear = false;
                 }
                 else
@@ -222,9 +222,9 @@ function retrieveFilmsFiltered() {
             if(matchingYear && matchingRating && matchingGenres)
             {
                 //Condition to avoid film being duplicated 
-                if(!filmsMatchingSet.has(film["movie_title"]))   
+                if(!matchingMovies_set.has(film["movie_title"]))   
                 {
-                    filmsMatchingSet.add(film["movie_title"]);
+                    matchingMovies_set.add(film["movie_title"]);
                     filmsMatching.push(film);
                 }
             }
