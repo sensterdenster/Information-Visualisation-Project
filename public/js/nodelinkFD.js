@@ -15,7 +15,6 @@ class NodeLinkFD{
         this.widthSVG = (this.boundsSVG.width - this.dimensions.right);
 
 
-
         //Consturctor reference to border values of nodelink which are stored in array 
         this.borders = [];
 
