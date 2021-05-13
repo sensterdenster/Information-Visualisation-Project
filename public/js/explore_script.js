@@ -85,8 +85,8 @@ function processFilters() {
     //Messages for header and body if number of films exceed 100 as this would be too much  as error messages if no films found
     let filmsMatching = retrieveFilmsFiltered();
     let errorMessage = "";
-    let messageBody = document.getElementById("messageBody");
     let messageHeader = document.getElementById("messageHeader");
+    let messageBody = document.getElementById("messageBody");
 
     //If number of films are geater than 100, display following prompt text 
     if(filmsMatching.length > 100)
