@@ -24,7 +24,7 @@ class NodeLinkFD{
         // this.movietitles = new Set([]);
     }
 
-    update(filmsSelected){
+    apply(filmsSelected){
 
         let that = this;
         // create legend

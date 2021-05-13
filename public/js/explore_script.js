@@ -21,16 +21,17 @@ d3.csv("data/movie_metadata.csv", function (error, films) {
     let filterObj = new Filters();
     filterObj.produce();
 
-    let filmsInitial = getMoviesForFilters();
+    //Call function to retrieve initial films and stores it in filmsInitial variable
+    let filmsInitial = retrieveFilteredFilms();
 
-    //Render the initial node-link diagram with 50 arbitrary films
-    let nodelinkfd = new NodeLinkFD(filmsInitial.slice(0, 100));
-    nodelinkfd.update();
+    //Rendering the 50 arbitrary films from the node-link diagram which is initially loaded on the page
+    let diagramNodeLink = new NodeLinkFD(filmsInitial.slice(0, 100));
+    diagramNodeLink.apply();
 
     //Render the initial films table with 50 arbitrary films
     window.movieTable = new MovieTable(filmsInitial.slice(0, 100));
     movieTable.produce();
-    movieTable.update();
+    movieTable.apply();
 });
 
 
@@ -83,7 +84,7 @@ function selectAll()
 
 function filterProcess() {
 
-    let matchingMovies = getMoviesForFilters();
+    let matchingMovies = retrieveFilteredFilms();
     let errorMessage = "";
     let headerMessage = document.getElementById("headerMessage");
     let bodyMessage = document.getElementById("bodyMessage");
@@ -111,17 +112,16 @@ function filterProcess() {
     {
         movieTable = new MovieTable(matchingMovies.slice(0, 100));  //Limiting films matching search criteria to 100
         movieTable.produce();
-        movieTable.update();
+        movieTable.apply();
 
-        let nodelinkfd = new NodeLinkFD(matchingMovies.slice(0, 100));  //Limiting films matching search criteria to 100
-        nodelinkfd.update();
+        let diagramNodeLink = new NodeLinkFD(matchingMovies.slice(0, 100));  //Limiting films matching search criteria to 100
+        diagramNodeLink.apply();
     }
 }
 
-/**
- *  Return matching films for the selected year, rating and genre filter values
- */
-function getMoviesForFilters() {
+
+//Retrieves films which match the specific criteria of rating, genre, and year for filters
+function retrieveFilteredFilms() {
 
     genresSelected = [];
 
