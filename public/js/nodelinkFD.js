@@ -14,14 +14,16 @@ class NodeLinkFD{
         this.heightSVG = 549;
         this.widthSVG = (this.boundsSVG.width - this.dimensions.right);
 
-        //Constructor reference to films
-        this.films = films;  
+
 
         //Consturctor reference to border values of nodelink which are stored in array 
         this.borders = [];
 
         //Constructor reference to node values of nodelink which are stored in array
         this.nodes = [];
+
+        //Constructor reference to films
+        this.films = films;  
 
     }
 
