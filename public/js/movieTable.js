@@ -9,7 +9,7 @@ class MovieTable
         this.columnsSortOrder = [ 0, 0, 0, 0, 0];  
 
         //This films reference so constructor can be called when used
-        this.movies = films;
+        this.movies = movies;
     }
 
     //Create function to create table for movies
