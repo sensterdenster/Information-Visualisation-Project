@@ -129,79 +129,99 @@ function processFilters() {
 //Retrieves films which match the specific criteria of rating, genre, and year for filters
 function getMoviesForFilters() {
 
+    //Array to store selected genres 
     genresSelected = [];
 
+    //For each genre assign the element id from the csv file to genrechosen variable
     genresForAll.forEach((genre) => {
         let genreChosen = document.getElementById(genre);
 
+        //If a specific genre box is chosen, push the values (in this case - films) under this genre into the array 
         if(genreChosen.checked)
             genresSelected.push(genreChosen.getAttribute("value"));
     });
 
-    let isYearFilterSet = (yearSelected.length > 0);
-    let isRatingFilterSet = (ratingSelected.length > 0);
-    let isGenreFilterSet = (genresSelected.length > 0);
+    //Filtering selected length for each table header respectively 
+    let filterSetYear = (yearSelected.length > 0);
+    let filterSetRating = (ratingSelected.length > 0);
+    let filterSetGenre = (genresSelected.length > 0);
 
+
+    //Arrary to store films which fit the specified criteria, as well as creating a new interface to display this 
     let filmsMatching = [];
     let matchingMovies_set = new Set();
 
-    if(isYearFilterSet || isRatingFilterSet || isGenreFilterSet)    //If at least one filter has been set by user
+    //Condition for if at least one filter has been chosen for the three categories and applied
+    if(filterSetYear || filterSetRating || filterSetGenre)    
     {
+        //For each film in the csv file 
         filmsExcel.forEach((film) => {
 
-            let yearMatches = true;
+            //Matching year for filter set to true
+            let matchingYear = true;
 
-            if(isYearFilterSet)
+            //Filtering films by chosen year for starting year and ending year
+            if(filterSetYear)
             {
-                let currentMovieYear = parseInt(film["title_year"]);
-                let startYear = yearSelected[0].start;
-                let endYear = yearSelected[0].end;
+                let filmChosenYear = parseInt(film["title_year"]);
+                let yearBeginning = yearSelected[0].start;
+                let yearEnding = yearSelected[0].end;
 
-                if(!isNaN(currentMovieYear))
+                //Ordering descending/ascending years for films
+                if(!isNaN(filmChosenYear))
                 {
-                    if(!(currentMovieYear >= startYear && currentMovieYear <= endYear))
-                        yearMatches = false;
+                    if(!(filmChosenYear >= yearBeginning && filmChosenYear <= yearEnding))
+                        matchingYear = false;
                 }
                 else
-                    yearMatches = false;
+                    matchingYear = false;
             }
+             
+            //Matching ratings for filter set to true
+            let matchingRating = true;
 
-            let ratingMatches = true;
-
-            if(isRatingFilterSet)
+            //Filtering films by year 
+            if(filterSetRating)
             {
-                let currentMovieRating = parseFloat(film["imdb_score"]);
-                let startRating = ratingSelected[0].start;
-                let endRating = ratingSelected[0].end;
+                let filmChosenRating = parseFloat(film["imdb_score"]);
+                let ratingBeginning = ratingSelected[0].start;
+                let ratingEnding = ratingSelected[0].end;
 
-                if(!isNaN(currentMovieRating))
+                //Ordering descending/ascending ratings for films
+                if(!isNaN(filmChosenRating))
                 {
-                    if(!(currentMovieRating >= startRating && currentMovieRating <= endRating))
-                        ratingMatches = false;
+                    if(!(filmChosenRating >= ratingBeginning && filmChosenRating <= ratingEnding))
+                        matchingRating = false;
                 }
                 else
-                    ratingMatches = false;
+                    matchingRating = false;
             }
 
-            let genresMatch = false;
+            //Boolean for genres that match/dont match
+            let matchingGenres = false;
 
-            if(isGenreFilterSet)
+            //For number of films filterd by genre
+            if(filterSetGenre)
             {
-                for(let genreIndex = 0; genreIndex < genresSelected.length; genreIndex++)
+                //Looping through array of films filtered by genre and matching the films with the same genre
+                for(let indexOfGenre = 0; indexOfGenre < genresSelected.length; indexOfGenre++)
                 {
-                    if(film["genres"].includes(genresSelected[genreIndex]))
+                    if(film["genres"].includes(genresSelected[indexOfGenre]))
                     {
-                        genresMatch = true;
+                        matchingGenres = true;
                         break;
                     }
                 }
             }
+            //Else avoid entering for loop if all films have been filtered already
             else
-                genresMatch = true;
+                matchingGenres = true;
 
-            if(yearMatches && ratingMatches && genresMatch)
+            //If all has been sorted and filtered accordingly for genre, year, and rating
+            if(matchingYear && matchingRating && matchingGenres)
             {
-                if(!matchingMovies_set.has(film["movie_title"]))   //Avoid film duplication using set
+                //Condition to avoid film being duplicated 
+                if(!matchingMovies_set.has(film["movie_title"]))   
                 {
                     matchingMovies_set.add(film["movie_title"]);
                     filmsMatching.push(film);
@@ -209,6 +229,5 @@ function getMoviesForFilters() {
             }
         })
     }
-
     return filmsMatching;
 }
