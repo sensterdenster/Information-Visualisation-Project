@@ -16,63 +16,62 @@ d3.csv("data/movie_metadata.csv", function (error, films) {
     //Array for genres selected 
     window.genresSelected = [];
 
-
     //Alter the filtersettings which are linked to the node-link diagram and films table 
     let filterObj = new Filters();
     filterObj.create();
 
     //Call function to retrieve initial films and stores it in filmsInitial variable
-    let filmsInitial = retrieveFilteredFilms();
+    let filmsInitial = getMoviesForFilters();
 
     //Rendering the 50 arbitrary films from the node-link diagram which is initially loaded on the page
-    let diagramNodeLink = new NodeLinkFD(filmsInitial.slice(0, 100));
-    diagramNodeLink.update();
+    let nodelinkfd = new NodeLinkFD(filmsInitial.slice(0, 100));
+    nodelinkfd.update();
 
     //Rendering the 50 arbitrary films into the table for the initial loaded page 
-    window.filmsTable = new TableFilms(filmsInitial.slice(0, 100));
-    filmsTable.create();
-    filmsTable.update();
+    window.tableFilms = new TableFilms(filmsInitial.slice(0, 100));
+    tableFilms.create();
+    tableFilms.update();
 });
 
 
-/**
- *  Returns a sorted set of all (unique) genres
- */
+//Retrieves all the genres in a sorted alphabetical order 
 function genresRetrieved() {
 
-    let genres_set = new Set();
+    //Setting genres as a new interface set
+    let setGenres = new Set();
 
+    //Seperating genres 
     filmsExcel.forEach((film) => {
-        let movieGenres = film["genres"].split("|");
-        movieGenres.forEach((genre) => {
-            genres_set.add(genre);
+        let genresFilms = film["genres"].split("|");
+        genresFilms.forEach((genre) => {
+        setGenres.add(genre);
         })
     });
 
-    //Sort the genres
-    genres_set = new Set(Array.from(genres_set).sort());
+    //Sorting genres
+    setGenres = new Set(Array.from(setGenres).sort());
 
-    return genres_set;
+    return setGenres;
 }
 
-/**
- *  Select/deselect all genre checkboxes
- */
 
+//Function to select or deselect all checkboxes
 function selectAll()
 {
+    //If select all box is checked then select all genre checkboxes
     if(document.getElementById("selectAll").checked == true) //Select all genres
     {
-        genresForAll.forEach((genre) => {
-            let currentGenre = document.getElementById(genre);
-            currentGenre.checked = true;
+        genresForAll.forEach((genre)=>{
+            let genreChosen = document.getElementById(genre);
+            genreChosen.checked = true;
         });
     }
-    else    //Deselect all genres
+    //Otherwise all genres should be deselected
+    else  
     {
-        genresForAll.forEach((genre) => {
-            let currentGenre = document.getElementById(genre);
-            currentGenre.checked = false;
+        genresForAll.forEach((genre)=>{
+            let genreChosen = document.getElementById(genre);
+            genreChosen.checked = false;
         });
     }
 }
@@ -81,10 +80,10 @@ function selectAll()
  *  Update the films table & node-link diagram based on filter selection
  */
 
-
+//Function to apply films table and node-link diagram in regards to the filters selected
 function filterProcess() {
 
-    let matchingMovies = retrieveFilteredFilms();
+    let matchingMovies = getMoviesForFilters();
     let errorMessage = "";
     let headerMessage = document.getElementById("headerMessage");
     let bodyMessage = document.getElementById("bodyMessage");
@@ -110,26 +109,26 @@ function filterProcess() {
 
     if(matchingMovies.length > 0)
     {
-        filmsTable = new TableFilms(matchingMovies.slice(0, 100));  //Limiting films matching search criteria to 100
-        filmsTable.produce();
-        filmsTable.update();
+        tableFilms = new TableFilms(matchingMovies.slice(0, 100));  //Limiting films matching search criteria to 100
+        tableFilms.create();
+        tableFilms.update();
 
-        let diagramNodeLink = new NodeLinkFD(matchingMovies.slice(0, 100));  //Limiting films matching search criteria to 100
-        diagramNodeLink.update();
+        let nodelinkfd = new NodeLinkFD(matchingMovies.slice(0, 100));  //Limiting films matching search criteria to 100
+        nodelinkfd.update();
     }
 }
 
 
 //Retrieves films which match the specific criteria of rating, genre, and year for filters
-function retrieveFilteredFilms() {
+function getMoviesForFilters() {
 
     genresSelected = [];
 
     genresForAll.forEach((genre) => {
-        let currentGenre = document.getElementById(genre);
+        let genreChosen = document.getElementById(genre);
 
-        if(currentGenre.checked)
-            genresSelected.push(currentGenre.getAttribute("value"));
+        if(genreChosen.checked)
+            genresSelected.push(genreChosen.getAttribute("value"));
     });
 
     let isYearFilterSet = (yearSelected.length > 0);
