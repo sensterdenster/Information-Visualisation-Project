@@ -225,7 +225,7 @@ class Filters {
         let appGenre = genresvg.append("g");
 
         //Getting genre list as an array 
-        let listGenre = Array.from(allGenres);
+        let listGenre = Array.from(genresForAll);
 
         //Settings checkboxes to each genre
         let checkBoxes = appGenre.selectAll("foreignObject");

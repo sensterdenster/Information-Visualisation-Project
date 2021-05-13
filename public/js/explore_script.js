@@ -2,7 +2,7 @@ d3.csv("data/movie_metadata.csv", function (error, films) {
     if (error) throw error;
 
     window.filmsExcel = films;
-    window.allGenres = getGenres();
+    window.genresForAll = genresRetrieved();
 
     window.yearSelected = [];
     window.ratingSelected = [];
@@ -28,7 +28,7 @@ d3.csv("data/movie_metadata.csv", function (error, films) {
 /**
  *  Returns a sorted set of all (unique) genres
  */
-function getGenres() {
+function genresRetrieved() {
 
     let genres_set = new Set();
 
@@ -53,14 +53,14 @@ function selectAll()
 {
     if(document.getElementById("selectAll").checked == true) //Select all genres
     {
-        allGenres.forEach((genre) => {
+        genresForAll.forEach((genre) => {
             let currentGenre = document.getElementById(genre);
             currentGenre.checked = true;
         });
     }
     else    //Deselect all genres
     {
-        allGenres.forEach((genre) => {
+        genresForAll.forEach((genre) => {
             let currentGenre = document.getElementById(genre);
             currentGenre.checked = false;
         });
@@ -116,7 +116,7 @@ function getMoviesForFilters() {
 
     selectedGenres = [];
 
-    allGenres.forEach((genre) => {
+    genresForAll.forEach((genre) => {
         let currentGenre = document.getElementById(genre);
 
         if(currentGenre.checked)
