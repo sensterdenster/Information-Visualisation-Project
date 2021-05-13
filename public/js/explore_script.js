@@ -24,8 +24,8 @@ d3.csv("data/movie_metadata.csv", function (error, films) {
     let filmsInitial = getMoviesForFilters();
 
     //Rendering the 50 arbitrary films from the node-link diagram which is initially loaded on the page
-    let nodelinkfd = new NodeLinkFD(filmsInitial.slice(0, 100));
-    nodelinkfd.update();
+    let filmNodeLink = new NodeLinkFD(filmsInitial.slice(0, 100));
+    filmNodeLink.update();
 
     //Rendering the 50 arbitrary films into the table for the initial loaded page 
     window.tableFilms = new TableFilms(filmsInitial.slice(0, 100));
