@@ -1,4 +1,6 @@
 d3.csv("data/movie_metadata.csv", function (error, films) {
+    
+    //Error catch
     if (error) throw error;
 
     //Variable to store films from csv file
@@ -79,10 +81,10 @@ function selectAll()
 
 
 //Function to apply films table and node-link diagram in regards to the filters selected
-function filterProcess() {
+function processFilters() {
     //Messages for header and body if number of films exceed 100 as this would be too much  as error messages if no films found
     let filmsMatching = retrieveFilmsFiltered();
-    let messageError = "";
+    let errorMessage = "";
     let messageBody = document.getElementById("messageBody");
     let messageHeader = document.getElementById("messageHeader");
 
@@ -91,20 +93,20 @@ function filterProcess() {
     {
         messageHeader.innerText = "Note";
         messageHeader.setAttribute("class", "text-info");
-        messageError = "Number of films matching criteria exceed 100 - Results reduced";
+        errorMessage = "Number of films matching criteria exceed 100";
     }
     //Else if no films match criteria, display error message as shown below
     else if(filmsMatching.length == 0)
     {
         messageHeader.innerText = "Error";
         messageHeader.setAttribute("class", "text-danger");
-        messageError = "No films matching criteria found";
+        errorMessage = "No films matching criteria found";
     }
 
     //If error message, show the body of the message in the form of a modal 
-    if(messageError)
+    if(errorMessage)
     {
-        messageBody.innerText = messageError;
+        messageBody.innerText = errorMessage;
         $('#modalError').modal('show');
     }
 
