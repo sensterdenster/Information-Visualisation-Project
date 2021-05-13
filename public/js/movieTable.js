@@ -98,8 +98,8 @@ class MovieTable
 
                 return k;
             })
-            .style("opacity", 1)
             .transition()
-            .duration(500);
+            .duration(500)
+            .style("opacity", 1);
     }
 }
