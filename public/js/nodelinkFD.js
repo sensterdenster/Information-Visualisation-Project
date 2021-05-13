@@ -24,7 +24,7 @@ class NodeLinkFD{
         // this.movietitles = new Set([]);
     }
 
-    update(selectedmovies){
+    update(filmsSelected){
 
         let that = this;
         // create legend
@@ -79,11 +79,11 @@ class NodeLinkFD{
 
 
 
-        if(!selectedmovies){
-            selectedmovies = this.films.slice(0, 100) //default selection
+        if(!filmsSelected){
+            filmsSelected = this.films.slice(0, 100) //default selection
         }
 
-        selectedmovies.forEach(function(film) {
+        filmsSelected.forEach(function(film) {
             let sameActorDirector = 0;
 
             //function to check if a node exists and increment degree
