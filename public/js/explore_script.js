@@ -21,11 +21,11 @@ d3.csv("data/movie_metadata.csv", function (error, films) {
     filterObj.create();
 
     //Call function to retrieve initial films and stores it in filmsInitial variable
-    let filmsInitial = retrieveFilteredFilms();
+    let filmsInitial = getMoviesForFilters();
 
     //Rendering the 50 arbitrary films from the node-link diagram which is initially loaded on the page
-    let diagramNodeLink = new NodeLinkFD(filmsInitial.slice(0, 100));
-    diagramNodeLink.update();
+    let nodelinkfd = new NodeLinkFD(filmsInitial.slice(0, 100));
+    nodelinkfd.update();
 
     //Rendering the 50 arbitrary films into the table for the initial loaded page 
     window.filmsTable = new TableFilms(filmsInitial.slice(0, 100));
@@ -83,7 +83,7 @@ function selectAll()
 
 function filterProcess() {
 
-    let matchingMovies = retrieveFilteredFilms();
+    let matchingMovies = getMoviesForFilters();
     let errorMessage = "";
     let headerMessage = document.getElementById("headerMessage");
     let bodyMessage = document.getElementById("bodyMessage");
@@ -113,14 +113,14 @@ function filterProcess() {
         filmsTable.create();
         filmsTable.update();
 
-        let diagramNodeLink = new NodeLinkFD(matchingMovies.slice(0, 100));  //Limiting films matching search criteria to 100
-        diagramNodeLink.update();
+        let nodelinkfd = new NodeLinkFD(matchingMovies.slice(0, 100));  //Limiting films matching search criteria to 100
+        nodelinkfd.update();
     }
 }
 
 
 //Retrieves films which match the specific criteria of rating, genre, and year for filters
-function retrieveFilteredFilms() {
+function getMoviesForFilters() {
 
     genresSelected = [];
 
