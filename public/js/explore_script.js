@@ -109,7 +109,7 @@ function filterProcess() {
 
     if(matchingMovies.length > 0)
     {
-        filmsTable = new FilmsTable(matchingMovies.slice(0, 100));  //Limiting films matching search criteria to 100
+        filmsTable = new TableFilms(matchingMovies.slice(0, 100));  //Limiting films matching search criteria to 100
         filmsTable.create();
         filmsTable.update();
 
