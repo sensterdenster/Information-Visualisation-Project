@@ -3,8 +3,8 @@ class ScatterPlot
 {
     constructor()
     {
-        // this.movies = movies;
-        this.movies = excelMovies;
+        // this.films = movies;
+        this.films = filmsExcel;
         this.plotDiv = d3.select("#scatterPlot");
 
         this.margin = {top: 20, right: 20, bottom: 50, left: 110};
@@ -39,7 +39,7 @@ class ScatterPlot
         //console.log(xAttribute+": "+yAttribute)
         let plotPoints = [];
         let cx, cy, title, xaxis, yaxis;
-        (this.movies).forEach((movie) => {
+        (this.films).forEach((movie) => {
             cx = +(movie[xAttribute]);
             cy = +(movie[yAttribute]);
             title = movie["movie_title"].trim();
