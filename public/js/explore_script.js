@@ -43,8 +43,8 @@ function genresRetrieved() {
     let setGenres = new Set();
 
     //Seperating genres 
-    filmsExcel.forEach((films) => {
-        let genresFilms = films["genres"].split("|");
+    filmsExcel.forEach((film) => {
+        let genresFilms = film["genres"].split("|");
         genresFilms.forEach((genre) => {
         setGenres.add(genre);
         })
@@ -125,7 +125,9 @@ function processFilters() {
 }
 
 
-//Retrieves films which match the specific criteria of rating, genre, and year for filters
+/**
+ * Retrieves films which match the specific criteria of rating, genre, and year for filters
+*/
 function retrieveFilmsFiltered() {
 
     //Array to store selected genres 
@@ -141,16 +143,17 @@ function retrieveFilmsFiltered() {
     });
 
     //Filtering selected length for each table header respectively 
-    let filterSetGenre = (genresSelected.length > 0);
-    let filterSetRating = (ratingSelected.length > 0);
     let filterSetYear = (yearSelected.length > 0);
+    let filterSetRating = (ratingSelected.length > 0);
+    let filterSetGenre = (genresSelected.length > 0);
+
 
     //Arrary to store films which fit the specified criteria, as well as creating a new interface to display this 
     let filmsMatching = [];
     let filmsMatchingSet = new Set();
 
     //Condition for if at least one filter has been chosen for the three categories and applied
-    if(filterSetYear ||  filterSetGenre  || filterSetRating)    
+    if(filterSetYear ||  filterSetRating || filterSetGenre)    
     {
         //For each film in the csv file 
         filmsExcel.forEach((film) => {
@@ -162,13 +165,13 @@ function retrieveFilmsFiltered() {
             if(filterSetYear)
             {
                 let filmChosenYear = parseInt(film["title_year"]);
-                let yearEnding = yearSelected[0].end;
                 let yearBeginning = yearSelected[0].start;
+                let yearEnding = yearSelected[0].end;
 
                 //Ordering descending/ascending years for films
                 if(!isNaN(filmChosenYear))
                 {
-                    if(!(filmChosenYear <= yearEnding  && filmChosenYear >= yearBeginning))
+                    if(!(filmChosenYear >= yearBeginning && filmChosenYear <= yearEnding ))
                         matchingYear = false;
                 }
                 else
@@ -182,13 +185,13 @@ function retrieveFilmsFiltered() {
             if(filterSetRating)
             {
                 let filmChosenRating = parseFloat(film["imdb_score"]);
-                let ratingEnding = ratingSelected[0].end;
                 let ratingBeginning = ratingSelected[0].start;
+                let ratingEnding = ratingSelected[0].end;
 
                 //Ordering descending/ascending ratings for films
                 if(!isNaN(filmChosenRating))
                 {
-                    if(!(filmChosenRating <= ratingEnding  && filmChosenRating >= ratingBeginning))
+                    if(!(filmChosenRating >= ratingBeginning && filmChosenRating <= ratingEnding))
                         matchingRating = false;
                 }
                 else
@@ -216,7 +219,7 @@ function retrieveFilmsFiltered() {
                 matchingGenres = true;
 
             //If all has been sorted and filtered accordingly for genre, year, and rating
-            if(matchingRating &&  matchingYear && matchingGenres)
+            if(matchingYear && matchingRating && matchingGenres)
             {
                 //Condition to avoid film being duplicated 
                 if(!filmsMatchingSet.has(film["movie_title"]))   
