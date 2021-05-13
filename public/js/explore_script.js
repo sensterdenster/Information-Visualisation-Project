@@ -82,39 +82,45 @@ function selectAll()
 
 //Function to apply films table and node-link diagram in regards to the filters selected
 function filterProcess() {
-
-    let matchingMovies = getMoviesForFilters();
+    //Messages for header and body if number of films exceed 100 as this would be too much  as error messages if no films found
+    let filmsMatching = retrieveFilmsFiltered();
     let errorMessage = "";
-    let headerMessage = document.getElementById("headerMessage");
-    let bodyMessage = document.getElementById("bodyMessage");
+    let messageHeader = document.getElementById("messageHeader");
+    let messageBody = document.getElementById("messageBody");
 
-    if(matchingMovies.length > 100)
+    //If number of films are greater than 100, display following prompt text 
+    if(filmsMatching.length > 100)
     {
-        headerMessage.innerText = "Note";
-        headerMessage.setAttribute("class", "text-info");
-        errorMessage = "Matching films exceeded 100 - results trimmed";
+        messageHeader.innerText = "Note";
+        messageHeader.setAttribute("class", "text-info");
+        errorMessage = "Matching movies exceeded 100 - results trimmed";
     }
-    else if(matchingMovies.length == 0)
+    //Else if no films match criteria, display error message as shown below
+    else if(filmsMatching.length == 0)
     {
-        headerMessage.innerText = "Error";
-        headerMessage.setAttribute("class", "text-danger");
-        errorMessage = "No matching films found for the selected filters";
+        messageHeader.innerText = "Error";
+        messageHeader.setAttribute("class", "text-danger");
+        errorMessage = "No matching movies found for the selected filters";
     }
 
+    //If error message, show the body of the message in the form of a modal 
     if(errorMessage)
     {
-        bodyMessage.innerText = errorMessage;
+        messageBody.innerText = errorMessage;
         $('#modalError').modal('show');
     }
 
-    if(matchingMovies.length > 0)
+    //If the filtered films are greater than 0, limit the max to 100 and display these in the film table as well as in the form of the node link
+    if(filmsMatching.length > 0)
     {
-        tableFilms = new TableFilms(matchingMovies.slice(0, 100));  //Limiting films matching search criteria to 100
+        //Listing films up to 100 as the limit for the filter criteria and then creating it in the table
+        tableFilms = new TableFilms(filmsMatching.slice(0, 100));  
         tableFilms.create();
         tableFilms.update();
 
-        let nodelinkfd = new NodeLinkFD(matchingMovies.slice(0, 100));  //Limiting films matching search criteria to 100
-        nodelinkfd.update();
+        //Listing films up to 100 as the limit for the filter criteria and then creating it in the node-link diagram 
+        let filmNodeLink = new NodeLinkFD(filmsMatching.slice(0, 100));  
+        filmNodeLink.update();
     }
 }
 
