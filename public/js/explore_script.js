@@ -6,7 +6,7 @@ d3.csv("data/movie_metadata.csv", function (error, films) {
 
     window.yearSelected = [];
     window.ratingSelected = [];
-    window.selectedGenres = [];
+    window.genresSelected = [];
 
     //Render the filters associated with the films table & node-link diagram
     let filters = new Filters();
@@ -114,18 +114,18 @@ function filterProcess() {
  */
 function getMoviesForFilters() {
 
-    selectedGenres = [];
+    genresSelected = [];
 
     genresForAll.forEach((genre) => {
         let currentGenre = document.getElementById(genre);
 
         if(currentGenre.checked)
-            selectedGenres.push(currentGenre.getAttribute("value"));
+            genresSelected.push(currentGenre.getAttribute("value"));
     });
 
     let isYearFilterSet = (yearSelected.length > 0);
     let isRatingFilterSet = (ratingSelected.length > 0);
-    let isGenreFilterSet = (selectedGenres.length > 0);
+    let isGenreFilterSet = (genresSelected.length > 0);
 
     let matchingMovies = [];
     let matchingMovies_set = new Set();
@@ -172,9 +172,9 @@ function getMoviesForFilters() {
 
             if(isGenreFilterSet)
             {
-                for(let genreIndex = 0; genreIndex < selectedGenres.length; genreIndex++)
+                for(let genreIndex = 0; genreIndex < genresSelected.length; genreIndex++)
                 {
-                    if(film["genres"].includes(selectedGenres[genreIndex]))
+                    if(film["genres"].includes(genresSelected[genreIndex]))
                     {
                         genresMatch = true;
                         break;
