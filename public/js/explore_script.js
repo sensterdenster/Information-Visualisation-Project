@@ -35,24 +35,24 @@ d3.csv("data/movie_metadata.csv", function (error, films) {
 });
 
 
-/**
- *  Returns a sorted set of all (unique) genres
- */
+//Retrieves all the genres in a sorted alphabetical order 
 function genresRetrieved() {
 
-    let genres_set = new Set();
+    //Setting genres as a new interface set
+    let setGenres = new Set();
 
+    //Seperating genres 
     filmsExcel.forEach((films) => {
-        let movieGenres = films["genres"].split("|");
-        movieGenres.forEach((genre) => {
-            genres_set.add(genre);
+        let genresFilms = films["genres"].split("|");
+        genresFilms.forEach((genre) => {
+        setGenres.add(genre);
         })
     });
 
     //Sort the genres
-    genres_set = new Set(Array.from(genres_set).sort());
+    setGenres = new Set(Array.from(setGenres).sort());
 
-    return genres_set;
+    return setGenres;
 }
 
 /**
