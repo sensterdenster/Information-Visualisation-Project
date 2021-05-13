@@ -125,6 +125,7 @@ function processFilters() {
 }
 
 
+
 //Retrieves films which match the specific criteria of rating, genre, and year for filters
 function getMoviesForFilters() {
 
@@ -141,7 +142,7 @@ function getMoviesForFilters() {
     let isRatingFilterSet = (ratingSelected.length > 0);
     let isGenreFilterSet = (genresSelected.length > 0);
 
-    let matchingMovies = [];
+    let filmsMatching = [];
     let matchingMovies_set = new Set();
 
     if(isYearFilterSet || isRatingFilterSet || isGenreFilterSet)    //If at least one filter has been set by user
@@ -203,11 +204,11 @@ function getMoviesForFilters() {
                 if(!matchingMovies_set.has(film["movie_title"]))   //Avoid film duplication using set
                 {
                     matchingMovies_set.add(film["movie_title"]);
-                    matchingMovies.push(film);
+                    filmsMatching.push(film);
                 }
             }
         })
     }
 
-    return matchingMovies;
+    return filmsMatching;
 }
