@@ -27,10 +27,10 @@ class MovieTable
         columnsTableHead
             .on("click", (p, q) => {
 
-                // For each even click on a column's header, sort all row-values for that column in descending order
+                
                 if(this.columnsSortOrder[q] % 2 == 0)
                 {
-                    //Sorting films 
+                    // For each even click on a column's header, sort all row-values for that column in ascending order
                     this.films = (this.films).slice().sort(function (x, y) {
                         if(x[p] < y[p])
                             return -1;
@@ -42,7 +42,7 @@ class MovieTable
                 }
                 else    
                 {
-                    //Else, for every odd click on a column's header the row-values should be sorted in descending order for that chosen column 
+                    //Else, for every odd click on a column's header the row-values for that column should be sorted in descending order 
                     this.films = (this.films).slice().sort(function (x, y) {
                         if(x[p] > y[p])
                             return -1;
@@ -62,38 +62,44 @@ class MovieTable
     //Apply function updates the values for the table and displays them
     apply()
     {
+        //Setting names of values for body of table from csv file
         let topBody = d3.select("#tableMovies").select("tbody");
 
-        let tbodyRows = topBody.selectAll("tr")
+        //Selecting all values in table body and setting correct values accordingly
+        let topRowsBody = topBody.selectAll("tr")
             .data(this.films);
 
-        let tbodyRowsEnter = tbodyRows.enter().append("tr");
-        tbodyRows.exit().remove();
-        tbodyRows = tbodyRows.merge(tbodyRowsEnter);
+        //Appending values from selected values accordingly, removing old ones and mergeing new ones to fit the sorted list
+        let topRowsBodyEnter = topRowsBody.enter().append("tr");
+        topRowsBody.exit().remove();
+        topRowsBody = topRowsBody.merge(topRowsBodyEnter);
 
-        let tbodyColumns = tbodyRows.selectAll("td")
+        //Selecting all data from rows and columns and filtering the right data for each of the headers
+        let topColumnsBody = topRowsBody.selectAll("td")
             .data( (d) => {
                 return [
                     d["title_year"], d["movie_title"], d["director_name"], d["imdb_score"], d["budget"]
                 ]
             } );
 
-        let tbodyColumnsEnter = tbodyColumns.enter().append("td");
-        tbodyColumns.exit().remove();
+        //Appending these new values and removing the old one 
+        let topColumnsBodyEnter = topColumnsBody.enter().append("td");
+        topColumnsBody.exit().remove();
 
-        tbodyColumns = tbodyColumns.merge(tbodyColumnsEnter)
+        //Mergeing this with the new columns after sorting
+        topColumnsBody = topColumnsBody.merge(topColumnsBodyEnter)
             .style("opacity", 0)
-            .text( (d, i) => {
-                if(!d)
+            .text( (k, j) => {
+                if(!k)
                     return "N/A";
 
-                if(i == 4)  //Budget column
-                    return parseInt(d).toLocaleString();
+                if(j == 4)  //Budget column
+                    return parseInt(k).toLocaleString();
 
-                return d;
+                return k;
             })
+            .style("opacity", 1)
             .transition()
-            .duration(500)
-            .style("opacity", 1);
+            .duration(500);
     }
 }
