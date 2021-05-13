@@ -1,16 +1,25 @@
 d3.csv("data/movie_metadata.csv", function (error, films) {
     if (error) throw error;
 
-    window.filmsExcel = films;
+    //Creating variable to call funtion for retrieving genres 
     window.genresForAll = genresRetrieved();
 
-    window.yearSelected = [];
-    window.ratingSelected = [];
+    //Variable to store films from csv file
+    window.filmsExcel = films;
+
+    //Array for genres selected 
     window.genresSelected = [];
 
-    //Render the filters associated with the films table & node-link diagram
-    let filters = new Filters();
-    filters.create();
+    //Array for ratings selected
+    window.ratingSelected = [];
+
+    //Array for years selected
+    window.yearSelected = [];
+
+
+    //Alter the filtersettings which are linked to the node-link diagram and films table 
+    let filterObj = new Filters();
+    filterObj.create();
 
     let filmsInitial = getMoviesForFilters();
 
