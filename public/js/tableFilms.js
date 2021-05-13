@@ -1,4 +1,4 @@
-class MovieTable
+class TableFilms
 {
     constructor(films)
     {
