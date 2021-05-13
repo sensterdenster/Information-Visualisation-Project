@@ -3,11 +3,11 @@ class MovieTable
 {
     constructor(films)
     {
-        // Counters at the top header of each column which can be clicked to sort 
-        this.columnsSortOrder = [ 0, 0, 0, 0, 0];  
-
         //Headers of the table with reference to the CSV file name headers
         this.tableHeaders = ["title_year", "movie_title", "director_name", "imdb_score", "budget"];
+
+        // Counters at the top header of each column which can be clicked to sort 
+        this.columnsSortOrder = [ 0, 0, 0, 0, 0];  
 
         //This films reference so constructor can be called when used
         this.films = films;
