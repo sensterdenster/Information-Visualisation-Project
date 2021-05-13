@@ -1,22 +1,28 @@
 class NodeLinkFD{
 
     constructor(films){
-        //Dimensions of nodelink
-        this.nodeLink = d3.select("#nodeLink");
+        //Selecting nodelink from d3 and setting its dimensions 
         this.dimensions = {top: 9, bottom: 29, right: 19, left: 39};
+        this.nodeLink = d3.select("#nodeLink");
 
-        this.legendHeight = 60;
+        //Selecting legend for nodelink from d3
         this.legend = d3.select("#legend");
+        this.heightOfLegend = 60;
 
         //Retrieving bounds for svg
-        this.widthSVG = (this.boundsSVG.width - this.dimensions.right);
         this.boundsSVG = this.nodeLink.node().getBoundingClientRect();
         this.heightSVG = 549;
+        this.widthSVG = (this.boundsSVG.width - this.dimensions.right);
 
+        //Constructor reference to films
         this.films = films;  
+
+        //Consturctor reference to border values of nodelink which are stored in array 
+        this.borders = [];
+
+        //Constructor reference to node values of nodelink which are stored in array
         this.nodes = [];
 
-        this.borders = [];
     }
 
     update(filmsSelected){
@@ -27,7 +33,7 @@ class NodeLinkFD{
         // create legend
         let svgLegend = this.legend.select("svg")
             .attr("width", this.widthSVG)
-            .attr("height", this.legendHeight);
+            .attr("height", this.heightOfLegend);
         // if(this.films.length > 20){
             //svgLegend.attr("transform", "translate(" + this.dimensions.left + ", 0)");
         // }
