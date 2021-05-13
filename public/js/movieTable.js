@@ -2,11 +2,11 @@ class MovieTable
 {
     constructor(films)
     {
-        //Headers of the table with reference to the CSV file name headers
-        this.tableHeaders = ["title_year", "movie_title", "director_name", "imdb_score", "budget"];
-
         // Counters at the top header of each column which can be clicked to sort 
-        this.columnsSortOrder = [ 0, 0, 0, 0, 0];  
+        this.sortColumnOrder = [ 0, 0, 0, 0, 0];  
+
+        //Headers of the table with reference to the CSV file name headers
+        this.headersForTable = ["title_year", "movie_title", "director_name", "imdb_score", "budget"];
 
         //This films reference so constructor can be called when used
         this.films = films;
@@ -20,14 +20,14 @@ class MovieTable
 
         //Selecting all headers in table head and setting the correct data to each column
         let columnsTableHead = thead.selectAll("th")
-            .data(this.tableHeaders);
+            .data(this.headersForTable);
 
         //Sorting function added to each column
         columnsTableHead
             .on("click", (p, q) => {
 
                 
-                if(this.columnsSortOrder[q] % 2 == 0)
+                if(this.sortColumnOrder[q] % 2 == 0)
                 {
                     // For each even click on a column's header, sort all row-values for that column in ascending order
                     this.films = (this.films).slice().sort(function (x, y) {
@@ -53,7 +53,7 @@ class MovieTable
                 }
 
                 //Column sort order array updated and apply funtion called to sort data for table with new sort
-                this.columnsSortOrder[q] += 1;
+                this.sortColumnOrder[q] += 1;
                 this.update()   
             });
     }
