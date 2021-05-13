@@ -18,19 +18,19 @@ d3.csv("data/movie_metadata.csv", function (error, films) {
 
     //Alter the filtersettings which are linked to the node-link diagram and films table 
     let filterObj = new Filters();
-    filterObj.create();
+    filterObj.generate();
 
     //Call function to retrieve initial films and stores it in filmsInitial variable
     let filmsInitial = getMoviesForFilters();
 
     //Rendering the 50 arbitrary films from the node-link diagram which is initially loaded on the page
     let nodelinkfd = new NodeLinkFD(filmsInitial.slice(0, 100));
-    nodelinkfd.update();
+    nodelinkfd.apply();
 
     //Rendering the 50 arbitrary films into the table for the initial loaded page 
-    window.filmsTable = new TableFilms(filmsInitial.slice(0, 100));
-    filmsTable.create();
-    filmsTable.update();
+    window.tableFilms = new TableFilms(filmsInitial.slice(0, 100));
+    tableFilms.generate();
+    tableFilms.apply();
 });
 
 
@@ -109,12 +109,12 @@ function filterProcess() {
 
     if(matchingMovies.length > 0)
     {
-        filmsTable = new TableFilms(matchingMovies.slice(0, 100));  //Limiting films matching search criteria to 100
-        filmsTable.create();
-        filmsTable.update();
+        tableFilms = new TableFilms(matchingMovies.slice(0, 100));  //Limiting films matching search criteria to 100
+        tableFilms.generate();
+        tableFilms.apply();
 
         let nodelinkfd = new NodeLinkFD(matchingMovies.slice(0, 100));  //Limiting films matching search criteria to 100
-        nodelinkfd.update();
+        nodelinkfd.apply();
     }
 }
 

@@ -12,8 +12,8 @@ class TableFilms
         this.films = films;
     }
 
-    //Create function to create table for movies
-    create()
+    //Create function to generate table for movies
+    generate()
     {
         //Setting name of headers for table head 
         let thead = d3.select("#tableMovies").select("thead");
@@ -54,12 +54,12 @@ class TableFilms
 
                 //Column sort order array updated and update funtion called to sort data for table with new sort
                 this.sortColumnOrder[q] += 1;
-                this.update()   
+                this.apply()   
             });
     }
 
     //Update function updates the values for the table and displays them
-    update()
+    apply()
     {
         //Setting names of values for body of table from csv file
         let tbody = d3.select("#tableMovies").select("tbody");

@@ -7,7 +7,7 @@ class WordCloud{
     }
 
 
-update(){
+apply(){
     let frequency_list = [];
 
     //check if a word exists
