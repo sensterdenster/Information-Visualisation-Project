@@ -83,7 +83,7 @@ function selectAll()
 //Function to apply films table and node-link diagram in regards to the filters selected
 function processFilters() {
     //Messages for header and body if number of films exceed 100 as this would be too much  as error messages if no films found
-    let filmsMatching = retrieveFilmsFiltered();
+    let filmsMatching = getMoviesForFilters();
     let errorMessage = "";
     let headerMessage = document.getElementById("headerMessage");
     let bodyMessage = document.getElementById("bodyMessage");
