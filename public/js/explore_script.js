@@ -1,4 +1,6 @@
 d3.csv("data/movie_metadata.csv", function (error, films) {
+    
+    //Error catch
     if (error) throw error;
 
     //Variable to store films from csv file
@@ -21,7 +23,7 @@ d3.csv("data/movie_metadata.csv", function (error, films) {
     filterObj.create();
 
     //Call function to retrieve initial films and stores it in filmsInitial variable
-    let filmsInitial = getMoviesForFilters();
+    let filmsInitial = retrieveFilmsFiltered();
 
     //Rendering the 50 arbitrary films from the node-link diagram which is initially loaded on the page
     let filmNodeLink = new NodeLinkFD(filmsInitial.slice(0, 100));
@@ -38,20 +40,20 @@ d3.csv("data/movie_metadata.csv", function (error, films) {
 function genresRetrieved() {
 
     //Setting genres as a new interface set
-    let setGenres = new Set();
+    let setofgenres = new Set();
 
     //Seperating genres 
     filmsExcel.forEach((film) => {
         let genresFilms = film["genres"].split("|");
         genresFilms.forEach((genre) => {
-        setGenres.add(genre);
+        setofgenres.add(genre);
         })
     });
 
     //Sorting genres
-    setGenres = new Set(Array.from(setGenres).sort());
+    setofgenres = new Set(Array.from(setofgenres).sort());
 
-    return setGenres;
+    return setofgenres;
 }
 
 
@@ -76,37 +78,33 @@ function selectAll()
     }
 }
 
-/**
- *  Update the films table & node-link diagram based on filter selection
- */
-
 //Function to apply films table and node-link diagram in regards to the filters selected
 function processFilters() {
     //Messages for header and body if number of films exceed 100 as this would be too much  as error messages if no films found
-    let filmsMatching = getMoviesForFilters();
-    let errorMessage = "";
-    let headerMessage = document.getElementById("headerMessage");
+    let messageError = "";
+    let filmsMatching = retrieveFilmsFiltered();
     let bodyMessage = document.getElementById("bodyMessage");
+    let headerMessage = document.getElementById("headerMessage");
 
     //If number of films are greater than 100, display following prompt text 
     if(filmsMatching.length > 100)
     {
         headerMessage.innerText = "Note";
         headerMessage.setAttribute("class", "text-info");
-        errorMessage = "Matching movies exceeded 100 - results trimmed";
+        messageError = "Matching movies exceeded 100 - results trimmed";
     }
     //Else if no films match criteria, display error message as shown below
     else if(filmsMatching.length == 0)
     {
         headerMessage.innerText = "Error";
         headerMessage.setAttribute("class", "text-danger");
-        errorMessage = "No matching movies found for the selected filters";
+        messageError = "No matching movies found for the selected filters";
     }
 
     //If error message, show the body of the message in the form of a modal 
-    if(errorMessage)
+    if(messageError)
     {
-        bodyMessage.innerText = errorMessage;
+        bodyMessage.innerText = messageError;
         $('#modalError').modal('show');
     }
 
@@ -125,9 +123,10 @@ function processFilters() {
 }
 
 
-
-//Retrieves films which match the specific criteria of rating, genre, and year for filters
-function getMoviesForFilters() {
+/**
+ * Retrieves films which match the specific criteria of rating, genre, and year for filters
+*/
+function retrieveFilmsFiltered() {
 
     //Array to store selected genres 
     genresSelected = [];
@@ -142,14 +141,15 @@ function getMoviesForFilters() {
     });
 
     //Filtering selected length for each table header respectively 
-    let filterSetYear = (yearSelected.length > 0);
     let filterSetRating = (ratingSelected.length > 0);
+    let filterSetYear = (yearSelected.length > 0);
     let filterSetGenre = (genresSelected.length > 0);
 
 
     //Arrary to store films which fit the specified criteria, as well as creating a new interface to display this 
+    let filmMatchingSet = new Set();
     let filmsMatching = [];
-    let matchingMovies_set = new Set();
+
 
     //Condition for if at least one filter has been chosen for the three categories and applied
     if(filterSetYear || filterSetRating || filterSetGenre)    
@@ -164,8 +164,8 @@ function getMoviesForFilters() {
             if(filterSetYear)
             {
                 let filmChosenYear = parseInt(film["title_year"]);
-                let yearBeginning = yearSelected[0].start;
                 let yearEnding = yearSelected[0].end;
+                let yearBeginning = yearSelected[0].start;
 
                 //Ordering descending/ascending years for films
                 if(!isNaN(filmChosenYear))
@@ -184,8 +184,9 @@ function getMoviesForFilters() {
             if(filterSetRating)
             {
                 let filmChosenRating = parseFloat(film["imdb_score"]);
-                let ratingBeginning = ratingSelected[0].start;
                 let ratingEnding = ratingSelected[0].end;
+                let ratingBeginning = ratingSelected[0].start;
+
 
                 //Ordering descending/ascending ratings for films
                 if(!isNaN(filmChosenRating))
@@ -221,9 +222,9 @@ function getMoviesForFilters() {
             if(matchingYear && matchingRating && matchingGenres)
             {
                 //Condition to avoid film being duplicated 
-                if(!matchingMovies_set.has(film["movie_title"]))   
+                if(!filmMatchingSet.has(film["movie_title"]))   
                 {
-                    matchingMovies_set.add(film["movie_title"]);
+                    filmMatchingSet.add(film["movie_title"]);
                     filmsMatching.push(film);
                 }
             }

@@ -246,7 +246,7 @@ function updateTrend() {
     let name = d3.select("#nameDirectorOrActor").node().value;
     let selectedAttribute = d3.select("#attributes").node().value;
     let films = [];
-    let errorMessage = "";
+    let messageError = "";
     let errorDiv = document.getElementsByClassName("modal-body")[0];
 
     if(document.getElementsByName("directorOrActor")[0].checked)    //If current radio button selection is "Actor"
@@ -265,8 +265,8 @@ function updateTrend() {
         }
         else
         {
-            errorMessage = "Invalid Actor name";
-            errorDiv.innerText = errorMessage;
+            messageError = "Invalid Actor name";
+            errorDiv.innerText = messageError;
             $('#modalError').modal('show');
         }
     }
@@ -283,8 +283,8 @@ function updateTrend() {
         }
         else
         {
-            errorMessage = "Invalid Director name";
-            errorDiv.innerText = errorMessage;
+            messageError = "Invalid Director name";
+            errorDiv.innerText = messageError;
             $('#modalError').modal('show');
         }
     }
