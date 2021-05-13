@@ -85,28 +85,28 @@ function processFilters() {
     //Messages for header and body if number of films exceed 100 as this would be too much  as error messages if no films found
     let filmsMatching = retrieveFilmsFiltered();
     let errorMessage = "";
-    let messageHeader = document.getElementById("messageHeader");
-    let messageBody = document.getElementById("messageBody");
+    let headerMessage = document.getElementById("headerMessage");
+    let bodyMessage = document.getElementById("bodyMessage");
 
     //If number of films are greater than 100, display following prompt text 
     if(filmsMatching.length > 100)
     {
-        messageHeader.innerText = "Note";
-        messageHeader.setAttribute("class", "text-info");
+        headerMessage.innerText = "Note";
+        headerMessage.setAttribute("class", "text-info");
         errorMessage = "Matching movies exceeded 100 - results trimmed";
     }
     //Else if no films match criteria, display error message as shown below
     else if(filmsMatching.length == 0)
     {
-        messageHeader.innerText = "Error";
-        messageHeader.setAttribute("class", "text-danger");
+        headerMessage.innerText = "Error";
+        headerMessage.setAttribute("class", "text-danger");
         errorMessage = "No matching movies found for the selected filters";
     }
 
     //If error message, show the body of the message in the form of a modal 
     if(errorMessage)
     {
-        messageBody.innerText = errorMessage;
+        bodyMessage.innerText = errorMessage;
         $('#modalError').modal('show');
     }
 
