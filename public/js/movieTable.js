@@ -1,6 +1,6 @@
 class MovieTable
 {
-    constructor(movies)
+    constructor(films)
     {
         //Headers of the table with reference to the CSV file name headers
         this.tableHeaders = ["title_year", "movie_title", "director_name", "imdb_score", "budget"];
@@ -9,7 +9,7 @@ class MovieTable
         this.columnsSortOrder = [ 0, 0, 0, 0, 0];  
 
         //This films reference so constructor can be called when used
-        this.movies = movies;
+        this.films = films;
     }
 
     //Create function to create table for movies
@@ -30,7 +30,7 @@ class MovieTable
                 if(this.columnsSortOrder[i] % 2 == 0)
                 {
                     // For each even click on a column's header, sort all row-values for that column in ascending order
-                    this.movies = (this.movies).slice().sort(function (a, b) {
+                    this.films = (this.films).slice().sort(function (a, b) {
                         if(a[d] < b[d])
                             return -1;
                         else if(a[d] > b[d])
@@ -42,7 +42,7 @@ class MovieTable
                 else    
                 {
                     //Else, for every odd click on a column's header the row-values for that column should be sorted in descending order 
-                    this.movies = (this.movies).slice().sort(function (a, b) {
+                    this.films = (this.films).slice().sort(function (a, b) {
                         if(a[d] > b[d])
                             return -1;
                         else if(a[d] < b[d])
@@ -66,7 +66,7 @@ class MovieTable
 
         //Selecting all values in table body and setting correct values accordingly
         let topRowsBody = tbody.selectAll("tr")
-            .data(this.movies);
+            .data(this.films);
 
         //Appending values from selected values accordingly, removing old ones and mergeing new ones to fit the sorted list
         let topRowsBodyEnter = topRowsBody.enter().append("tr");
