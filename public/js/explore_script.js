@@ -40,20 +40,20 @@ d3.csv("data/movie_metadata.csv", function (error, films) {
 function genresRetrieved() {
 
     //Setting genres as a new interface set
-    let setGenres = new Set();
+    let genres_set = new Set();
 
     //Seperating genres 
     filmsExcel.forEach((film) => {
         let genresFilms = film["genres"].split("|");
         genresFilms.forEach((genre) => {
-        setGenres.add(genre);
+        genres_set.add(genre);
         })
     });
 
     //Sorting genres
-    setGenres = new Set(Array.from(setGenres).sort());
+    genres_set = new Set(Array.from(genres_set).sort());
 
-    return setGenres;
+    return genres_set;
 }
 
 
@@ -93,14 +93,14 @@ function processFilters() {
     {
         messageHeader.innerText = "Note";
         messageHeader.setAttribute("class", "text-info");
-        errorMessage = "Number of films matching criteria exceed 100";
+        errorMessage = "Matching movies exceeded 100 - results trimmed";
     }
     //Else if no films match criteria, display error message as shown below
     else if(filmsMatching.length == 0)
     {
         messageHeader.innerText = "Error";
         messageHeader.setAttribute("class", "text-danger");
-        errorMessage = "No films matching criteria found";
+        errorMessage = "No matching movies found for the selected filters";
     }
 
     //If error message, show the body of the message in the form of a modal 
