@@ -21,7 +21,9 @@ class NodeLinkFD{
 
     update(filmsSelected){
 
+        //Link to constructor 
         let that = this;
+        
         // create legend
         let svgLegend = this.legend.select("svg")
             .attr("width", this.widthSVG)
