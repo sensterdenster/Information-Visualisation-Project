@@ -9,7 +9,7 @@ class MovieTable
         this.columnsSortOrder = [ 0, 0, 0, 0, 0];  
 
         //This films reference so constructor can be called when used
-        this.films = films;
+        this.movies = films;
     }
 
     //Create function to create table for movies
@@ -30,7 +30,7 @@ class MovieTable
                 if(this.columnsSortOrder[q] % 2 == 0)
                 {
                     // For each even click on a column's header, sort all row-values for that column in ascending order
-                    this.films = (this.films).slice().sort(function (x, y) {
+                    this.movies = (this.movies).slice().sort(function (x, y) {
                         if(x[p] < y[p])
                             return -1;
                         else if(x[p] > y[p])
@@ -42,7 +42,7 @@ class MovieTable
                 else    
                 {
                     //Else, for every odd click on a column's header the row-values for that column should be sorted in descending order 
-                    this.films = (this.films).slice().sort(function (x, y) {
+                    this.movies = (this.movies).slice().sort(function (x, y) {
                         if(x[p] > y[p])
                             return -1;
                         else if(x[p] < y[p])
@@ -66,7 +66,7 @@ class MovieTable
 
         //Selecting all values in table body and setting correct values accordingly
         let topRowsBody = topBody.selectAll("tr")
-            .data(this.films);
+            .data(this.movies);
 
         //Appending values from selected values accordingly, removing old ones and mergeing new ones to fit the sorted list
         let topRowsBodyEnter = topRowsBody.enter().append("tr");
