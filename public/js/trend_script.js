@@ -36,38 +36,53 @@ d3.csv("data/movie_metadata.csv", function (error, films) {
  *  Returns a sorted set of all (unique) actors
  */
 function actorsRetrieved() {
+    //Retrieving actor 1 
+    let namesActor1 = filmsExcel.map(d => d["actor_1_name"]);
 
-    //Get all actors
-    let actor1names = filmsExcel.map(d => d["actor_1_name"]);
-    let actor2names = filmsExcel.map(d => d["actor_2_name"]);
-    let actor3names = filmsExcel.map(d => d["actor_3_name"]);
+    //Retrieving actor 2
+    let namesActor2 = filmsExcel.map(d => d["actor_2_name"]);
+    
+    //Retrieving actor 3
+    let namesActor3 = filmsExcel.map(d => d["actor_3_name"]);
 
-    //Merge all actors and sort
-    let actor123names = actor1names.concat(actor2names, actor3names).sort();
+    //All actors merged and sorted 
+    let namesActors123 = namesActor1.concat(namesActor2, namesActor3).sort();
 
-    let actors_set = new Set();
-    let currentActor = actor123names[0];
-    let currentActorCount = 0;
+    //Initialising actors in a set 
+    let setActors = new Set();
 
-    for(let actorIndex = 0; actorIndex < actor123names.length; actorIndex++)
+    //Chosen actor is set to the array index 0 of all actors so it can be used
+    let actorChosen = namesActors123[0];
+
+    //Chosen actor counter to cycle through actors
+    let actorChosenCounter = 0;
+
+    //For loop to cycle through actors 
+    for(let indexForActors = 0; indexForActors < namesActors123.length; indexForActors++)
     {
-        if(currentActor == actor123names[actorIndex])
+        //Condition if chosen actors is equal to any of the actors123 to include these actors
+        if(actorChosen == namesActors123[indexForActors])
         {
-            currentActorCount++;
-            if(currentActorCount == 2)  //Include actor if involved in at least 2 movies
-                actors_set.add(currentActor)
+            //Increase counter for chosen actor
+            actorChosenCounter++;
+
+            //Actor included if they are involved in at least 2 films
+            if(actorChosenCounter == 2)  
+                setActors.add(actorChosen)
         }
         else
         {
-            currentActor = actor123names[actorIndex];
-            currentActorCount = 1;
+            //Else chosen actors are not included and counter value is changed
+            actorChosen = namesActors123[indexForActors];
+            actorChosenCounter = 1;
         }
     }
 
-    //Drop undefined value
-    actors_set.delete(undefined);
+    //Remove any undefined values
+    setActors.delete(undefined);
 
-    return actors_set;
+    //Return these set initialised actors
+    return setActors;
 }
 
 /**
