@@ -342,17 +342,20 @@ class NodeLinkFD{
         //Flag variable to toggle if highlighting of a node is selected or not 
         let flag = 0;
 
-        //Create a connections array
+        //Array for nodelink connections  
         let linkedByIndex = {};
+
+        //For loop which iterates through the number of nodes and stores connected nodes in array appropriately, giving them the value of 1
         for (let i = 0; i < this.nodes.length; i++) {
             linkedByIndex[i + "," + i] = 1;
         };
-        this.borders.forEach(function (d) {
-            linkedByIndex[d.source.index + "," + d.target.index] = 1;
+        //Assigning linked node appropriate borders so they are grouped neatly together
+        this.borders.forEach(function (f) {
+            linkedByIndex[f.source.index + "," + f.target.index] = 1;
         });
 
-        //This function looks up whether a pair are neighbours
-        function isConnected(a, b) {
+        //Function to search if pairs of nodes are neighbours 
+        function isLinked(a, b) {
             return linkedByIndex[a.index + "," + b.index];
         }
 
@@ -369,7 +372,7 @@ class NodeLinkFD{
 
                 //Reduce the opacity of all nodes except the neighbouring nodes
                 nodes.style("opacity", function (o) {
-                    return ((isConnected(d, o) || isConnected(o, d)) ? 1 : 0.1);
+                    return ((isLinked(d, o) || isLinked(o, d)) ? 1 : 0.1);
                 });
 
                 nodeLinks.style("opacity", function (o) {
