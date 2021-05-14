@@ -277,7 +277,6 @@ class NodeLinkFD{
                  return f.color;
             })
  
-
             //Adding event listeners to each of the nodes so that click-dragging them moves the specific node around by calling each of these functions 
             .call(d3.drag()
                 .on("start", startDrag)
@@ -288,64 +287,61 @@ class NodeLinkFD{
                 .on('mouseout', tipTool.hide)
                 .on('dblclick', linkedNodes); //Added code;
 
-        // Binding data, to the animation...
+        // Having the data being binded to the animation
         animation.nodes(this.nodes);
 
-        // The tension force (the forceLink that we named "link" above) also needs to know
-        // about the link data that we finally have
+        //Linking the animatino to the nodelink and setting the borders for it as well as the distance
         animation.force("nodelink")
             .links(this.borders)
             .distance(15);
 
-
-        // Finally, let's tell the animation how to update the graphics
-        animation.on("tick", function () {
-            // Every "tick" of the animation will create / update each node's coordinates;
-            // we need to use those coordinates to move the lines and circles into place
+        //Lastly, updating the animation's graphics, since each refresh of the animation will update each node's coordinates,
+        //those coordinates must be uused to push the lines and circles of nodes into position 
+        animation.on("tick", function() {
             nodeLinks
-                .attr("x1", function (d) {
-                    return d.source.x;
+                .attr("x1", function(p) {
+                    return p.source.x;
                 })
-                .attr("y1", function (d) {
-                    return d.source.y;
+                .attr("y1", function(p) {
+                    return p.source.y;
                 })
-                .attr("x2", function (d) {
-                    return d.target.x;
+                .attr("x2", function(p) {
+                    return p.target.x;
                 })
-                .attr("y2", function (d) {
-                    return d.target.y;
+                .attr("y2", function(p) {
+                    return p.target.y;
                 });
-
             nodes
-                .attr("cx", function (d) {
-                    return d.x;
+                .attr("cx", function (p) {
+                    return p.x;
                 })
-                .attr("cy", function (d) {
-                    return d.y;
+                .attr("cy", function (p) {
+                    return p.y;
                 });
         });
-
-        function startDrag(d) {
-        if (!d3.event.active) animation.alphaTarget(0.3).restart();
-        d.fx = d.x;
-        d.fy = d.y;
+        
+        //Drag function for animation for dragging start from mouseclick
+        function startDrag(p) {
+        if (!d3.event.active) animation.alphaTarget(0.2).restart();
+        p.fx = p.x;
+        p.fy = p.y;
     }
-
-        function dragging(d) {
-        d.fx = d3.event.x;
-        d.fy = d3.event.y;
+        //Drag functon for animation of currently dragging the node 
+        function dragging(p) {
+        p.fx = d3.event.x;
+        p.fy = d3.event.y;
     }
-
-        function endDrag(d) {
+        //Drag function for when dragging has ended from mouesclick release
+        function endDrag(p) {
         if (!d3.event.active) animation.alphaTarget(0);
-        d.fx = null;
-        d.fy = null;
+        p.fx = null;
+        p.fy = null;
     }
 
-        //---Insert-------
 
-        //Toggle stores whether the highlighting is on
+        //Flag variable to toggle if highlighting of a node is selected or not 
         let flag = 0;
+
         //Create a connections array
         let linkedByIndex = {};
         for (let i = 0; i < this.nodes.length; i++) {
