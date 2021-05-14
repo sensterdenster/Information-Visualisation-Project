@@ -236,9 +236,8 @@ class NodeLinkFD{
         //Revmoing the lined links
         nodeLinks.exit().remove();
 
-        //Mergeing nodelinks
+        //Merging nodelinks
         nodeLinks = nodeLinks.merge(enterLinks);
-
 
         //Setting the links between the nodes equal to the intended nodes targeted
         nodeLinks.attr("stroke-width", function (f) {
@@ -277,17 +276,17 @@ class NodeLinkFD{
             .attr("fill", function (f) {
                  return f.color;
             })
-            // This part adds event listeners to each of the nodes; when you click,
-            // move, and release the mouse on a node, each of these functions gets called
-            // (we've defined them at the end of the file)
+ 
+
+            //Adding event listeners to each of the nodes so that click-dragging them moves the specific node around by calling each of these functions 
             .call(d3.drag()
-                .on("start", dragstarted)
-                .on("drag", dragged)
-                .on("end", dragended))
+                .on("start", startDrag)
+                .on("drag", dragging)
+                .on("end", endDrag))
                 .call(tipTool)
                 .on('mouseover', tipTool.show)
                 .on('mouseout', tipTool.hide)
-                .on('dblclick', connectedNodes); //Added code;
+                .on('dblclick', linkedNodes); //Added code;
 
         // Binding data, to the animation...
         animation.nodes(this.nodes);
@@ -326,18 +325,18 @@ class NodeLinkFD{
                 });
         });
 
-        function dragstarted(d) {
+        function startDrag(d) {
         if (!d3.event.active) animation.alphaTarget(0.3).restart();
         d.fx = d.x;
         d.fy = d.y;
     }
 
-        function dragged(d) {
+        function dragging(d) {
         d.fx = d3.event.x;
         d.fy = d3.event.y;
     }
 
-        function dragended(d) {
+        function endDrag(d) {
         if (!d3.event.active) animation.alphaTarget(0);
         d.fx = null;
         d.fy = null;
@@ -361,7 +360,7 @@ class NodeLinkFD{
             return linkedByIndex[a.index + "," + b.index];
         }
 
-        function connectedNodes() {
+        function linkedNodes() {
 
             if (flag == 0) {
 
