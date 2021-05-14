@@ -34,24 +34,26 @@ class NodeLinkFD{
         let that = this;
         
         //Legend being created by selecting the legend reference in the constructor and setting the height and width 
-        let svgLegend = this.legend.select("svg")
+        let legendSVG = this.legend.select("svg")
             .attr("height", this.heightOfLegend)
             .attr("width", this.widthSVG);
 
         //Appending  g the svg legend
-        let gLegend = svgLegend.append("g");
+        let graphLegend = legendSVG.append("g");
 
 
         //Text instruction on how to use node-link diagram displayed under it
-        svgLegend.append("text").text(["To highlight the neighbours of a node, double click on one"])
+        legendSVG.append("text").text(["To highlight the neighbours of a node, double click on one"])
             .attr("transform", "translate(" + this.dimensions.left*1.5 + ", 54)");
 
-        //Assigning colors to aspect of a film:  Title (), actor, director, and actor + director
-        let colors = [{"color": "red" , "role" : "Movie"},{"color": "yellow", "role" : "Director"},
-                        {"color": "green" , "role" : "Actor"},{"color": "pink", "role" : "Role: Actor and Director"}];
+        //Assigning colors to aspect of a film:  Title, Actor, Director, Actor AND director
+        let colors = [{"color": "orange" , "role" : "Movie"},{"color": "pink", "role" : "Director"},
+                        {"color": "purple" , "role" : "Actor"},{"color": "red", "role" : "Role: Actor and Director"}];
 
-        let legendCircles = gLegend.selectAll("circle").data(colors)
+        //Drawing legend shapes as circles and importing the color to fit from above 
+        let legendCircles = graphLegend.selectAll("circle").data(colors)
 
+        //
         legendCircles.
             enter().append("circle")
             .attr("fill", function (d) {
@@ -64,7 +66,7 @@ class NodeLinkFD{
             .attr("r", 5)
             .attr("class", "legend");
 
-        let labels = gLegend.selectAll("text").data(colors);
+        let labels = graphLegend.selectAll("text").data(colors);
 
         labels.
             enter().append("text")
