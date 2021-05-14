@@ -4,9 +4,10 @@
 d3.csv("data/movie_metadata.csv", function (error, films) {
     if (error) throw error;
 
+    //Window to display films actors and directors 
     window.filmsExcel = films;
-    window.allActors = getActors();
-    window.allDirectors = getDirectors();
+    window.directorsAll = directorsRetrieved();
+    window.actorsAll = actorsRetrieved();
 
     //Initialize default values for the actor/director search filter
     updateSearchFilter("actor");
@@ -58,7 +59,7 @@ d3.csv("data/movie_metadata.csv", function (error, films) {
 /**
  *  Returns a sorted set of all (unique) actors
  */
-function getActors() {
+function actorsRetrieved() {
 
     //Get all actors
     let actor1names = filmsExcel.map(d => d["actor_1_name"]);
@@ -96,7 +97,7 @@ function getActors() {
 /**
  *  Returns a sorted set of all (unique) directors
  */
-function getDirectors() {
+function directorsRetrieved() {
 
     //Get all directors
     let directorNames = filmsExcel.map(d => d["director_name"]);
@@ -211,7 +212,7 @@ function updateSearchFilter(directorOrActor) {
 
     if(directorOrActor == "actor")
     {
-        for (let actor of allActors)
+        for (let actor of actorsAll)
         {
             let option = document.createElement("option");
             option.textContent = actor;
@@ -226,7 +227,7 @@ function updateSearchFilter(directorOrActor) {
     }
     else
     {
-        for (let director of allDirectors)
+        for (let director of directorsAll)
         {
             let option = document.createElement("option");
             option.textContent = director;
@@ -257,7 +258,7 @@ function updateTrend() {
         if(!name && statsActorDirector.directorOrActor == "Actor")  //If name input empty, retrieve name from existing object
             name = statsActorDirector.name;
 
-        if(allActors.has(name)) //Ensure actor name passed is valid
+        if(actorsAll.has(name)) //Ensure actor name passed is valid
         {
             films = getMoviesFor("actor", name).filter((film) => film[selectedAttribute]);
             statsActorDirector = new StatsActorDirector("Actor", name, films, selectedAttribute);
@@ -275,7 +276,7 @@ function updateTrend() {
     }
     else    //If current radio button selection is "Director"
     {
-        if(allDirectors.has(name))  //Ensure director name passed is valid
+        if(directorsAll.has(name))  //Ensure director name passed is valid
         {
             films = getMoviesFor("director", name).filter((film) => film[selectedAttribute]);
             statsActorDirector = new StatsActorDirector("Director", name, films, selectedAttribute);

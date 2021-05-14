@@ -50,15 +50,7 @@ class ScatterPlot
             if(!isNaN(cx) && !isNaN(cy) && (cx != 0) && (cy != 0))
                 plotPoints.push({ "cx": cx, "cy": cy, "title": title, "xaxis": xaxis, "yaxis": yaxis}); //Extract and store the points to be plotted
         });
-        /* Debugging
-        let count = 0
-        plotPoints.forEach(function(data){
-           if(count < 10) {
-               console.log(data);
-           }
-            count++;
-        });
-        */
+
         let xScale = d3.scaleLinear()
             .domain(d3.extent(plotPoints, (d) => { return d.cx}))
             .range([0, this.width]);
@@ -70,40 +62,14 @@ class ScatterPlot
             .range([this.height, 0]);
 
         yScale.nice();
-        /*
-        //Select
-         let g = this.svg.selectAll("gplot").data(plotPoints);
-         //enter
-         let gEnter = this.svg.enter().append("g");
-         //exit
-         g.exit().remove();
-         //merge
-         g = gEnter.merge(g);
-         //shift right
-         g.attr("class","gplot")
-             .attr("transform", "translate(" + this.dimensions.left + "," + this.dimensions.top + ")");
-        */
+       
         this.svg.selectAll("g").remove();
         let g = this.svg.append("g").attr("transform", "translate(" + this.dimensions.left + "," + this.dimensions.top + ")");
         //let g = this.svg.append("g").attr("transform", "translate(" + "0" + "," + this.dimensions.top + ")");
 
         g.append("g")
         .call(d3.axisLeft(yScale));
-        // .transition()
-        // .attr("opacity", 0)
-        // .duration(1000)
-        // .attr("opacity", 1)
-
-
-        //Add the y Axis
-        /*
-         .transition()
-         .attr("opacity", 0)
-         .duration(2000)
-         .attr("opacity", 1)
-         */
-
-
+     
 
         this.svg.append("g").append("text")
             .attr("class", "font-weight-bold")
