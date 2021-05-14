@@ -339,54 +339,55 @@ class NodeLinkFD{
     }
 
 
-        //Flag variable to toggle if highlighting of a node is selected or not 
-        let flag = 0;
+        //Mark variable to toggle if highlighting of a node is selected or not 
+        let mark = 0;
 
         //Array for nodelink connections  
-        let linkedByIndex = {};
+        let indexLinked = {};
 
         //For loop which iterates through the number of nodes and stores connected nodes in array appropriately, giving them the value of 1
         for (let i = 0; i < this.nodes.length; i++) {
-            linkedByIndex[i + "," + i] = 1;
+            indexLinked[i + "," + i] = 1;
         };
         //Assigning linked node appropriate borders so they are grouped neatly together
         this.borders.forEach(function (f) {
-            linkedByIndex[f.source.index + "," + f.target.index] = 1;
+            indexLinked[f.source.index + "," + f.target.index] = 1;
         });
 
         //Function to search if pairs of nodes are neighbours 
         function isLinked(a, b) {
-            return linkedByIndex[a.index + "," + b.index];
+            return indexLinked[a.index + "," + b.index];
         }
 
+        //Functionn to highlight connecting nodes when one is double clicked
         function linkedNodes() {
+            if (mark == 0) {
 
-            if (flag == 0) {
+                //Selecting data for the nodes
+                let p = d3.select(this).node().__data__;
 
-                let d = d3.select(this).node().__data__;
-
-                if(d["group"] == 0)   //If selected node is a film
+                //Condition of the selected node is a film
+                if(p["group"] == 0) 
                 {
-                    //console.log(d["id"]);
                 }
 
-                //Reduce the opacity of all nodes except the neighbouring nodes
-                nodes.style("opacity", function (o) {
-                    return ((isLinked(d, o) || isLinked(o, d)) ? 1 : 0.1);
+                //Opcacity is reduced for all other nodes but the selected node 
+                nodes.style("opacity", function (q) {
+                    return ((isLinked(p, q) || isLinked(p, q)) ? 1 : 0.1);
                 });
 
-                nodeLinks.style("opacity", function (o) {
-                    return ((d.index == o.source.index || d.index == o.target.index) ? 1 : 0.1);
+                //Opacity is reduced for all other nodes but those which are linked to the selected node
+                nodeLinks.style("opacity", function (q) {
+                    return ((p.index == q.source.index || p.index == q.target.index) ? 1 : 0.1);
                 });
-                flag = 1;
+                mark = 1;
             } else {
-                //Changing back to opacity=1
-                nodes.style("opacity", 1);
                 nodeLinks.style("opacity", 1);
-                flag = 0;
+                nodes.style("opacity", 1);
+                mark = 0;
             }
         }
 
-        }// close update()
+        }
 
-}//close class
+}
