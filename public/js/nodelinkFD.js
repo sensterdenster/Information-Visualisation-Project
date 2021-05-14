@@ -47,8 +47,8 @@ class NodeLinkFD{
             .attr("transform", "translate(" + this.dimensions.left*1.5 + ", 54)");
 
         //Assigning colors to circles for represent each aspect of a film:  Title, Actor, Director, Actor AND director
-        let circleFill = [{"color": "purple" , "role" : "Movie"},{"color": "green", "role" : "Director"},
-                        {"color": "orange" , "role" : "Actor"},{"color": "red", "role" : "Role: Actor and Director"}];
+        let circleFill = [{"color": "blue" , "role" : "Movie"},{"color": "green", "role" : "Director"},
+                        {"color": "purple" , "role" : "Actor"},{"color": "red", "role" : "Role: Actor and Director"}];
 
         //Drawing legend shapes as circles and importing the color to fit from above 
         let circlesLegend = graphLegend.selectAll("circle").data(circleFill)
@@ -138,13 +138,20 @@ class NodeLinkFD{
                 this.nodes.push({"id": film.actor_3_name.trim(), "group": 2, "color":"purple", "degree": 1});
             }
 
-            //borders from film to director, actor1,2,3
+            //Borders for film to director
             this.borders.push({"source": film.movie_title.trim(), "target": film.director_name.trim()});
+
+            //Borders for film to actor1
             this.borders.push({"source": film.movie_title.trim(), "target": film.actor_1_name.trim()});
+            
+            //Borders for film to actor2
             this.borders.push({"source": film.movie_title.trim(), "target": film.actor_2_name.trim()});
+
+            //Borders for film to actor3
             this.borders.push({"source": film.movie_title.trim(), "target": film.actor_3_name.trim()});
 
-            //nodes data for title, director, actor1,2,3
+
+            //Data for nodes in regards to director, title, and actors 1, 2, and 3
             this.nodes.push({"id": film.movie_title.trim(),  "group": 0, "color":"blue", "degree": 1});
 
             //check for this current film if actor and director is the same person and decrement their degree
