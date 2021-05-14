@@ -109,7 +109,7 @@ class StatsActorDirector{
             .data(this.films);
 
         //Tooltip being initialised
-        let toolTip = d3.tip().attr("class", "d3-tip-node").html((d) => {
+        let tipTool = d3.tip().attr("class", "d3-tip-node").html((d) => {
 
             if(this.feature == "imdb_score")
                 return d["movie_title"].trim() + ": " + parseFloat(d[this.feature]);
@@ -130,9 +130,9 @@ class StatsActorDirector{
             .attr("cx", (d) => { return scaleX(d["movie_title"]); });
 
         //Tip on plot points being invoked
-        plotPoints.call(toolTip)
-            .on("mouseout", toolTip.hide)
-            .on("mouseover", toolTip.show);
+        plotPoints.call(tipTool)
+            .on("mouseout", tipTool.hide)
+            .on("mouseover", tipTool.show);
 
         //Line graph being added
         let lineGraph = d3.line()

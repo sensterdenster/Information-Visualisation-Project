@@ -23,7 +23,7 @@ class CorrelationMatrix {
 
     //Creating and setting up tooltip
     create() {
-        let toolTip = d3.tip()
+        let tipTool = d3.tip()
             .offset([-10, 0])
             .attr('class', 'tip-different')
             .html(function (f) {
@@ -122,9 +122,9 @@ class CorrelationMatrix {
                 return that.widthSVG / (number + 2)
             })
             //Calling tootip so that the content is shown on click and mouse hover
-            .call(toolTip)
-            .on('mouseout', toolTip.hide)
-            .on('mouseover', toolTip.show)
+            .call(tipTool)
+            .on('mouseout', tipTool.hide)
+            .on('mouseover', tipTool.show)
             .on("click", function(p){
                 rectangle.classed("highlight-rect",false);
                 d3.select(this).classed("highlight-rect",true);

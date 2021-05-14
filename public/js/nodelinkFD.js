@@ -74,13 +74,13 @@ class NodeLinkFD{
         nodeLabels.
             enter().append("text")
             .data(circleFill)
-            .attr("x", function (d,i) {
-                return i * (that.widthSVG/7) + that.dimensions.left*1.2;
+            .attr("x", function (f,x) {
+                return x * (that.widthSVG/7) + that.dimensions.left*1.2;
             })
             
             .attr("y", "60%")
-            .text(function (d) {
-                return d.role;
+            .text(function (f) {
+                return f.role;
             })
             .attr("class", "legend");
 
@@ -99,8 +99,8 @@ class NodeLinkFD{
                 return (that.nodes).some(function(element) {
                     //Condition if someone is both a director AND actor from the list of nodes and if so assign it seperate group and color
                     if(element.id === nodeName && element.group != group){
-                        element.color = "greenyellow";
                         element.degree++;
+                        element.color = "greenyellow";
                         element.group = 4;
                         return true;
                     }
@@ -174,7 +174,7 @@ class NodeLinkFD{
 
 
         //Set up tooltip
-        let toolTip = d3.tip()
+        let tipTool = d3.tip()
             .attr('class', 'd3-tip')
             .offset([-10, 0])
             .html(function (d) {
@@ -191,11 +191,11 @@ class NodeLinkFD{
 
         //setting up svg
         let svgnodeLink = d3.select('#canvas')
-            .attr("width", this.widthSVG )
-            .attr("height", this.heightSVG);
+            .attr("height", this.heightSVG)
+            .attr("width", this.widthSVG );
 
         //calling tool-tip
-        svgnodeLink.call(toolTip);
+        svgnodeLink.call(tipTool);
 
         // Here we create our simulation, and give it some forces to update to all the nodes:
         let simulation = d3.forceSimulation()
@@ -278,9 +278,9 @@ class NodeLinkFD{
                 .on("start", dragstarted)
                 .on("drag", dragged)
                 .on("end", dragended))
-                .call(toolTip)
-                .on('mouseover', toolTip.show)
-                .on('mouseout', toolTip.hide)
+                .call(tipTool)
+                .on('mouseover', tipTool.show)
+                .on('mouseout', tipTool.hide)
                 .on('dblclick', connectedNodes); //Added code;
 
         // Binding data, to the simulation...
