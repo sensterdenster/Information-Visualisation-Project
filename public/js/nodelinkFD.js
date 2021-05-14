@@ -70,7 +70,7 @@ class NodeLinkFD{
         //Labels for node when selected
         let nodeLabels = graphLegend.selectAll("text").data(circleFill);
 
-        //Creating the label for each node with dimensions 
+        //Creating the text label for each node with dimensions 
         nodeLabels.
             enter().append("text")
             .data(circleFill)
@@ -85,28 +85,28 @@ class NodeLinkFD{
             .attr("class", "legend");
 
 
-
-
+        //Condition if no film is selected then just showcase the default 100 list of movies set on the initial load page in node-link form
         if(!filmsSelected){
             filmsSelected = this.films.slice(0, 100) //default selection
         }
 
+        //Film select function for when a film from a node is selected 
         filmsSelected.forEach(function(film) {
-            let sameActorDirector = 0;
+            let sameActorDirector = 0;                                                  //DONT NEED?
 
             //function to check if a node exists and increment degree
-            function nodeExists(name, group) {
-                return (that.nodes).some(function(elem) {
-                    //check if a person is both actor and director from the node list
-                    // and assign it a different color and group
-                    if(elem.id === name && elem.group != group){
-                        elem.degree++;
-                        elem.color = "greenyellow";
-                        elem.group = 4;
+            function existingNode(nodeName, group) {
+                return (that.nodes).some(function(element) {
+                    //Condition if someone is both a director AND actor from the list of nodes and if so assign it seperate group and color
+                    if(element.id === nodeName && element.group != group){
+                        element.color = "greenyellow";
+                        element.degree++;
+                        element.group = 4;
                         return true;
                     }
-                    else if(elem.id === name){
-                            elem.degree++;
+                    //Otherwise the node belongs to either an actor OR a director
+                    else if(element.id === nodeName){
+                            element.degree++;
                         return true;
                     }
                     else
@@ -114,26 +114,26 @@ class NodeLinkFD{
                 });
             }
 
-            //if director doesn't exists add to nodes list
-            let directorDegree = nodeExists(film.director_name.trim(), 1);
+            //Add actor to the node list if they dont exist 
+            let directorDegree = existingNode(film.director_name.trim(), 1);
             if(!directorDegree){
                 this.nodes.push({"id": film.director_name.trim(), "group": 1, "color":"orange", "degree": 1});
             }
 
-            //if actor doesn't exists add to nodes list
-            let actor1Degree = nodeExists(film.actor_1_name.trim(), 2);
+            //Add actor to the node list if they dont exist 
+            let actor1Degree = existingNode(film.actor_1_name.trim(), 2);
             if(!actor1Degree){
                 this.nodes.push({"id": film.actor_1_name.trim(), "group": 2, "color":"red", "degree": 1});
             }
 
-            //if actor doesn't exists add to nodes list
-            let actor2Degree = nodeExists(film.actor_2_name.trim(), 2);
+            //Add actor to the node list if they dont exist 
+            let actor2Degree = existingNode(film.actor_2_name.trim(), 2);
             if(!actor2Degree){
                 this.nodes.push({"id": film.actor_2_name.trim(), "group": 2, "color":"red", "degree": 1});
             }
 
-            //if actor doesn't exists add to nodes list
-            let actor3Degree = nodeExists(film.actor_3_name.trim(), 2);
+            //Add to the node list if the they dont exist 
+            let actor3Degree = existingNode(film.actor_3_name.trim(), 2);
             if(!actor3Degree){
                 this.nodes.push({"id": film.actor_3_name.trim(), "group": 2, "color":"red", "degree": 1});
             }
@@ -152,9 +152,9 @@ class NodeLinkFD{
                 film.director_name.trim() === film.actor_2_name.trim() ||
                 film.director_name.trim() === film.actor_3_name.trim()){
                 sameActorDirector = 1;
-                return (that.nodes).some(function(elem){
-                    if(elem.id === film.director_name.trim()) {
-                        elem.degree = elem.degree - 1;
+                return (that.nodes).some(function(element){
+                    if(element.id === film.director_name.trim()) {
+                        element.degree = element.degree - 1;
                     }
                 })
             }
