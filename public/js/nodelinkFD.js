@@ -154,8 +154,6 @@ class NodeLinkFD{
             //Data for nodes in regards to director, title, and actors 1, 2, and 3
             this.nodes.push({"id": film.movie_title.trim(),  "group": 0, "color":"blue", "degree": 1});
 
-            //check for this current film if actor and director is the same person and decrement their degree
-
             //Check if current chosen film has an actor AND director that is the same person and if so their degree will be decremented
             if(film.director_name.trim() === film.actor_1_name.trim() ||
                 //If director name is equal to actor 1, 2, or 3 name then they are the same person 
@@ -197,25 +195,25 @@ class NodeLinkFD{
         //Creating the animation of the node link when page is loaded/refreshed/updated to apply forces to all the node when this happens
         let animation = d3.forceSimulation()
         //Using D3's forcelink function enables a tensions to be created along each link in which connects the linking nodes together
-            .force("nodelink", d3.forceLink()
+            .force("link", d3.forceLink()
                 .id(function (f) {
                 return f.id;
             }))
 
             //Using D3's forcemanybody() function produces a rippling force between each fo the nodes, ensuring that they are spaced apart clear enough to be identified 
-            .force("rippleCharge", d3.forceManyBody().strength(-17))
+            .force("charge", d3.forceManyBody().strength(-17))
 
             // forceCenter acts like gravity, keeping the whole visualization in the middle of the screen
-            .force("forceCenter", d3.forceCenter(this.widthSVG / 2, this.heightSVG / 2))
+            .force("center", d3.forceCenter(this.widthSVG / 2, this.heightSVG / 2))
 
             //Force for direction in the y-axis
-            .force("yForce", d3.forceY())
+            .force("forceX", d3.forceY())
             
             //Force for direction in the x-axis
-            .force("xForce", d3.forceX())
+            .force("forceY", d3.forceX())
             
             //Force for collision of nodes with each other
-            .force("forceCollide",d3.forceCollide( function(f){
+            .force("collide",d3.forceCollide( function(f){
                 return (f.degree + 6) })); 
 
 
@@ -291,7 +289,7 @@ class NodeLinkFD{
         animation.nodes(this.nodes);
 
         //Linking the animatino to the nodelink and setting the borders for it as well as the distance
-        animation.force("nodelink")
+        animation.force("link")
             .links(this.borders)
             .distance(15);
 

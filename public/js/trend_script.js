@@ -86,37 +86,42 @@ function actorsRetrieved() {
 }
 
 /**
- *  Returns a sorted set of all (unique) directors
+ *  Function to return the set of all unique directors in sorted form 
  */
 function directorsRetrieved() {
 
     //Get all directors
-    let directorNames = filmsExcel.map(d => d["director_name"]);
-    let directorNames_sorted = directorNames.sort();    //Sort
+    let namesDirector = filmsExcel.map(d => d["director_name"]);
 
-    let directors_set = new Set();
-    let currentDirector = directorNames_sorted[0];
+    //Sorting diretors names
+    let sortedDirectorNames = namesDirector.sort();    
+
+    //Initialising directors in new set 
+    let setDirectors = new Set();
+
+    
+    let currentDirector = sortedDirectorNames[0];
     let currentDirectorCount = 0;
 
-    for(let directorIndex = 0; directorIndex < directorNames_sorted.length; directorIndex++)
+    for(let directorIndex = 0; directorIndex < sortedDirectorNames.length; directorIndex++)
     {
-        if(currentDirector == directorNames_sorted[directorIndex])
+        if(currentDirector == sortedDirectorNames[directorIndex])
         {
             currentDirectorCount++;
             if(currentDirectorCount == 2)  //Include director if involved in at least 2 movies
-                directors_set.add(currentDirector)
+                setDirectors.add(currentDirector)
         }
         else
         {
-            currentDirector = directorNames_sorted[directorIndex];
+            currentDirector = sortedDirectorNames[directorIndex];
             currentDirectorCount = 1;
         }
     }
 
     //Drop undefined value
-    directors_set.delete(undefined);
+    setDirectors.delete(undefined);
 
-    return directors_set;
+    return setDirectors;
 }
 
 /**
