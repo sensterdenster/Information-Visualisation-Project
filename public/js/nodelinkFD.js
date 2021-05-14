@@ -204,35 +204,42 @@ class NodeLinkFD{
 
             //Using D3's forcemanybody() function produces a rippling force between each fo the nodes, ensuring that they are spaced apart clear enough to be identified 
             .force("rippleCharge", d3.forceManyBody().strength(-17))
+
             // forceCenter acts like gravity, keeping the whole visualization in the middle of the screen
             .force("forceCenter", d3.forceCenter(this.widthSVG / 2, this.heightSVG / 2))
-            .force("xForce", d3.forceX())
+
+            //Force for direction in the y-axis
             .force("yForce", d3.forceY())
-            // .force("collide", d3.forceCollide([20]));
-            // .force("collide", d3.forceCollide());
-            .force("forceCollide",d3.forceCollide( function(d){return (d.degree + 6) })); //.iterations(16)
+            
+            //Force for direction in the x-axis
+            .force("xForce", d3.forceX())
+            
+            //Force for collision of nodes with each other
+            .force("forceCollide",d3.forceCollide( function(f){
+                return (f.degree + 6) })); 
 
 
-        // First we create the links in their own group that comes before the node group;
-        // using groups like layers, the circles will always be on top of the lines
-
+        //Creating links between nodes for their own respective groups (title, actors, director) before being affiliated with other links where one of these attributes are in common
         nodeLinkSVG.selectAll(".links").remove();
 
-        let linkLayer = nodeLinkSVG.append("g")
+        //Grouping the nodes in layers so that the circles will always be poistioned in front of the connecting links so they can be clearly seen 
+        let layerForLinks = nodeLinkSVG.append("g")
             .attr("class", "links");
 
-        // Now let's create the lines
-        let links = linkLayer.selectAll("line")
+        //Creating the linked lines
+        let nodeLinks = layerForLinks.selectAll("line")
             .data(this.borders)
 
+        //Appending these linked lines 
+        let enterLinks = nodeLinks.enter().append("line");
 
-        let linksEnter = links.enter().append("line");
+        //Revmoing the lined links
+        nodeLinks.exit().remove();
 
-        links.exit().remove();
 
-        links = links.merge(linksEnter);
+        nodeLinks = nodeLinks.merge(enterLinks);
 
-        links.attr("stroke-width", function (d) {
+        nodeLinks.attr("stroke-width", function (d) {
             // let sourcewt = that.nodes.getOwnProperty(d.source) ;
             // let targetwt = that.nodes.getOwnProperty(d.target) ;
             // sourcewt = (sourcewt > targetwt) ? sourcewt : targetwt;
@@ -295,7 +302,7 @@ class NodeLinkFD{
         animation.on("tick", function () {
             // Every "tick" of the animation will create / update each node's coordinates;
             // we need to use those coordinates to move the lines and circles into place
-            links
+            nodeLinks
                 .attr("x1", function (d) {
                     return d.source.x;
                 })
@@ -369,14 +376,14 @@ class NodeLinkFD{
                     return ((isConnected(d, o) || isConnected(o, d)) ? 1 : 0.1);
                 });
 
-                links.style("opacity", function (o) {
+                nodeLinks.style("opacity", function (o) {
                     return ((d.index == o.source.index || d.index == o.target.index) ? 1 : 0.1);
                 });
                 flag = 1;
             } else {
                 //Changing back to opacity=1
                 nodes.style("opacity", 1);
-                links.style("opacity", 1);
+                nodeLinks.style("opacity", 1);
                 flag = 0;
             }
         }
