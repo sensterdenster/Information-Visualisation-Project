@@ -33,26 +33,22 @@ class NodeLinkFD{
         //Link to constructor 
         let that = this;
         
-        // create legend
+        //Legend being created by selecting the legend reference in the constructor and setting the height and width 
         let svgLegend = this.legend.select("svg")
-            .attr("width", this.widthSVG)
-            .attr("height", this.heightOfLegend);
-        // if(this.films.length > 20){
-            //svgLegend.attr("transform", "translate(" + this.dimensions.left + ", 0)");
-        // }
+            .attr("height", this.heightOfLegend)
+            .attr("width", this.widthSVG);
 
+        //Appending  g the svg legend
         let gLegend = svgLegend.append("g");
 
-        svgLegend.append("text").text(["Double click on a node to highlight it's neighbors"])
-            .attr("transform", "translate(" + this.dimensions.left*1.5 + ", 55)");
 
-        // svgLegend.selectAll(".feature")
-        //     .enter().append("text")
-        //     .text("Double click on the node to highlight neighbors")
-        //     .attr("class","feature");
+        //Text instruction on how to use node-link diagram displayed under it
+        svgLegend.append("text").text(["To highlight the neighbours of a node, double click on one"])
+            .attr("transform", "translate(" + this.dimensions.left*1.5 + ", 54)");
 
-        let colors = [{"color": "red" , "role" : "Actor"},{"color": "orange", "role" : "Director"},
-                        {"color": "blue" , "role" : "Movie"},{"color": "greenyellow", "role" : "Role: Actor and Director"}];
+        //Assigning colors to aspect of a film:  Title (), actor, director, and actor + director
+        let colors = [{"color": "red" , "role" : "Movie"},{"color": "yellow", "role" : "Director"},
+                        {"color": "green" , "role" : "Actor"},{"color": "pink", "role" : "Role: Actor and Director"}];
 
         let legendCircles = gLegend.selectAll("circle").data(colors)
 
