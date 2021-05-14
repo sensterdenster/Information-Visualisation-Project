@@ -92,7 +92,7 @@ class NodeLinkFD{
 
         //Film select function for when a film from a node is selected 
         filmsSelected.forEach(function(film) {
-            let sameActorDirector = 0;                                                  //DONT NEED?
+            let actorDirectorSame = 0;                                                  //DONT NEED?
 
             //function to check if a node exists and increment degree
             function existingNode(nodeName, group) {
@@ -155,10 +155,14 @@ class NodeLinkFD{
             this.nodes.push({"id": film.movie_title.trim(),  "group": 0, "color":"blue", "degree": 1});
 
             //check for this current film if actor and director is the same person and decrement their degree
+
+            //Check if current chosen film has an actor AND director that is the same person and if so their degree will be decremented
             if(film.director_name.trim() === film.actor_1_name.trim() ||
+                //If director name is equal to actor 1, 2, or 3 name then they are the same person 
                 film.director_name.trim() === film.actor_2_name.trim() ||
                 film.director_name.trim() === film.actor_3_name.trim()){
-                sameActorDirector = 1;
+                    //Same person, hence value is set to 1 
+                actorDirectorSame = 1;
                 return (that.nodes).some(function(element){
                     if(element.id === film.director_name.trim()) {
                         element.degree = element.degree - 1;
@@ -169,29 +173,26 @@ class NodeLinkFD{
         },this);
 
 
-        //Set up tooltip
-        let toolTip = d3.tip()
+        //tipTool setting up
+        let tipTool = d3.tip()
             .attr('class', 'd3-tip')
             .offset([-10, 0])
-            .html(function (d) {
-                // if (d.group == 1){
-                //     return  (d.id).slice(1) + ": Degree" + d.degree + "</span>";
-                // } else
-                if(d.group != 0 && d.degree > 1){
-                    return  d.id + ": Degree" + d.degree + "</span>";
+            .html(function (f) {
+                if(f.group != 0 && f.degree > 1){
+                    return  f.id + ": Degree" + f.degree + "</span>";
                 }
                 else{
-                    return  d.id + "</span>";
+                    return  f.id + "</span>";
                 }
             });
 
-        //setting up svg
-        let svgnodeLink = d3.select('#canvas')
-            .attr("width", this.widthSVG )
-            .attr("height", this.heightSVG);
+        //Setting up svg and selecting canvas to paint the job on 
+        let nodeLinkSVG = d3.select('#canvas')
+            .attr("height", this.heightSVG)
+            .attr("width", this.widthSVG );
 
         //calling tool-tip
-        svgnodeLink.call(toolTip);
+        nodeLinkSVG.call(tipTool);
 
         // Here we create our simulation, and give it some forces to update to all the nodes:
         let simulation = d3.forceSimulation()
@@ -274,9 +275,9 @@ class NodeLinkFD{
                 .on("start", dragstarted)
                 .on("drag", dragged)
                 .on("end", dragended))
-                .call(toolTip)
-                .on('mouseover', toolTip.show)
-                .on('mouseout', toolTip.hide)
+                .call(tipTool)
+                .on('mouseover', tipTool.show)
+                .on('mouseout', tipTool.hide)
                 .on('dblclick', connectedNodes); //Added code;
 
         // Binding data, to the simulation...
