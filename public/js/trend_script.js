@@ -9,50 +9,26 @@ d3.csv("data/movie_metadata.csv", function (error, films) {
     window.directorsAll = directorsRetrieved();
     window.actorsAll = actorsRetrieved();
 
-    //Initialize default values for the actor/director search filter
-    updateSearchFilter("actor");
+    //Default actor/director values for search values initialised 
+    searchFilterUpdated("actor");
 
-    //Render the plot for the default actor
-    window.statsActorDirector = new StatsActorDirector("Actor", "Tom Hanks", getMoviesFor("actor", "Tom Hanks"), "imdb_score");
+    //Plot for default set actor rendered
+    window.statsActorDirector = new StatsActorDirector("Actor", "Alan Ford", getMoviesFor("actor", "Alan Ford"), "imdb_score");
     statsActorDirector.plot();
 
+    //Importing data from correlation matrix csv folder to display trend 
     d3.csv("data/correlation_matrix.csv", function (error, rows) {
         if (error) throw error;
-        let corrMatrix = new CorrelationMatrix(rows);
-        corrMatrix.create();
+        let matrixCorr = new CorrelationMatrix(rows);
+        matrixCorr.create();
 
     });
 
 
-    //Render the wordCloud for the default actor
-    //let wordCloud = new WordCloud(getMoviesFor("actor", "Tom Hanks"));
-    //wordCloud.update();
-
-    //Prepare data for scatter plots
-    let plotMovies = films.map((d) => {
-        return {"imdb_score": d["imdb_score"], "gross": d["gross"], "num_user_for_reviews": d["num_user_for_reviews"]};
+    //Data preparation for plotting scatter graph           (NOT SURE IF NEEDED?)
+    let plotMovies = films.map((f) => {
+        return {"imdb_score": f["imdb_score"], "gross": f["gross"], "num_user_for_reviews": f["num_user_for_reviews"]};
     });
-
-//     window.scPlot = new ScatterPlot();
-    // scPlot.plot("num_critic_for_reviews", "movie_facebook_likes", "num_critic_for_reviews", "movie_facebook_likes");
-
-    //Plot gross Vs rating
-    // let grossVsRating = new ScatterPlot(plotMovies);
-    // grossVsRating.plot("grossVsRating", "gross", "Gross");
-
-    //Plot number of user reviews Vs rating
-    // let reviewsVsRating = new ScatterPlot(plotMovies);
-    // reviewsVsRating.plot("reviewsVsRating", "num_user_for_reviews", "Number of user reviews");
-
-    /*
-    //Plot duration Vs rating
-    let durationVsRating = new ScatterPlot(plotMovies);
-    durationVsRating.plot("durationVsRating", "duration", "Duration");
-
-    //Plot Facebook likes Vs rating
-    let likesVsRating = new ScatterPlot(plotMovies);
-    reviewsVsRating.plot("likesVsRating", "movie_facebook_likes", "Facebook likes");
-    */
 });
 
 
@@ -192,14 +168,14 @@ function getMoviesFor(directorOrActor, name) {
  */
 function changeDirectorOrActor(choice) {
 
-    updateSearchFilter(choice.value);
+    searchFilterUpdated(choice.value);
     document.getElementById("updateDirectorOrActor").innerText = "Update " + choice.value;
 }
 
 /**
  *  Update the actor/director search filter based on actor/director radio button selection
  */
-function updateSearchFilter(directorOrActor) {
+function searchFilterUpdated(directorOrActor) {
 
     let actorDirectorInput = document.getElementById("nameDirectorOrActor");
     let actorDirectorList = document.getElementById("namesDirectorOrActor");
