@@ -173,29 +173,26 @@ class NodeLinkFD{
         },this);
 
 
-        //Set up tooltip
+        //Setting up tooltip
         let tipTool = d3.tip()
             .attr('class', 'd3-tip')
             .offset([-10, 0])
-            .html(function (d) {
-                // if (d.group == 1){
-                //     return  (d.id).slice(1) + ": Degree" + d.degree + "</span>";
-                // } else
-                if(d.group != 0 && d.degree > 1){
-                    return  d.id + ": Degree" + d.degree + "</span>";
+            .html(function (f) {
+                if(f.group != 0 && f.degree > 1){
+                    return  f.id + ": Degree" + f.degree + "</span>";       //Change DEGREEE?
                 }
                 else{
-                    return  d.id + "</span>";
+                    return  f.id + "</span>";                                //Change span?
                 }
             });
 
-        //setting up svg
-        let svgnodeLink = d3.select('#canvas')
+        //SVG being set up 
+        let nodeLinkSVG = d3.select('#canvas')
             .attr("height", this.heightSVG)
             .attr("width", this.widthSVG );
 
         //calling tool-tip
-        svgnodeLink.call(tipTool);
+        nodeLinkSVG.call(tipTool);
 
         // Here we create our simulation, and give it some forces to update to all the nodes:
         let simulation = d3.forceSimulation()
@@ -218,9 +215,9 @@ class NodeLinkFD{
         // First we create the links in their own group that comes before the node group;
         // using groups like layers, the circles will always be on top of the lines
 
-        svgnodeLink.selectAll(".links").remove();
+        nodeLinkSVG.selectAll(".links").remove();
 
-        let linkLayer = svgnodeLink.append("g")
+        let linkLayer = nodeLinkSVG.append("g")
             .attr("class", "links");
 
         // Now let's create the lines
@@ -247,9 +244,9 @@ class NodeLinkFD{
         });
 
         // Now we create the node layer, and the nodes inside it
-        svgnodeLink.selectAll(".nodes").remove();
+        nodeLinkSVG.selectAll(".nodes").remove();
 
-        let nodeLayer = svgnodeLink.append("g")
+        let nodeLayer = nodeLinkSVG.append("g")
             .attr("class", "nodes");
 
 
