@@ -196,20 +196,21 @@ class NodeLinkFD{
 
         //Creating the animation of the node link when page is loaded/refreshed/updated to apply forces to all the node when this happens
         let animation = d3.forceSimulation()
-        //D3's forcelink function enables a tensions to be created along each link in which connects the linking nodes together
+        //Using D3's forcelink function enables a tensions to be created along each link in which connects the linking nodes together
             .force("nodelink", d3.forceLink()
                 .id(function (f) {
                 return f.id;
             }))
-            // forceManyBody creates a repulsive force between nodes, keeping them away from each other
-            .force("charge", d3.forceManyBody().strength(-17))
+
+            //Using D3's forcemanybody() function produces a rippling force between each fo the nodes, ensuring that they are spaced apart clear enough to be identified 
+            .force("rippleCharge", d3.forceManyBody().strength(-17))
             // forceCenter acts like gravity, keeping the whole visualization in the middle of the screen
-            .force("center", d3.forceCenter(this.widthSVG / 2, this.heightSVG / 2))
-            .force("forceX", d3.forceX())
-            .force("forceY", d3.forceY())
+            .force("forceCenter", d3.forceCenter(this.widthSVG / 2, this.heightSVG / 2))
+            .force("xForce", d3.forceX())
+            .force("yForce", d3.forceY())
             // .force("collide", d3.forceCollide([20]));
             // .force("collide", d3.forceCollide());
-            .force("collide",d3.forceCollide( function(d){return (d.degree + 6) })); //.iterations(16)
+            .force("forceCollide",d3.forceCollide( function(d){return (d.degree + 6) })); //.iterations(16)
 
 
         // First we create the links in their own group that comes before the node group;
