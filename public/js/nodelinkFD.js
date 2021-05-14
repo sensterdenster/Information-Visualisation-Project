@@ -186,20 +186,20 @@ class NodeLinkFD{
                 }
             });
 
-        //SVG being set up 
+        //nodelinksvg set up using d3 to select canvas height and width  
         let nodeLinkSVG = d3.select('#canvas')
             .attr("height", this.heightSVG)
             .attr("width", this.widthSVG );
 
-        //calling tool-tip
+        //NodelinkSVG variable calls tooltip after selecting canvas
         nodeLinkSVG.call(tipTool);
 
-        // Here we create our simulation, and give it some forces to update to all the nodes:
-        let simulation = d3.forceSimulation()
-        // forceLink creates tension along each link, keeping connected nodes together
-            .force("link", d3.forceLink()
-                .id(function (d) {
-                return d.id;
+        //Creating the animation of the node link when page is loaded/refreshed/updated to apply forces to all the node when this happens
+        let animation = d3.forceSimulation()
+        //D3's forcelink function enables a tensions to be created along each link in which connects the linking nodes together
+            .force("nodelink", d3.forceLink()
+                .id(function (f) {
+                return f.id;
             }))
             // forceManyBody creates a repulsive force between nodes, keeping them away from each other
             .force("charge", d3.forceManyBody().strength(-17))
@@ -280,19 +280,19 @@ class NodeLinkFD{
                 .on('mouseout', tipTool.hide)
                 .on('dblclick', connectedNodes); //Added code;
 
-        // Binding data, to the simulation...
-        simulation.nodes(this.nodes);
+        // Binding data, to the animation...
+        animation.nodes(this.nodes);
 
         // The tension force (the forceLink that we named "link" above) also needs to know
         // about the link data that we finally have
-        simulation.force("link")
+        animation.force("nodelink")
             .links(this.borders)
             .distance(15);
 
 
-        // Finally, let's tell the simulation how to update the graphics
-        simulation.on("tick", function () {
-            // Every "tick" of the simulation will create / update each node's coordinates;
+        // Finally, let's tell the animation how to update the graphics
+        animation.on("tick", function () {
+            // Every "tick" of the animation will create / update each node's coordinates;
             // we need to use those coordinates to move the lines and circles into place
             links
                 .attr("x1", function (d) {
@@ -318,7 +318,7 @@ class NodeLinkFD{
         });
 
         function dragstarted(d) {
-        if (!d3.event.active) simulation.alphaTarget(0.3).restart();
+        if (!d3.event.active) animation.alphaTarget(0.3).restart();
         d.fx = d.x;
         d.fy = d.y;
     }
@@ -329,7 +329,7 @@ class NodeLinkFD{
     }
 
         function dragended(d) {
-        if (!d3.event.active) simulation.alphaTarget(0);
+        if (!d3.event.active) animation.alphaTarget(0);
         d.fx = null;
         d.fy = null;
     }
