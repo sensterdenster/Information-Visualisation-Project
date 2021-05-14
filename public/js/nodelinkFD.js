@@ -46,34 +46,38 @@ class NodeLinkFD{
         legendSVG.append("text").text(["To highlight the neighbours of a node, double click on one"])
             .attr("transform", "translate(" + this.dimensions.left*1.5 + ", 54)");
 
-        //Assigning colors to aspect of a film:  Title, Actor, Director, Actor AND director
-        let colors = [{"color": "orange" , "role" : "Movie"},{"color": "pink", "role" : "Director"},
+        //Assigning colors to circles for represent each aspect of a film:  Title, Actor, Director, Actor AND director
+        let circleFill = [{"color": "orange" , "role" : "Movie"},{"color": "pink", "role" : "Director"},
                         {"color": "purple" , "role" : "Actor"},{"color": "red", "role" : "Role: Actor and Director"}];
 
         //Drawing legend shapes as circles and importing the color to fit from above 
-        let legendCircles = graphLegend.selectAll("circle").data(colors)
+        let circlesLegend = graphLegend.selectAll("circle").data(circleFill)
 
-        //
-        legendCircles.
+        //Creating the circle to fill with color, give dimension, and other tweaks
+        circlesLegend.
             enter().append("circle")
-            .attr("fill", function (d) {
-                return d.color;
+            .attr("fill", function (f) {
+                return f.color;
             })
-            .attr("cx", function (d,i) {
-                return i * (that.widthSVG/7) + that.dimensions.left;
+
+            .attr("cx", function (f,x) {
+                return x * (that.widthSVG/7) + that.dimensions.left;    //CHANGE VALUE?
             })
-            .attr("cy", "50%")
-            .attr("r", 5)
-            .attr("class", "legend");
+            .attr("cy", "50%")          //CHANGE VALUE?
+            .attr("class", "legend")
+            .attr("r", 5);              //CHANGE VALUE?
 
-        let labels = graphLegend.selectAll("text").data(colors);
+        //Labels for node when selected
+        let nodeLabels = graphLegend.selectAll("text").data(circleFill);
 
-        labels.
+        //Creating the label for each node with dimensions 
+        nodeLabels.
             enter().append("text")
-            .data(colors)
+            .data(circleFill)
             .attr("x", function (d,i) {
                 return i * (that.widthSVG/7) + that.dimensions.left*1.2;
             })
+            
             .attr("y", "60%")
             .text(function (d) {
                 return d.role;
