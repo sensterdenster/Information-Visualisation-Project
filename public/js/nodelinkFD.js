@@ -173,26 +173,29 @@ class NodeLinkFD{
         },this);
 
 
-        //tipTool setting up
-        let tipTool = d3.tip()
+        //Set up tooltip
+        let toolTip = d3.tip()
             .attr('class', 'd3-tip')
             .offset([-10, 0])
-            .html(function (f) {
-                if(f.group != 0 && f.degree > 1){
-                    return  f.id + ": Degree" + f.degree + "</span>";
+            .html(function (d) {
+                // if (d.group == 1){
+                //     return  (d.id).slice(1) + ": Degree" + d.degree + "</span>";
+                // } else
+                if(d.group != 0 && d.degree > 1){
+                    return  d.id + ": Degree" + d.degree + "</span>";
                 }
                 else{
-                    return  f.id + "</span>";
+                    return  d.id + "</span>";
                 }
             });
 
-        //Setting up svg and selecting canvas to paint the job on 
-        let nodeLinkSVG = d3.select('#canvas')
-            .attr("height", this.heightSVG)
-            .attr("width", this.widthSVG );
+        //setting up svg
+        let svgnodeLink = d3.select('#canvas')
+            .attr("width", this.widthSVG )
+            .attr("height", this.heightSVG);
 
         //calling tool-tip
-        nodeLinkSVG.call(tipTool);
+        svgnodeLink.call(toolTip);
 
         // Here we create our simulation, and give it some forces to update to all the nodes:
         let simulation = d3.forceSimulation()
@@ -275,9 +278,9 @@ class NodeLinkFD{
                 .on("start", dragstarted)
                 .on("drag", dragged)
                 .on("end", dragended))
-                .call(tipTool)
-                .on('mouseover', tipTool.show)
-                .on('mouseout', tipTool.hide)
+                .call(toolTip)
+                .on('mouseover', toolTip.show)
+                .on('mouseout', toolTip.hide)
                 .on('dblclick', connectedNodes); //Added code;
 
         // Binding data, to the simulation...
