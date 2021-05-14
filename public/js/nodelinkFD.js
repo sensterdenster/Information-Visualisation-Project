@@ -100,7 +100,7 @@ class NodeLinkFD{
                     //Condition if someone is both a director AND actor from the list of nodes and if so assign it seperate group and color
                     if(element.id === nodeName && element.group != group){
                         element.degree++;
-                        element.color = "greenyellow";
+                        element.color = "red";
                         element.group = 4;
                         return true;
                     }
