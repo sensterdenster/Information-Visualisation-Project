@@ -236,45 +236,46 @@ class NodeLinkFD{
         //Revmoing the lined links
         nodeLinks.exit().remove();
 
-
+        //Mergeing nodelinks
         nodeLinks = nodeLinks.merge(enterLinks);
 
-        nodeLinks.attr("stroke-width", function (d) {
-            // let sourcewt = that.nodes.getOwnProperty(d.source) ;
-            // let targetwt = that.nodes.getOwnProperty(d.target) ;
-            // sourcewt = (sourcewt > targetwt) ? sourcewt : targetwt;
-            let result = (that.nodes).filter(function(node){
-                //console.log(node.id + d.target);
-                return node.id == d.target;
+
+        //Setting the links between the nodes equal to the intended nodes targeted
+        nodeLinks.attr("stroke-width", function (f) {
+            let outcome = (that.nodes).filter(function(node){
+                return node.id == f.target;
             });
-            //console.log(result);
-            return Math.sqrt(result[0].degree);
+            return Math.sqrt(outcome[0].degree);
         });
 
-        // Now we create the node layer, and the nodes inside it
+        //Creating the layer for the nodes and the nodes wtihin it
         nodeLinkSVG.selectAll(".nodes").remove();
 
-        let nodeLayer = nodeLinkSVG.append("g")
+        //Node layer variable and appending these together
+        let layerNode = nodeLinkSVG.append("g")
             .attr("class", "nodes");
 
-
-        let nodes = nodeLayer.selectAll("circle")
+        //Selecting all nodes within the node layer
+        let nodes = layerNode.selectAll("circle")
             .data(this.nodes);
 
+        //Appending these nodes 
         let nodesEnter = nodes.enter().append("circle");
 
+        //Removing nodes
         nodes.exit().remove();
 
+        //Merging linked nodes 
         nodes = nodes.merge(nodesEnter);
 
         nodes
+            //Function attribute for labels of nodes which are actors
             .attr("r", function(d){
                 return (4 + d.degree);
             })
-            .attr("fill", function (d) {
-                //console.log(d)
-                // return color(d.group);
-                 return d.color;
+            //Function to color nodes
+            .attr("fill", function (f) {
+                 return f.color;
             })
             // This part adds event listeners to each of the nodes; when you click,
             // move, and release the mouse on a node, each of these functions gets called
