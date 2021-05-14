@@ -47,8 +47,8 @@ class NodeLinkFD{
             .attr("transform", "translate(" + this.dimensions.left*1.5 + ", 54)");
 
         //Assigning colors to circles for represent each aspect of a film:  Title, Actor, Director, Actor AND director
-        let circleFill = [{"color": "orange" , "role" : "Movie"},{"color": "pink", "role" : "Director"},
-                        {"color": "purple" , "role" : "Actor"},{"color": "red", "role" : "Role: Actor and Director"}];
+        let circleFill = [{"color": "purple" , "role" : "Movie"},{"color": "green", "role" : "Director"},
+                        {"color": "orange" , "role" : "Actor"},{"color": "red", "role" : "Role: Actor and Director"}];
 
         //Drawing legend shapes as circles and importing the color to fit from above 
         let circlesLegend = graphLegend.selectAll("circle").data(circleFill)
@@ -115,27 +115,27 @@ class NodeLinkFD{
             }
 
             //Add actor to the node list if they dont exist 
-            let directorDegree = existingNode(film.director_name.trim(), 1);
-            if(!directorDegree){
-                this.nodes.push({"id": film.director_name.trim(), "group": 1, "color":"orange", "degree": 1});
+            let degreeOfDirector = existingNode(film.director_name.trim(), 1);
+            if(!degreeOfDirector){
+                this.nodes.push({"id": film.director_name.trim(), "group": 1, "color":"green", "degree": 1});
             }
 
             //Add actor to the node list if they dont exist 
-            let actor1Degree = existingNode(film.actor_1_name.trim(), 2);
-            if(!actor1Degree){
-                this.nodes.push({"id": film.actor_1_name.trim(), "group": 2, "color":"red", "degree": 1});
+            let degreeOfActor1 = existingNode(film.actor_1_name.trim(), 2);
+            if(!degreeOfActor1){
+                this.nodes.push({"id": film.actor_1_name.trim(), "group": 2, "color":"purple", "degree": 1});
             }
 
             //Add actor to the node list if they dont exist 
-            let actor2Degree = existingNode(film.actor_2_name.trim(), 2);
-            if(!actor2Degree){
-                this.nodes.push({"id": film.actor_2_name.trim(), "group": 2, "color":"red", "degree": 1});
+            let degreeOfActor2 = existingNode(film.actor_2_name.trim(), 2);
+            if(!degreeOfActor2){
+                this.nodes.push({"id": film.actor_2_name.trim(), "group": 2, "color":"purple", "degree": 1});
             }
 
             //Add to the node list if the they dont exist 
-            let actor3Degree = existingNode(film.actor_3_name.trim(), 2);
-            if(!actor3Degree){
-                this.nodes.push({"id": film.actor_3_name.trim(), "group": 2, "color":"red", "degree": 1});
+            let degreeOfActor3 = existingNode(film.actor_3_name.trim(), 2);
+            if(!degreeOfActor3){
+                this.nodes.push({"id": film.actor_3_name.trim(), "group": 2, "color":"purple", "degree": 1});
             }
 
             //borders from film to director, actor1,2,3
@@ -162,13 +162,6 @@ class NodeLinkFD{
         },this);
 
 
-
-        // console.log(this.nodes)
-        // console.log(this.borders)
-
-        //Scale for setting up size of the node based on the degree
-        // let rscale = d3.scaleLinear().domain([]).range([]);
-
         //Set up tooltip
         let toolTip = d3.tip()
             .attr('class', 'd3-tip')
@@ -186,11 +179,6 @@ class NodeLinkFD{
             });
 
         //setting up svg
-        // if(this.films.length < 20){
-        //     console.log(this.films.length);
-        //     this.widthSVG = this.widthSVG/2;
-        //     this.heightSVG = this.heightSVG/2;
-        // }
         let svgnodeLink = d3.select('#canvas')
             .attr("width", this.widthSVG )
             .attr("height", this.heightSVG);
@@ -229,7 +217,6 @@ class NodeLinkFD{
             .data(this.borders)
 
 
-
         let linksEnter = links.enter().append("line");
 
         links.exit().remove();
@@ -254,17 +241,6 @@ class NodeLinkFD{
         let nodeLayer = svgnodeLink.append("g")
             .attr("class", "nodes");
 
-
-        /*
-        let nodeLayer = svgnodeLink.selectAll(".nodes");
-
-        let nodeLayerEnter = nodeLayer.enter().append("g");
-
-        nodeLayer.exit().remove();
-
-        nodeLayer = nodeLayerEnter.merge(nodeLayer)
-            .attr("class", "nodes");
-        */
 
         let nodes = nodeLayer.selectAll("circle")
             .data(this.nodes);
