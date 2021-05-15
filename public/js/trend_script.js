@@ -242,7 +242,7 @@ function searchFilterUpdated(directorOrActor) {
             //Value for choice set to actor 
             choice.value = actor;
 
-            //Append choice to seection
+            //Append choice to section
             section.appendChild(choice);
         }
 
@@ -257,66 +257,105 @@ function searchFilterUpdated(directorOrActor) {
     {
         for (let director of directorsAll)
         {
+            //Choice variable to store option 
             let choice = document.createElement("option");
+
+            //Text context for choice set to director 
             choice.textContent = director;
+
+            //Value for choice set to director 
             choice.value = director;
+
+            //Append choice to section
             section.appendChild(choice);
         }
 
-        //Add director names to search filter
+        //Adding names of director to search filter
         document.getElementById("namesDirectorOrActor").appendChild(section);
-        //Update the input placeholder
+
+        //Applying the update to input placeholder
         inputDirectorActor.setAttribute("placeholder", "Search Director");
     }
 }
 
 /**
- *  Update the actor/director trend plot based on selected parameters
+ *  Function to apply trend to newly updated settings
  */
-function updateTrend() {
+function applyTrend() {
 
-    let name = d3.select("#nameDirectorOrActor").node().value;
-    let selectedAttribute = d3.select("#attributes").node().value;
+    //Names varaibleto select actor/director names
+    let nameDirectorOrActor = d3.select("#nameDirectorOrActor").node().value;
+
+    //Attributes for the selected actor/director
+    let attributeSelected = d3.select("#attributes").node().value;
+
+    //Films array
     let films = [];
+
+    //Message for an error
     let messageError = "";
-    let errorDiv = document.getElementsByClassName("modal-body")[0];
 
-    if(document.getElementsByName("directorOrActor")[0].checked)    //If current radio button selection is "Actor"
+    //Div error display of modal
+    let divError = document.getElementsByClassName("modal-body")[0];
+
+
+    //Condition for if the chosen radio button selected is "Actor"
+    if(document.getElementsByName("directorOrActor")[0].checked)    
     {
-        if(!name && statsActorDirector.directorOrActor == "Actor")  //If name input empty, retrieve name from existing object
-            name = statsActorDirector.name;
+        //If input for name is empty in field, extract the name from existing object
+        if(!nameDirectorOrActor && statsActorDirector.directorOrActor == "Actor")  
+        nameDirectorOrActor = statsActorDirector.name;
 
-        if(actorsAll.has(name)) //Ensure actor name passed is valid
+
+        if(actorsAll.has(nameDirectorOrActor)) 
         {
-            films = retrieveFilmsFor("actor", name).filter((film) => film[selectedAttribute]);
-            statsActorDirector = new StatsActorDirector("Actor", name, films, selectedAttribute);
-            statsActorDirector.plot();
 
-            //let wordCloud = new WordCloud(movies);
-            //wordCloud.update();
+            //Retrieving films for the actor 
+            films = retrieveFilmsFor("actor", nameDirectorOrActor).filter((film) => film[attributeSelected]);
+
+            //Storing the stats of this actor in variable
+            statsActorDirector = new StatsActorDirector("Actor", nameDirectorOrActor, films, attributeSelected);
+            
+            //Plotting the stats in trend graph
+            statsActorDirector.plot();
         }
+        //Otherwise display error message with modal for invalid actor name input
         else
         {
+            //Message error text
             messageError = "Invalid Actor name";
-            errorDiv.innerText = messageError;
+
+            //Div error to display inner error message text
+            divError.innerText = messageError;
+
+            //Displaying modal of error
             $('#modalError').modal('show');
         }
     }
-    else    //If current radio button selection is "Director"
+    //Else if chosen radio button is selected to Director
+    else    
     {
-        if(directorsAll.has(name))  //Ensure director name passed is valid
+        //If actor has name entered ensure that it correctly matches the actor name in file 
+        if(directorsAll.has(nameDirectorOrActor))  
         {
-            films = retrieveFilmsFor("director", name).filter((film) => film[selectedAttribute]);
-            statsActorDirector = new StatsActorDirector("Director", name, films, selectedAttribute);
+            //Retrieving films for the director 
+            films = retrieveFilmsFor("director", nameDirectorOrActor).filter((film) => film[attributeSelected]);
+            
+            //Storing the stats of this director in variable
+            statsActorDirector = new StatsActorDirector("Director", nameDirectorOrActor, films, attributeSelected);
+            
+            //Plotting the stats in trend graph
             statsActorDirector.plot();
-
-            //let wordCloud = new WordCloud(movies);
-            //wordCloud.update();
         }
         else
         {
+            //Message error text
             messageError = "Invalid Director name";
-            errorDiv.innerText = messageError;
+
+            //Div error to display inner error message text
+            divError.innerText = messageError;
+
+            //Displaying modal of error
             $('#modalError').modal('show');
         }
     }
