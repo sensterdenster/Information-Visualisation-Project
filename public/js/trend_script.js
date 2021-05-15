@@ -203,57 +203,62 @@ function retrieveFilmsFor(directorOrActor, name) {
 }
 
 /**
- *  Call the actor/director search filter updater and update the actor/director update button
+ *  Function to change director/actor filter search to update the according director/actor using the update button
  */
-function changeDirectorOrActor(choice) {
+function changeDirectorOrActor(selection) {
 
-    searchFilterUpdated(choice.value);
-    document.getElementById("updateDirectorOrActor").innerText = "Update " + choice.value;
+    searchFilterUpdated(selection.value);
+    document.getElementById("updateDirectorOrActor").innerText = "Update " + selection.value;
 }
 
 /**
- *  Update the actor/director search filter based on actor/director radio button selection
+ *  Function to update director/actor filter search on basis of director/actor radio buttion selector 
  */
 function searchFilterUpdated(directorOrActor) {
+    
+    //List and input for director/actor getting retrieved by element id from csv file
+    let listDirectorActor = document.getElementById("namesDirectorOrActor");
+    let inputDirectorActor = document.getElementById("nameDirectorOrActor");
 
-    let actorDirectorInput = document.getElementById("nameDirectorOrActor");
-    let actorDirectorList = document.getElementById("namesDirectorOrActor");
+    //Remove any existing values from these
+    listDirectorActor.innerHTML = "";
+    inputDirectorActor.value = "";
 
-    //Clear existing values
-    actorDirectorInput.value = "";
-    actorDirectorList.innerHTML = "";
 
-    let frag = document.createDocumentFragment();
+    //Frgment section taken from the document
+    let section = document.createDocumentFragment();
 
+    //If condition for director/actor is selected create option to select actors
     if(directorOrActor == "actor")
     {
         for (let actor of actorsAll)
         {
-            let option = document.createElement("option");
-            option.textContent = actor;
-            option.value = actor;
-            frag.appendChild(option);
+            //Choice variable to store option 
+            let choice = document.createElement("choice");
+            choice.textContent = actor;
+            choice.value = actor;
+            section.appendChild(choice);
         }
 
         //Add actor names to search filter
-        document.getElementById("namesDirectorOrActor").appendChild(frag);
+        document.getElementById("namesDirectorOrActor").appendChild(section);
         //Update the input placeholder
-        actorDirectorInput.setAttribute("placeholder", "Search Actor");
+        inputDirectorActor.setAttribute("placeholder", "Search Actor");
     }
     else
     {
         for (let director of directorsAll)
         {
-            let option = document.createElement("option");
-            option.textContent = director;
-            option.value = director;
-            frag.appendChild(option);
+            let choice = document.createElement("choice");
+            choice.textContent = director;
+            choice.value = director;
+            section.appendChild(choice);
         }
 
         //Add director names to search filter
-        document.getElementById("namesDirectorOrActor").appendChild(frag);
+        document.getElementById("namesDirectorOrActor").appendChild(section);
         //Update the input placeholder
-        actorDirectorInput.setAttribute("placeholder", "Search Director");
+        inputDirectorActor.setAttribute("placeholder", "Search Director");
     }
 }
 
