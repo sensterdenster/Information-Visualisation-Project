@@ -9,49 +9,26 @@
     window.directorsAll = directorsRetrieved();
     window.actorsAll = actorsRetrieved();
 
-    //Initialize default values for the actor/director search filter
-    updateSearchFilter("actor");
+    //Default actor/director values for search values initialised 
+    searchFilterUpdated("actor");
 
-    //Render the plot for the default actor
-    window.statsActorDirector = new StatsActorDirector("Actor", "Tom Hanks", getMoviesFor("actor", "Tom Hanks"), "imdb_score");
+    //Plot for default set actor rendered
+    window.statsActorDirector = new StatsActorDirector("Actor", "Alan Ford", getMoviesFor("actor", "Alan Ford"), "imdb_score");
     statsActorDirector.plot();
 
+    //Importing data from correlation matrix csv folder to display trend 
     d3.csv("data/correlation_matrix.csv", function (error, rows) {
         if (error) throw error;
-        let corrMatrix = new CorrelationMatrix(rows);
-        corrMatrix.create();
+        let matrixCorr = new CorrelationMatrix(rows);
+        matrixCorr.create();
 
     });
 
 
-    //Render the wordCloud for the default actor
-    //let wordCloud = new WordCloud(getMoviesFor("actor", "Tom Hanks"));
-    //wordCloud.update();
-
-    //Prepare data for scatter plots
-    let plotMovies = films.map((d) => {
-        return {"imdb_score": d["imdb_score"], "gross": d["gross"], "num_user_for_reviews": d["num_user_for_reviews"]};
+    //Data preparation for plotting scatter graph           (NOT SURE IF NEEDED?)
+    let plotMovies = films.map((f) => {
+        return {"imdb_score": f["imdb_score"], "gross": f["gross"], "num_user_for_reviews": f["num_user_for_reviews"]};
     });
-
-//     window.scPlot = new ScatterPlot();
-    // scPlot.plot("num_critic_for_reviews", "movie_facebook_likes", "num_critic_for_reviews", "movie_facebook_likes");
-
-    //Plot gross Vs rating
-    // let grossVsRating = new ScatterPlot(plotMovies);
-    // grossVsRating.plot("grossVsRating", "gross", "Gross");
-
-    //Plot number of user reviews Vs rating
-    // let reviewsVsRating = new ScatterPlot(plotMovies);
-    // reviewsVsRating.plot("reviewsVsRating", "num_user_for_reviews", "Number of user reviews");
-
-    /*
-    //Plot duration Vs rating
-    let durationVsRating = new ScatterPlot(plotMovies);
-    durationVsRating.plot("durationVsRating", "duration", "Duration");
-    //Plot Facebook likes Vs rating
-    let likesVsRating = new ScatterPlot(plotMovies);
-    reviewsVsRating.plot("likesVsRating", "movie_facebook_likes", "Facebook likes");
-    */
 });
 
 
@@ -59,72 +36,92 @@
  *  Returns a sorted set of all (unique) actors
  */
 function actorsRetrieved() {
+    //Retrieving actor 1 
+    let namesActor1 = filmsExcel.map(d => d["actor_1_name"]);
 
-    //Get all actors
-    let actor1names = filmsExcel.map(d => d["actor_1_name"]);
-    let actor2names = filmsExcel.map(d => d["actor_2_name"]);
-    let actor3names = filmsExcel.map(d => d["actor_3_name"]);
+    //Retrieving actor 2
+    let namesActor2 = filmsExcel.map(d => d["actor_2_name"]);
+    
+    //Retrieving actor 3
+    let namesActor3 = filmsExcel.map(d => d["actor_3_name"]);
 
-    //Merge all actors and sort
-    let actor123names = actor1names.concat(actor2names, actor3names).sort();
+    //All actors merged and sorted 
+    let namesActors123 = namesActor1.concat(namesActor2, namesActor3).sort();
 
-    let actors_set = new Set();
-    let currentActor = actor123names[0];
-    let currentActorCount = 0;
+    //Initialising actors in a set 
+    let setActors = new Set();
 
-    for(let actorIndex = 0; actorIndex < actor123names.length; actorIndex++)
+    //Chosen actor is set to the array index 0 of all actors so it can be used
+    let actorChosen = namesActors123[0];
+
+    //Chosen actor counter to cycle through actors
+    let actorChosenCounter = 0;
+
+    //For loop to cycle through actors 
+    for(let indexForActors = 0; indexForActors < namesActors123.length; indexForActors++)
     {
-        if(currentActor == actor123names[actorIndex])
+        //Condition if chosen actors is equal to any of the actors123 to include these actors
+        if(actorChosen == namesActors123[indexForActors])
         {
-            currentActorCount++;
-            if(currentActorCount == 2)  //Include actor if involved in at least 2 movies
-                actors_set.add(currentActor)
+            //Increase counter for chosen actor
+            actorChosenCounter++;
+
+            //Actor included if they are involved in at least 2 films
+            if(actorChosenCounter == 2)  
+                setActors.add(actorChosen)
         }
         else
         {
-            currentActor = actor123names[actorIndex];
-            currentActorCount = 1;
+            //Else chosen actors are not included and counter value is changed
+            actorChosen = namesActors123[indexForActors];
+            actorChosenCounter = 1;
         }
     }
 
-    //Drop undefined value
-    actors_set.delete(undefined);
+    //Remove any undefined values
+    setActors.delete(undefined);
 
-    return actors_set;
+    //Return these set initialised actors
+    return setActors;
 }
 
 /**
- *  Returns a sorted set of all (unique) directors
+ *  Function to return the set of all unique directors in sorted form 
  */
 function directorsRetrieved() {
 
     //Get all directors
-    let directorNames = filmsExcel.map(d => d["director_name"]);
-    let directorNames_sorted = directorNames.sort();    //Sort
+    let namesDirector = filmsExcel.map(d => d["director_name"]);
 
-    let directors_set = new Set();
-    let currentDirector = directorNames_sorted[0];
+    //Sorting diretors names
+    let sortedDirectorNames = namesDirector.sort();    
+
+    //Initialising directors in new set 
+    let setDirectors = new Set();
+
+    
+    let currentDirector = sortedDirectorNames[0];
     let currentDirectorCount = 0;
 
-    for(let directorIndex = 0; directorIndex < directorNames_sorted.length; directorIndex++)
+    for(let directorIndex = 0; directorIndex < sortedDirectorNames.length; directorIndex++)
     {
-        if(currentDirector == directorNames_sorted[directorIndex])
+        if(currentDirector == sortedDirectorNames[directorIndex])
         {
             currentDirectorCount++;
             if(currentDirectorCount == 2)  //Include director if involved in at least 2 movies
-                directors_set.add(currentDirector)
+                setDirectors.add(currentDirector)
         }
         else
         {
-            currentDirector = directorNames_sorted[directorIndex];
+            currentDirector = sortedDirectorNames[directorIndex];
             currentDirectorCount = 1;
         }
     }
 
     //Drop undefined value
-    directors_set.delete(undefined);
+    setDirectors.delete(undefined);
 
-    return directors_set;
+    return setDirectors;
 }
 
 /**
@@ -191,14 +188,14 @@ function getMoviesFor(directorOrActor, name) {
  */
 function changeDirectorOrActor(choice) {
 
-    updateSearchFilter(choice.value);
+    searchFilterUpdated(choice.value);
     document.getElementById("updateDirectorOrActor").innerText = "Update " + choice.value;
 }
 
 /**
  *  Update the actor/director search filter based on actor/director radio button selection
  */
-function updateSearchFilter(directorOrActor) {
+function searchFilterUpdated(directorOrActor) {
 
     let actorDirectorInput = document.getElementById("nameDirectorOrActor");
     let actorDirectorList = document.getElementById("namesDirectorOrActor");
@@ -292,3 +289,4 @@ function updateTrend() {
         }
     }
 }
+
