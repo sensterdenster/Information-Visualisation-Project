@@ -13,7 +13,7 @@
     searchFilterUpdated("actor");
 
     //Plot for default set actor rendered
-    window.statsActorDirector = new StatsActorDirector("Actor", "Alan Ford", getMoviesFor("actor", "Alan Ford"), "imdb_score");
+    window.statsActorDirector = new StatsActorDirector("Actor", "Alan Ford", retrieveFilmsFor("actor", "Alan Ford"), "imdb_score");
     statsActorDirector.plot();
 
     //Importing data from correlation matrix csv folder to display trend 
@@ -99,46 +99,59 @@ function directorsRetrieved() {
     //Initialising directors in new set 
     let setDirectors = new Set();
 
-    
-    let currentDirector = sortedDirectorNames[0];
-    let currentDirectorCount = 0;
+    //Sorting director name index 0 or array in variable first
+    let directorChosen = sortedDirectorNames[0];
 
-    for(let directorIndex = 0; directorIndex < sortedDirectorNames.length; directorIndex++)
+    //Chosen director count set to 0 
+    let directorChosenCount = 0;
+
+
+    //For loop to iterate through directors
+    for(let indexDirector = 0; indexDirector < sortedDirectorNames.length; indexDirector++)
     {
-        if(currentDirector == sortedDirectorNames[directorIndex])
+        //Condition if the chosen director is equal to one of the sorted directors in the array 
+        if(directorChosen == sortedDirectorNames[indexDirector])
         {
-            currentDirectorCount++;
-            if(currentDirectorCount == 2)  //Include director if involved in at least 2 movies
-                setDirectors.add(currentDirector)
+            //Increase counter for director
+            directorChosenCount++;
+
+            //Director included if they are involved in at least 2 films
+            if(directorChosenCount == 2)  
+                setDirectors.add(directorChosen)
         }
         else
         {
-            currentDirector = sortedDirectorNames[directorIndex];
-            currentDirectorCount = 1;
+            //Else chosen directors are not included and counter value is changed back
+            directorChosen = sortedDirectorNames[indexDirector];
+            directorChosenCount = 1;
         }
     }
 
-    //Drop undefined value
+    //Removed undefined values for directors
     setDirectors.delete(undefined);
 
+    //Return set of directors 
     return setDirectors;
 }
 
 /**
- *  Returns all movies associated for a given actor/director sorted by year
+ *  Retrieves all the films which are associated for a chosen director/actor sorting by year
  */
-function getMoviesFor(directorOrActor, name) {
+function retrieveFilmsFor(directorOrActor, name) {
 
     let films = [];
     let set_films = new Set();
 
+    //If direcotr or actor is set to be an actor
     if(directorOrActor == "actor")
     {
-        //Extract movies which involve the selected actor
+        //Select and import all films which involve chosen actor
         filmsExcel.forEach((film) => {
 
-            if(!set_films.has(film["movie_title"]))   //Avoid movie duplication using set
+            //Avoiding film duplication using the set films variable
+            if(!set_films.has(film["movie_title"]))   
             {
+                //If involving either actor 1,2, or 3 names, push these films and years for these respective acotrs
                 if(film["actor_1_name"] == name || film["actor_2_name"] == name || film["actor_3_name"] == name)
                 {
                     if(!isNaN(parseInt(film["title_year"])))
@@ -152,11 +165,13 @@ function getMoviesFor(directorOrActor, name) {
     }
     else
     {
-        //Extract movies which involve the selected director
+        //Select and import films which involve chosen director 
         filmsExcel.forEach((film) => {
 
-            if(!set_films.has(film["movie_title"]))   //Avoid movie duplication using set
+            //Avoiding film duplication using the set films variable
+            if(!set_films.has(film["movie_title"]))  
             {
+                //If involving director name push these films and years for this director
                 if(film["director_name"] == name)
                 {
                     if(!isNaN(parseInt(film["title_year"])))
@@ -169,17 +184,21 @@ function getMoviesFor(directorOrActor, name) {
         });
     }
 
-    //Sort the movies by year
+    //Sorting the films by their year
     films = (films).slice().sort(function (film1, film2) {
 
+        //If year of film 1 is less than year of film 2 dont return value
         if(parseInt(film1["title_year"]) < parseInt(film2["title_year"]))
             return -1;
+        //Else if year of film 1 is greater than year of film 2 return value
         else if(parseInt(film1["title_year"]) > parseInt(film2["title_year"]))
             return 1;
+        //Else return nothing
         else
             return 0;
     });
 
+    //Return films
     return films;
 }
 
@@ -256,7 +275,7 @@ function updateTrend() {
 
         if(actorsAll.has(name)) //Ensure actor name passed is valid
         {
-            films = getMoviesFor("actor", name).filter((film) => film[selectedAttribute]);
+            films = retrieveFilmsFor("actor", name).filter((film) => film[selectedAttribute]);
             statsActorDirector = new StatsActorDirector("Actor", name, films, selectedAttribute);
             statsActorDirector.plot();
 
@@ -274,7 +293,7 @@ function updateTrend() {
     {
         if(directorsAll.has(name))  //Ensure director name passed is valid
         {
-            films = getMoviesFor("director", name).filter((film) => film[selectedAttribute]);
+            films = retrieveFilmsFor("director", name).filter((film) => film[selectedAttribute]);
             statsActorDirector = new StatsActorDirector("Director", name, films, selectedAttribute);
             statsActorDirector.plot();
 
