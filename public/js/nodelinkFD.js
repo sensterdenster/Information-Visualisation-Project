@@ -214,7 +214,8 @@ class NodeLinkFD{
             
             //Force for collision of nodes with each other
             .force("collide",d3.forceCollide( function(f){
-                return (f.degree + 6) })); 
+                return (f.degree + 6) 
+            })); 
 
 
         //Creating links between nodes for their own respective groups (title, actors, director) before being affiliated with other links where one of these attributes are in common
@@ -257,18 +258,18 @@ class NodeLinkFD{
             .data(this.nodes);
 
         //Appending these nodes 
-        let nodesEnter = nodes.enter().append("circle");
+        let enterNodes = nodes.enter().append("circle");
 
         //Removing nodes
         nodes.exit().remove();
 
         //Merging linked nodes 
-        nodes = nodes.merge(nodesEnter);
+        nodes = nodes.merge(enterNodes);
 
         nodes
             //Function attribute for labels of nodes which are actors
-            .attr("r", function(d){
-                return (4 + d.degree);
+            .attr("r", function(f){
+                return (4 + f.degree);
             })
             //Function to color nodes
             .attr("fill", function (f) {
@@ -283,7 +284,7 @@ class NodeLinkFD{
                 .call(tipTool)
                 .on('mouseover', tipTool.show)
                 .on('mouseout', tipTool.hide)
-                .on('dblclick', linkedNodes); //Added code;
+                .on('dblclick', linkedNodes); 
 
         // Having the data being binded to the animation
         animation.nodes(this.nodes);
@@ -371,7 +372,7 @@ class NodeLinkFD{
 
                 //Opcacity is reduced for all other nodes but the selected node 
                 nodes.style("opacity", function (q) {
-                    return ((isLinked(p, q) || isLinked(p, q)) ? 1 : 0.1);
+                    return ((isLinked(p, q) || isLinked(q, p)) ? 1 : 0.1);
                 });
 
                 //Opacity is reduced for all other nodes but those which are linked to the selected node
