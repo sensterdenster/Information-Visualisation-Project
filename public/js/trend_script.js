@@ -228,28 +228,36 @@ function searchFilterUpdated(directorOrActor) {
     //Frgment section taken from the document
     let section = document.createDocumentFragment();
 
-    //If condition for director/actor is selected create option to select actors
+    //If condition for actor is selected create option to select an actor from list of actors
     if(directorOrActor == "actor")
     {
         for (let actor of actorsAll)
         {
             //Choice variable to store option 
-            let choice = document.createElement("choice");
+            let choice = document.createElement("option");
+
+            //Text context for choice set to actor 
             choice.textContent = actor;
+
+            //Value for choice set to actor 
             choice.value = actor;
+
+            //Append choice to seection
             section.appendChild(choice);
         }
 
-        //Add actor names to search filter
+        //Adding the actor names to the search filter
         document.getElementById("namesDirectorOrActor").appendChild(section);
-        //Update the input placeholder
+
+        //Updating the input for the placeholder
         inputDirectorActor.setAttribute("placeholder", "Search Actor");
     }
+    //Else condition for director to be selected for create option to selected director from list of directors
     else
     {
         for (let director of directorsAll)
         {
-            let choice = document.createElement("choice");
+            let choice = document.createElement("option");
             choice.textContent = director;
             choice.value = director;
             section.appendChild(choice);
