@@ -5,60 +5,71 @@ class ScatterPlot
 {
     constructor()
     {
-        // this.films = movies;
-        this.films = filmsExcel;
+        //Selecting scatter plot using d3
         this.plotDiv = d3.select("#scatterPlot");
 
-        this.dimensions = {top: 20, right: 20, bottom: 50, left: 110};
-        let boundsSVG = this.plotDiv.node().getBoundingClientRect();
-        this.width = boundsSVG.width - this.dimensions.left - this.dimensions.right;
-        this.height = 450 - this.dimensions.top - this.dimensions.bottom;
+        //Excel films 
+        this.films = filmsExcel;
 
+        //Dimensions for scatter plot
+        this.dimensions = {top: 19, bottom: 49, right: 19,  left: 109};
+
+        //SVG bounds for plot
+        let boundsSVG = this.plotDiv.node().getBoundingClientRect();
+
+        //Height and width for svg
+        this.height = 450 - this.dimensions.top - this.dimensions.bottom;
+        this.width = boundsSVG.width - this.dimensions.left - this.dimensions.right;
+
+        //Appending svg plot and setting width and bound to dimensions
         this.svg = this.plotDiv.append("svg")
             .attr("width", boundsSVG.width)
             .attr("height", 450 + this.dimensions.top + this.dimensions.bottom);
 
     }
 
-    plot(yAttribute, yLabel, xAttribute, xLabel)
+    //Plotting scatter graph
+    plot(labelX, labelY, attributeY, attributeX)
     {
-        //Set up tooltip
+        //Setting up the tip tool
         let tipTool = d3.tip()
             .attr('class', 'tip-different')
             .offset([-10, 0])
-            .html(function (d) {
-                let text = "";
-                text = "<ul>";
-                text +=  "<li> "+d.xaxis +": "+d.cx.toLocaleString() + "</li>";
-                text +=  "<li> "+ d.yaxis +": "+ d.cy.toLocaleString() + "</li>";
-                text +=  "<li> "+ "Movie: "+ d.title + "</li>";
-                text += "</ul>";
-                return text
-
-                // return   d.xaxis +": "+d.cx.toLocaleString() + d.yaxis +": "+ d.cy.toLocaleString() +"Movie: "+ d.title;
+            .html(function (f) {
+                let script = "";
+                script="<ul>";
+                script+="<li> "+f.xaxis +": "+f.cx.toLocaleString() + "</li>";
+                script+="<li> "+ d.yaxis +": "+ f.crossY.toLocaleString() + "</li>";
+                script+="<li> "+ "Movie: "+ f.title + "</li>";
+                script+="</ul>";
+                return script
             });
 
-        //console.log(xAttribute+": "+yAttribute)
+        //Plotting points for console 
         let plotPoints = [];
-        let cx, cy, title, xaxis, yaxis;
+
+        //Variables for attributes to plot 
+        let crossX, crossY, title, xaxis, yaxis;
+        
+        //Films for each attribute 
         (this.films).forEach((film) => {
-            cx = +(film[xAttribute]);
-            cy = +(film[yAttribute]);
+            crossX = +(film[attributeX]);
+            crossY = +(film[attributeY]);
             title = film["movie_title"].trim();
-            xaxis = xAttribute;
-            yaxis = yAttribute;
-            if(!isNaN(cx) && !isNaN(cy) && (cx != 0) && (cy != 0))
-                plotPoints.push({ "cx": cx, "cy": cy, "title": title, "xaxis": xaxis, "yaxis": yaxis}); //Extract and store the points to be plotted
+            xaxis = attributeX;
+            yaxis = attributeY;
+            if(!isNaN(crossX) && !isNaN(crossY) && (crossX != 0) && (crossY != 0))
+                plotPoints.push({ "crossX": crossX, "crossY": crossY, "title": title, "xaxis": xaxis, "yaxis": yaxis}); //Extract and store the points to be plotted
         });
 
         let xScale = d3.scaleLinear()
-            .domain(d3.extent(plotPoints, (d) => { return d.cx}))
+            .domain(d3.extent(plotPoints, (d) => { return d.crossX}))
             .range([0, this.width]);
 
         xScale.nice();
 
         let yScale = d3.scaleLinear()
-            .domain(d3.extent(plotPoints, (d) => { return d.cy}))
+            .domain(d3.extent(plotPoints, (d) => { return d.crossY}))
             .range([this.height, 0]);
 
         yScale.nice();
@@ -78,7 +89,7 @@ class ScatterPlot
             .attr("x", -this.height/2)
             .attr("dy", "1.50em")
             .attr("text-anchor", "middle")
-            .text(yLabel.replace(/[^a-zA-Z]/g, " "));
+            .text(labelY.replace(/[^a-zA-Z]/g, " "));
 
         //Add the x Axis
         g.append("g")
@@ -98,8 +109,8 @@ class ScatterPlot
             .attr("y", this.height*1.3)
             //.attr("dy", "3.50em")
             .attr("text-anchor", "middle")
-            .text(xLabel.replace(/[^a-zA-Z0-9]/g, " "));
-            //.text(xLabel.replace(/[`~!@#$%^&*()_|+\-=?;:'",.<>\{\}\[\]\\\/]/gi," "));
+            .text(labelX.replace(/[^a-zA-Z0-9]/g, " "));
+            //.text(labelX.replace(/[`~!@#$%^&*()_|+\-=?;:'",.<>\{\}\[\]\\\/]/gi," "));
 
 
         let points = g.selectAll("circle")
@@ -117,14 +128,10 @@ class ScatterPlot
             .attr("fill", "#000")
             .attr("opacity", 0.5)
             .attr("r", 4)
-            .attr("cx", (d) => { return xScale(d.cx); })
-            .attr("cy", (d) => { return yScale(d.cy); })
+            .attr("crossX", (d) => { return xScale(d.crossX); })
+            .attr("crossY", (d) => { return yScale(d.crossY); })
             .call(tipTool)
             .on('mouseover', tipTool.show)
             .on('mouseout', tipTool.hide);
-
-
-
-
     }
 }
