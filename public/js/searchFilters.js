@@ -1,7 +1,7 @@
 /**
  * Created by Sen Thotawatte on 08/05/2021.
  */
-class Filters {
+class searchFilters {
 
 
     //Constructor used for creating the year slider on movie explorer page

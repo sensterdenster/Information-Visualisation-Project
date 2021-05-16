@@ -22,7 +22,7 @@ d3.csv("data/movie_metadata.csv", function (error, films) {
     window.genresSelected = [];
 
     //Alter the filtersettings which are linked to the node-link diagram and films table 
-    let filterObj = new Filters();
+    let filterObj = new searchFilters();
     filterObj.create();
 
     //Call function to retrieve initial films and stores it in filmsInitial variable
