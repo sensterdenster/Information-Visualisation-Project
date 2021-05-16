@@ -50,7 +50,7 @@ update(){
         .words(listFrequency)
         .rotate(0)
         .fontSize(function(f) { 
-            return d.size*4; 
+            return f.size*4; 
         })
         .on("end", draw)
         .start();
