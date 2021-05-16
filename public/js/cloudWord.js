@@ -62,7 +62,7 @@ update(){
     //Draw function to draw word on trend screen 
     function draw(cloudWords) {
         d3v3.select("#wordcanvas")
-            .attr("class", "wordcloud")
+            .attr("class", "cloudword")
             .attr("height", 350)
             .attr("width", 850)
             .append("g")

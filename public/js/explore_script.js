@@ -29,7 +29,7 @@ d3.csv("data/movie_metadata.csv", function (error, films) {
     let filmsInitial = retrieveFilmsFiltered();
 
     //Rendering the 50 arbitrary films from the node-link diagram which is initially loaded on the page
-    let filmNodeLink = new NodeLinkFD(filmsInitial.slice(0, 100));
+    let filmNodeLink = new LinkNodeDiagram(filmsInitial.slice(0, 100));
     filmNodeLink.update();
 
     //Rendering the 50 arbitrary films into the table for the initial loaded page 
@@ -120,7 +120,7 @@ function filterProcess() {
         tableFilms.update();
 
         //Listing films up to 100 as the limit for the filter criteria and then creating it in the node-link diagram 
-        let filmNodeLink = new NodeLinkFD(filmsMatching.slice(0, 100));  
+        let filmNodeLink = new LinkNodeDiagram(filmsMatching.slice(0, 100));  
         filmNodeLink.update();
     }
 }
