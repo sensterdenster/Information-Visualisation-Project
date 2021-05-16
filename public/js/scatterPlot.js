@@ -38,50 +38,60 @@ class ScatterPlot
             .html(function (f) {
                 let script = "";
                 script="<ul>";
-                script+="<li> "+f.xaxis +": "+f.cx.toLocaleString() + "</li>";
-                script+="<li> "+ d.yaxis +": "+ f.crossY.toLocaleString() + "</li>";
+                script+="<li> "+f.axisX +": "+f.crossX.toLocaleString() + "</li>";
+                script+="<li> "+ f.axisY +": "+ f.crossY.toLocaleString() + "</li>";
                 script+="<li> "+ "Movie: "+ f.title + "</li>";
                 script+="</ul>";
                 return script
             });
 
         //Plotting points for console 
-        let plotPoints = [];
+        let pointsToPlot = [];
 
         //Variables for attributes to plot 
-        let crossX, crossY, title, xaxis, yaxis;
+        let crossX, crossY, title, axisX, axisY;
         
         //Films for each attribute 
         (this.films).forEach((film) => {
             crossX = +(film[attributeX]);
             crossY = +(film[attributeY]);
             title = film["movie_title"].trim();
-            xaxis = attributeX;
-            yaxis = attributeY;
+            axisX = attributeX;
+            axisY = attributeY;
+
+            //Condition to extract and store the points to be plotted
             if(!isNaN(crossX) && !isNaN(crossY) && (crossX != 0) && (crossY != 0))
-                plotPoints.push({ "crossX": crossX, "crossY": crossY, "title": title, "xaxis": xaxis, "yaxis": yaxis}); //Extract and store the points to be plotted
+                pointsToPlot.push({ "crossX": crossX, "crossY": crossY, "title": title, "axisX": axisX, "axisY": axisY}); 
         });
 
+        //Setting scale for x axis 
         let xScale = d3.scaleLinear()
-            .domain(d3.extent(plotPoints, (d) => { return d.crossX}))
-            .range([0, this.width]);
+            .range([0, this.width])
+            .domain(d3.extent(pointsToPlot, (d) => { return d.crossX}));
 
+        //Scale for x axis initialised
         xScale.nice();
 
+        //Settings scale for y axis
         let yScale = d3.scaleLinear()
-            .domain(d3.extent(plotPoints, (d) => { return d.crossY}))
-            .range([this.height, 0]);
+            .range([this.height, 0])
+            .domain(d3.extent(pointsToPlot, (d) => { return d.crossY}));
 
+        //Initialising y axis
         yScale.nice();
        
+        //Removing any current svg plot  
         this.svg.selectAll("g").remove();
-        let g = this.svg.append("g").attr("transform", "translate(" + this.dimensions.left + "," + this.dimensions.top + ")");
-        //let g = this.svg.append("g").attr("transform", "translate(" + "0" + "," + this.dimensions.top + ")");
 
+        //Appending new plot with transofmation and translation 
+        let g = this.svg.append("g").attr("transform", "translate(" + this.dimensions.left + "," + this.dimensions.top + ")");
+    
+        //Appending new plot
         g.append("g")
         .call(d3.axisLeft(yScale));
      
 
+        //Setting font text, opacity, style etc
         this.svg.append("g").append("text")
             .attr("class", "font-weight-bold")
             .attr("fill", "#000")
@@ -114,7 +124,7 @@ class ScatterPlot
 
 
         let points = g.selectAll("circle")
-            .data(plotPoints);
+            .data(pointsToPlot);
 
         let pointsEnter = points
             .enter().append("circle");
