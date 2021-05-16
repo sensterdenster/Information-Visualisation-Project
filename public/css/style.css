@@ -6,13 +6,13 @@
 
 .line {
     fill: none;
-    stroke: blueviolet;
+    stroke: rgb(10, 17, 232);
     stroke-width: 4px;
 }
 .d3-tip-node {
     line-height: 1;
     padding: 6px;
-    background: rgba(0, 0, 0, 0.8);
+    background: rgba(198, 39, 39, 0.8);
     color: #fff;
 }
 
@@ -20,11 +20,11 @@
     line-height: 1;
     font-weight: bold;
     padding: 12px;
-    background: rgba(0, 0, 0, 0.8);
+    background: rgba(185, 110, 19, 0.639);
     color: #fff;
     border-radius: 2px;
 }
-/* Creates a small triangle extender for the tooltip */
+/* Produces a triangle extender for the tool tip */
 .d3-tip:after {
     box-sizing: border-box;
     display: inline;
@@ -55,7 +55,7 @@
     stroke-linecap: round;
 }
 .rangeSlider {
-    fill: #000;
+    fill: rgb(72, 8, 160);
     fill-opacity: 0.3;
 }
 .rangeSlider-selected{
