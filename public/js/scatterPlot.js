@@ -148,7 +148,8 @@ class ScatterPlot
                 return xScale(f.crossX); 
             })
             .call(tipTool)
-            .on('mouseout', tipTool.hide)
-            .on('mouseover', tipTool.show);
+            .on('mouseover', tipTool.show)
+            .on('mouseout', tipTool.hide);
+ ;
     }
 }
