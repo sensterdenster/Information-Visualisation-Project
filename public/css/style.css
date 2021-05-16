@@ -6,7 +6,7 @@
 
 .line {
     fill: none;
-    stroke: rgb(10, 17, 232);
+    stroke: rgb(12, 17, 162);
     stroke-width: 4px;
 }
 .d3-tip-node {
@@ -82,7 +82,7 @@
 
 .handle {
     fill: #fff;
-    stroke: #000;
+    stroke: rgb(33, 126, 120);
     stroke-opacity: 0.5;
     stroke-width: 1.25px;
 }
