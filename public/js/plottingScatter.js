@@ -1,7 +1,7 @@
 /**
  * Created by Sen Thotawatte on 08/05/2021.
  */
-class ScatterPlot
+class plottingScatter
 {
     constructor()
     {
@@ -148,8 +148,8 @@ class ScatterPlot
                 return xScale(f.crossX); 
             })
             .call(tipTool)
-            .on('mouseover', tipTool.show)
-            .on('mouseout', tipTool.hide);
+            .on('mouseout', tipTool.hide)
+            .on('mouseover', tipTool.show);
  ;
     }
 }
