@@ -218,7 +218,7 @@ class searchFilters {
                 textRatings.innerText = "Rating(s) Selected: " + start + " to " + end;
         }
 
-        //Setting checkboxes for genres (shown on the right side of the screen of index.html)
+        //Setting checkboxes for genres (shown on the right side of the screen of mainPage.html)
         let genresvg = d3.select("#checkBoxGenre").append("svg")
             .attr("width", this.widthSVG)
             .attr("height", this.heightSVG*2.5);
