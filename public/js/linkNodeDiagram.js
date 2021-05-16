@@ -1,7 +1,7 @@
 /**
  * Created by Sen Thotawatte on 08/05/2021.
  */
-class NodeLinkFD{
+class LinkNodeDiagram{
 
     constructor(films){
         //Selecting nodelink from d3 and setting its dimensions 
