@@ -84,64 +84,71 @@ class ScatterPlot
         this.svg.selectAll("g").remove();
 
         //Appending new plot with transofmation and translation 
-        let g = this.svg.append("g").attr("transform", "translate(" + this.dimensions.left + "," + this.dimensions.top + ")");
+        let app = this.svg.append("g").attr("transform", "translate(" + this.dimensions.left + "," + this.dimensions.top + ")");
     
         //Appending new plot
-        g.append("g")
+        app.append("g")
         .call(d3.axisLeft(yScale));
      
 
-        //Setting font text, opacity, style etc
+        //Appending y-axis label to plot
         this.svg.append("g").append("text")
+             .attr("x", -this.height/2)
+            .attr("dy", "1.49em")
             .attr("class", "font-weight-bold")
             .attr("fill", "#000")
-            .attr("transform", "rotate(-90)")
-            .attr("x", -this.height/2)
-            .attr("dy", "1.50em")
             .attr("text-anchor", "middle")
+            .attr("transform", "rotate(-90)")
             .text(labelY.replace(/[^a-zA-Z]/g, " "));
 
-        //Add the x Axis
-        g.append("g")
+        //Appending x-axis to plot
+        app.append("g")
             .attr("transform", "translate(" + 0 + "," + this.height + ")")
             .call(d3.axisBottom(xScale))
             .selectAll("text")
             .style("text-anchor", "end")
-            .attr("dx", "-.8em")
-            .attr("dy", ".15em")
+            .attr("dy", ".14em")
+            .attr("dx", "-.7em")
             .attr("transform", "rotate(-65)");
 
-
+        //Appending x-axis label
         this.svg.append("g").append("text")
+            .attr("text-anchor", "middle")
             .attr("class", "font-weight-bold")
             .attr("fill", "#000")
-            .attr("x", this.width/1.5)
-            .attr("y", this.height*1.3)
-            //.attr("dy", "3.50em")
-            .attr("text-anchor", "middle")
+            .attr("y", this.height*1.4)
+            .attr("x", this.width/1.4)
             .text(labelX.replace(/[^a-zA-Z0-9]/g, " "));
-            //.text(labelX.replace(/[`~!@#$%^&*()_|+\-=?;:'",.<>\{\}\[\]\\\/]/gi," "));
 
-
-        let points = g.selectAll("circle")
+        //Selecting plot points to plot
+        let plotPoints = app.selectAll("circle")
             .data(pointsToPlot);
 
-        let pointsEnter = points
+        //Appending plot points
+        let enterPoints = plotPoints
             .enter().append("circle");
 
-        points.exit().remove();
+        //Remove plot points
+        plotPoints.exit().remove();
 
-        points = pointsEnter.merge(points);
+        //Merge appended plotpoits with current ones 
+        plotPoints = enterPoints.merge(plotPoints);
 
-        points
+        //Plot point settings 
+        plotPoints
             .attr("transform", "translate(" + (3) + "," + (-3) + ")")
-            .attr("fill", "#000")
-            .attr("opacity", 0.5)
             .attr("r", 4)
-            .attr("crossX", (d) => { return xScale(d.crossX); })
-            .attr("crossY", (d) => { return yScale(d.crossY); })
+
+            .attr("opacity", 0.5)
+            .attr("fill", "#000")
+            .attr("crossY", (f) => { 
+                return yScale(f.crossY); 
+            })
+            .attr("crossX", (f) => { 
+                return xScale(f.crossX); 
+            })
             .call(tipTool)
-            .on('mouseover', tipTool.show)
-            .on('mouseout', tipTool.hide);
+            .on('mouseout', tipTool.hide)
+            .on('mouseover', tipTool.show);
     }
 }
