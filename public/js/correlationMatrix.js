@@ -1,14 +1,14 @@
 /**
  * Created by Sen Thotawatte on 08/05/2021.
  */
-class CorrelationMatrix {
+class matrixCorrelation {
     constructor(rows) {
         //Margin values set for correlation matrix along with rows being initialised
         this.dimensions = {top: 29, right: 19, bottom: 29, left: 49};
         this.rows = rows;
         
         //Attains div element acces which is created for this plot and the element of the legend from HTML
-        let tilesDiv = d3.select("#correlationMatrix")
+        let tilesDiv = d3.select("#matrixCorrelation")
         let boundsSVG = tilesDiv.node().getBoundingClientRect();
 
         //Height and width of SVG bounds set for dimensions scale

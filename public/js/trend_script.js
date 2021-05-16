@@ -19,7 +19,7 @@
     //Importing data from correlation matrix csv folder to display trend 
     d3.csv("data/correlation_matrix.csv", function (error, rows) {
         if (error) throw error;
-        let matrixCorr = new CorrelationMatrix(rows);
+        let matrixCorr = new matrixCorrelation(rows);
         matrixCorr.create();
 
     });
